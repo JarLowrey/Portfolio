@@ -95,7 +95,10 @@ navbar {
         color: white;
         text-decoration: none;
         transition: color 0.1s linear;
+        vertical-align: bottom;
+
         img{
+          vertical-align: bottom;
           display:block; //required to remove a weird margin on the bottom of img when nested within an anchor
         }
         &:hover {
