@@ -30,8 +30,8 @@ end
 # Methods defined in the helpers block are available in templates
  helpers do
 
-    def txt_links(array)
-       returnString = ""
+    def txt_links(array, wrap_classes)
+      returnString = "<span class=\"#{wrap_classes}\">"
 
        array.each_with_index do |element, i|
          if i < array.length - 1
@@ -42,11 +42,11 @@ end
 
        last_element = array[array.length - 1]
        returnString += app.link_to(last_element.txt, last_element.url, target: "_blank")
-       return returnString
+       return returnString + "</span>"
      end
 
-    def img_links(array)
-      returnString = ""
+    def img_links(array, wrap_classes)
+      returnString = "<span class=\"#{wrap_classes}\">"
 
       array.each_with_index do |element, i|
         if i < array.length - 1
@@ -57,7 +57,8 @@ end
 
       last_element = array[array.length - 1]
       returnString += app.link_to app.image_tag(last_element.img_url, :class => last_element.img_class, :alt => last_element.img_alt), last_element.url, :target => "_blank"
-      return returnString
+
+      return returnString + "</span>"
     end
 
  end
