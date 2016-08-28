@@ -1,63 +1,65 @@
----
-title: James Lowrey
----
+<div class="welcome">
+    <div class="row">
 
-<div class="welcome text">
-    <h1>
-      <%= data.about_me.name %>: {
-    </h1>
-    <div class="text">
-        <p>
-            tagline: {
-            <%= txt_links(data.about_me.tagline) %>
-            },
-        </p>
-
-        <p>
-            alias: JTronLabs,
-        </p>
-
-        <p>
-            contact: {
-            <%= img_links(data.about_me.contact) %>
-            },
-        </p>
-
-        <p>
-            description: {<br/>
-            <%= data.about_me.description %>
-            <br/>},
-        </p>
-
-        <p>
-            discovering: {<br/>
-            <%= img_links(data.about_me.discovering) %>
-            <br/>},
-        </p>
-
-        <p>
-            skills: {
-            <br/>
-            <%= img_links(data.about_me.skills) %>
-            <br/>},
-        </p>
-
-        <p>
-            projects: {<br/>
-
-            <br/>}
-        </p>
-<!--
-        <p>
-            last_updated: {<br/>
-              
-            <br/>}
-        </p>
--->
+        <h1>
+            <%= data.about_me.name %>: {
+        </h1>
+        <div class="meta">
+            <p>
+                tagline: [
+                <%= txt_links(data.about_me.tagline) %>
+                ],
+            </p>
+            <p>
+                alias:
+                <%= link_to 'JTronLabs', 'https://github.com/jtronlabs', target: "_blank" %>,
+            </p>
+            <p>
+                contact:[
+                <%= img_links(data.about_me.contact) %>
+                ],
+            </p>
+            <p>
+                description: "<%= data.about_me.description %>" ,
+            </p>
+        </div>
     </div>
 
-    <h1>
-    }
-    </h1>
+    <div class="row">
+        <p>
+            discovering: [
+        </p>
+        <%= img_links(data.about_me.discovering) %>
+
+        <p>
+            ],
+        </p>
+    </div>
+
+    <div class="row">
+        <p>
+            skills: [
+        </p>
+        <%= img_links(data.about_me.skills) %>
+
+        <p>
+            ],
+        </p>
+    </div>
+
+    <div class="row">
+        <p>
+            projects: [
+        </p>
+
+        <p>
+            ]
+        </p>
+    </div>
+
+    <div class="row">
+        <h1>
+            }
+        </h1>
+    </div>
 </div>
-<!-- .welcome -->
