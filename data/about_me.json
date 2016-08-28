@@ -26,7 +26,7 @@
       "img_alt":"GitLab"
     },{
       "url":"https://www.linkedin.com/in/jameslowrey2/",
-      "img_url":"phaser-logo-small.png",
+      "img_url":"Linkedin.svg",
       "img_class":"small-icon",
       "img_alt":"LinkedIn"
     },{
@@ -41,7 +41,7 @@
       "img_alt":"Google Plus"
     },{
       "url":"https://play.google.com/store/apps/developer?id=JTronLabs/",
-      "img_url":"phaser-logo-small.png",
+      "img_url":"Google_Play_symbol.svg",
       "img_class":"small-icon",
       "img_alt":"Google Play"
     },{
@@ -67,6 +67,21 @@
       "img_url":"jekyll.png",
       "img_class":"icon",
       "img_alt":"Jekyll"
+    },{
+      "url":"http://gruntjs.com/",
+      "img_url":"grunt.svg",
+      "img_class":"icon",
+      "img_alt":"Grunt"
+    },{
+      "url":"http://gulpjs.com/",
+      "img_url":"gulp.svg",
+      "img_class":"icon",
+      "img_alt":"Gulp"
+    },{
+      "url":"https://www.npmjs.com/",
+      "img_url":"Npm-logo.svg",
+      "img_class":"icon",
+      "img_alt":"NPM"
     }
   ],
   "skills":[
