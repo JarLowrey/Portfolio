@@ -1,26 +1,26 @@
 <div class="welcome">
     <div class="row">
 
-        <h1>
+        <h1 id="home">
             <%= data.about_me.name %>: {
         </h1>
         <div class="meta">
             <h4>
-                tagline: [
+                Tagline: [
                 <%= txt_links(data.about_me.tagline, "") %>
                 ],
             </h4>
             <h4>
-                alias:
+                Alias:
                 <%= link_to 'JTronLabs', 'https://github.com/jtronlabs', target: "_blank" %>,
             </h4>
             <h4>
-                contact:[
+                Contact:[
                 <%= img_links(data.about_me.contact, "") %>
                 ],
             </h4>
             <h4>
-                description:
+                Description:
             </h4>
             <p class="centered">
                 "<%= data.about_me.description %>" ,
@@ -29,35 +29,35 @@
     </div>
 
     <div class="row">
-        <h3>
+        <h2 id="discovering">
             Discovering: [
-        </h3>
+        </h2>
         <%= img_links(data.about_me.discovering, "") %>
 
-        <h3>
+        <h2>
             ],
-        </h3>
+        </h2>
     </div>
 
     <div class="row">
-        <h3>
-            skills: [
-        </h3>
+        <h2 id="skills">
+            Skills: [
+        </h2>
         <%= img_links(data.about_me.skills, "") %>
 
-        <h3>
+        <h2>
             ],
-        </h3>
+        </h2>
     </div>
 
     <div class="row">
-        <h3>
-            projects: [
-        </h3>
+        <h2 id="projects">
+            Projects: [
+        </h2>
 
-        <h3>
+        <h2>
             ]
-        </h3>
+        </h2>
     </div>
 
     <div class="row">

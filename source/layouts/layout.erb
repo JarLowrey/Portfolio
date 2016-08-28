@@ -9,12 +9,14 @@
     <title><%= current_page.data.title || "James Lowrey" %></title>
 
     <link href='//fonts.googleapis.com/css?family=Lato:300,400' rel='stylesheet' type='text/css'>
+    <%= partial "favicon.html" %>
 
     <%= stylesheet_link_tag :site %>
     <%= javascript_include_tag :all %>
   </head>
 
   <body class="<%= page_classes %>">
+    <%= partial "navbar" %>
     <%= yield %>
   </body>
 </html>
