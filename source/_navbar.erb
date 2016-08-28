@@ -3,13 +3,15 @@
 classes ||= ""
 inline_style||= ""
 %>
-<navbar class="<%= classes %>" style="<%= inline_style%>">
-    <span >
-        <%= link_to( image_tag("favicon/favicon-32x32.png", :class => "icon", :alt => "Logo"), "#", :class => "nopad") %>
-        <%= link_to("Blog", "/blog") %>
+<navbar class="<%= classes %> navbar-class" style="<%= inline_style%>">
+  <span>
+    <%= link_to( image_tag("favicon/favicon-32x32.png", :class => "icon", :alt => "Logo"), "#", :class => "navbar-a nopad") %>
+  </span>
+  <span>
+    <%= link_to("Blog", "/blog", :class => "navbar-a") %>
 
-        <%= link_to("Discovering", "#discovery") %>
-        <%= link_to("Skills", "#skills") %>
-        <%= link_to("Projects", "#projects") %>
-    </span>
+    <%= link_to("Discovering", "#discovery", :class => "navbar-a") %>
+    <%= link_to("Skills", "#skills", :class => "navbar-a") %>
+    <%= link_to("Projects", "#projects", :class => "navbar-a") %>
+  </span>
 </navbar>

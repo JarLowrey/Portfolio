@@ -14,33 +14,36 @@ h6 {
     color: rgba(0,0,0,0.5);
     font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-weight: 400;
-    margin: .2em;
+    margin: 0.2em;
 }
 navbar {
     position: fixed;
     top: 0;
     left: 0;
     padding: $navbar-padding;
+    box-sizing: border-box; //subtracts padding from width
     background-color: $grey-color-dark;
     width: 100%;
-    ul {
-        list-style-type: none;
-        margin: 0;
-        padding: 0;
-        li {
-            display: inline;
+    z-index: 10000;
+    @include media-query($on-palm) {
+      span{
+        .navbar-a { //need class for higher specificity
+            display: block;
+            text-align: center;
+            margin:0 auto;
         }
+      }
     }
 }
 .row {
     width: 90%;
     margin: 6em auto;
 }
-.relative{
-  position: relative;
+.relative {
+    position: relative;
 }
-.inivisible{
-  visibility: hidden;
+.inivisible {
+    visibility: hidden;
 }
 .left {
     text-align: left;
@@ -91,20 +94,24 @@ navbar {
         border: 1px solid white;
         display: inline-block;
         border-radius: 3px;
-        padding: 0.4em 0.35em;
+        padding: $a-padding ($a-padding - 0.05em);
         color: white;
         text-decoration: none;
         transition: color 0.1s linear;
         vertical-align: bottom;
-
-        img{
-          vertical-align: bottom;
-          display:block; //required to remove a weird margin on the bottom of img when nested within an anchor
+        img {
+            text-align: center;
+            margin:0 auto;
+            vertical-align: bottom;
+            display: block; //required to remove a weird margin on the bottom of img when nested within an anchor
         }
         &:hover {
             background: rgba(0,0,0,0.2);
             color: white;
             transition: all 0.15s linear;
+        }
+        @include media-query($on-laptop) {
+            padding: $a-padding/2 ($a-padding/2 - 0.05em);
         }
     }
 }
