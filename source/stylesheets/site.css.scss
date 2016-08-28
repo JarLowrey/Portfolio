@@ -22,6 +22,7 @@ h1 {
 p {
   font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 1.1em;
+  margin:.1em;
   font-weight: 300;
 }
 
@@ -43,7 +44,7 @@ p {
     font-size: 5em;
   }
 
-  .text{
+  .welcome{
     position: absolute;
     top: 25%;
     text-shadow: 0px 0px 10px #888888;
@@ -53,7 +54,7 @@ p {
     border: 1px solid white;
     display:inline-block;
     border-radius: 3px;
-    padding: 0.5em 0.45em;
+    padding: 0.4em 0.35em;
     color: white;
     text-decoration: none;
     transition: color 0.1s linear;
