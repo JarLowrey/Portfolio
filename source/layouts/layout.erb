@@ -17,6 +17,8 @@
 
   <body class="<%= page_classes %>">
     <%= partial "navbar" %>
+    <!-- non-fixed navbar to push the body layout down below the fixed one -->
+    <%= partial "navbar", :locals => { "inline_style" => "visibility:hidden; display:block; position:relative;" }%>
     <%= yield %>
   </body>
 </html>

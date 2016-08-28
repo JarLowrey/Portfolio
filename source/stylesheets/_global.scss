@@ -4,7 +4,6 @@ body {
     font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 1em;
     font-weight: 300;
-    padding-top:$link-height + $navbar-padding * 2;
 }
 h1,
 h2,
@@ -15,13 +14,7 @@ h6 {
     color: rgba(0,0,0,0.5);
     font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-weight: 400;
-    margin: 0;
-}
-.left{
-  text-align: left;
-}
-.right{
-  text-align: right;
+    margin: .2em;
 }
 navbar {
     position: fixed;
@@ -38,6 +31,22 @@ navbar {
             display: inline;
         }
     }
+}
+.row {
+    width: 90%;
+    margin: 6em auto;
+}
+.relative{
+  position: relative;
+}
+.inivisible{
+  visibility: hidden;
+}
+.left {
+    text-align: left;
+}
+.right {
+    text-align: right;
 }
 .icon {
     height: $icon-len;
@@ -67,9 +76,8 @@ navbar {
             font-size: 3em;
         }
     }
-    .row {
-        width: 90%;
-        margin: 6em auto;
+    .nopad {
+        padding: 0;
     }
     .meta {
         width: 50%;
@@ -87,6 +95,9 @@ navbar {
         color: white;
         text-decoration: none;
         transition: color 0.1s linear;
+        img{
+          display:block; //required to remove a weird margin on the bottom of img when nested within an anchor
+        }
         &:hover {
             background: rgba(0,0,0,0.2);
             color: white;
