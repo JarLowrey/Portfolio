@@ -2,8 +2,12 @@ body {
     background: #ECC561;
     text-align: center;
     font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 1em;
+    font-size: 16px;
     font-weight: 300;
+    padding-top: $navbar-height-normal; //found by inspecting the navbar to find the bottom
+    @include media-query($on-palm) {
+        padding-top: $navbar-height-palm; //navbar changes size, need to change body's top padding too
+    }
 }
 h1,
 h2,
@@ -26,13 +30,14 @@ navbar {
     width: 100%;
     z-index: 10000;
     @include media-query($on-palm) {
-      span{
-        .navbar-a { //need class for higher specificity
-            display: block;
-            text-align: center;
-            margin:0 auto;
+        span {
+            .navbar-a {
+                //need class for higher specificity
+                display: block;
+                text-align: center;
+                margin: 0 auto;
+            }
         }
-      }
     }
 }
 .row {
@@ -65,6 +70,15 @@ navbar {
 .centered {
     margin: 0 auto;
     text-align: center;
+}
+.navbar-adjust{
+    display: block;
+    position: relative;
+    visibility: hidden;
+    top: -$navbar-height-normal;
+    @include media-query($on-palm) {
+        top: -$navbar-height-palm; 
+    }
 }
 .index {
     width: 100%;
@@ -101,7 +115,7 @@ navbar {
         vertical-align: bottom;
         img {
             text-align: center;
-            margin:0 auto;
+            margin: 0 auto;
             vertical-align: bottom;
             display: block; //required to remove a weird margin on the bottom of img when nested within an anchor
         }
