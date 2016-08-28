@@ -1,0 +1,70 @@
+---
+title: Welcome to Middleman
+---
+
+<div class="welcome text">
+  <h1><%= data.about_me.name %>: { </h1>
+  <p>
+    tagline: {
+      <%= txt_links(data.about_me.tagline) %>
+
+      <% data.about_me.tagline.each_with_index do |element, i| %>
+        <% if i < data.about_me.tagline.length - 1 %>
+          <%= link_to element.txt, element.url, target: "_blank" %> ,
+        <% end %>
+      <% end %>
+      <% last_element = data.about_me.tagline[data.about_me.tagline.length - 1] %>
+      <%= link_to last_element.txt, last_element.url, target: "_blank" %>
+    },
+  </p>
+
+  <p>
+    contact: {
+      <% data.about_me.contact.each_with_index do |element, i| %>
+        <% if i < data.about_me.contact.length - 1 %>
+          <%= link_to image_tag(element.img_url, :class => element.img_class, :alt => element.img_alt), element.url, :target => "_blank" %> ,
+        <% end %>
+      <% end %>
+      <% last_element = data.about_me.contact[data.about_me.contact.length - 1] %>
+      <%= link_to image_tag(last_element.img_url, :class => last_element.img_class, :alt => last_element.img_alt), last_element.url, :target => "_blank" %>
+    },
+  </p>
+
+  <p>
+    description: {<br/>
+      <%= data.about_me.description %>
+    <br/>},
+  </p>
+
+  <p>
+    discovering: {<br/>
+      <% data.about_me.discovering.each_with_index do |element, i| %>
+        <% if i < data.about_me.tagline.length - 1 %>
+          <%= link_to image_tag(element.img_url, :class => element.img_class, :alt => element.img_alt), element.url, :target => "_blank" %> ,
+        <% end %>
+      <% end %>
+      <% last_element = data.about_me.discovering[data.about_me.discovering.length - 1] %>
+      <%= link_to image_tag(last_element.img_url, :class => last_element.img_class, :alt => last_element.img_alt), last_element.url, :target => "_blank" %>
+    <br/>},
+  </p>
+
+  <p>
+    skills: { <br/>
+      <% data.about_me.skills.each_with_index do |element, i| %>
+        <% if i < data.about_me.skills.length - 1 %>
+          <%= link_to image_tag(element.img_url, :class => element.img_class, :alt => element.img_alt), element.url, :target => "_blank" %> ,
+        <% end %>
+      <% end %>
+      <% last_element = data.about_me.skills[data.about_me.skills.length - 1] %>
+      <%= link_to image_tag(last_element.img_url, :class => last_element.img_class, :alt => last_element.img_alt), last_element.url, :target => "_blank" %>
+    <br/>},
+  </p>
+
+  <p>
+    projects: {<br/>
+
+    <br/>}
+  </p>
+
+  <h1>}</h1>
+</div><!-- .welcome -->
