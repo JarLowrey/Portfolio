@@ -40,7 +40,7 @@
       "img_class":"small-icon",
       "img_alt":"Google Plus"
     },{
-      "url":"https://play.google.com/store/apps/developer?id=JTronLabs/",
+      "url":"https://play.google.com/store/apps/developer?id=JTronLabs",
       "img_url":"Google_Play_symbol.svg",
       "img_class":"small-icon",
       "img_alt":"Google Play"
@@ -91,7 +91,7 @@
       "img_class":"icon",
       "img_alt":"Git"
     },{
-      "url":"http://www.w3schools.com/html/html5_intro.asp/",
+      "url":"http://www.w3schools.com/html/html5_intro.asp",
       "img_url":"HTML5_logo_and_wordmark.svg",
       "img_class":"icon",
       "img_alt":"HTML5"
@@ -101,7 +101,7 @@
       "img_class":"icon",
       "img_alt":"JS-ES6"
     },{
-      "url":"http://www.w3schools.com/css/css3_intro.asp/",
+      "url":"http://www.w3schools.com/css/css3_intro.asp",
       "img_url":"CSS3_badge.svg",
       "img_class":"icon",
       "img_alt":"CSS3"
@@ -116,6 +116,11 @@
       "img_class":"icon",
       "img_alt":"Ruby"
     },{
+      "url":"https://www.python.org/",
+      "img_url":"Python-logo-notext.svg",
+      "img_class":"icon",
+      "img_alt":"Ruby"
+    },{
       "url":"https://www.java.com/en/",
       "img_url":"Java_Logo.svg",
       "img_class":"icon",
@@ -126,12 +131,12 @@
       "img_class":"icon",
       "img_alt":"C#"
     },{
-      "url":"https://en.wikipedia.org/wiki/C_(programming_language)/",
+      "url":"https://en.wikipedia.org/wiki/C_(programming_language)",
       "img_url":"The_C_Programming_Language_logo.svg",
       "img_class":"icon",
       "img_alt":"The C Programming Language"
     },{
-      "url":"https://en.wikipedia.org/wiki/SQL/",
+      "url":"https://en.wikipedia.org/wiki/SQL",
       "img_url":"sql-file-format.svg",
       "img_class":"icon",
       "img_alt":"SQL",
