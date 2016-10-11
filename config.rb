@@ -63,6 +63,30 @@ end
 
  end
 
+ activate :blog do |blog|
+   # Matcher for blog source files
+   # blog.taglink = "tags/{tag}.html"
+   # blog.layout = "layout"
+   # blog.summary_separator = /(READMORE)/
+   # blog.summary_length = 250
+   # blog.year_link = "{year}.html"
+   # blog.month_link = "{year}/{month}.html"
+   # blog.day_link = "{year}/{month}/{day}.html"
+
+   blog.tag_template = "tag.html"
+   blog.calendar_template = "calendar.html"
+
+   #set up blog urls
+   blog.prefix = "posts"# This will add a prefix to all links, template references and source paths
+   blog.permalink = "{title}" #"{year}/{month}/{day}/{title}.html"
+   blog.sources = "{year}-{month}-{day}-{title}.html" # define year-month-day in filename to make an organized dir
+   blog.default_extension = ".markdown"
+
+   # Enable pagination
+   # blog.paginate = true
+   # blog.per_page = 10
+   # blog.page_link = "page/{num}"
+ end
 
  activate :deploy do |deploy|
    deploy.user = 'JTronLabs'
