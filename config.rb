@@ -68,7 +68,7 @@ end
    # blog.taglink = "tags/{tag}.html"
    # blog.layout = "layout"
    # blog.summary_separator = /(READMORE)/
-   # blog.summary_length = 250
+    blog.summary_length = 250
    # blog.year_link = "{year}.html"
    # blog.month_link = "{year}/{month}.html"
    # blog.day_link = "{year}/{month}/{day}.html"
@@ -83,9 +83,9 @@ end
    blog.default_extension = ".markdown"
 
    # Enable pagination
-   # blog.paginate = true
-   # blog.per_page = 10
-   # blog.page_link = "page/{num}"
+   blog.paginate = true
+   blog.per_page = 1
+   blog.page_link = "#{blog.prefix}/page/{num}"
  end
 
  activate :deploy do |deploy|
