@@ -10,7 +10,9 @@ gem 'tzinfo-data', platforms: [:mswin, :mingw, :jruby]
 
 # Middleman Gems
 gem 'middleman', '>= 4.1'
-gem 'middleman-blog' # http://www.rubydoc.info/github/middleman/middleman-blog  --- https://github.com/middleman/middleman-blog
+
+# http://www.rubydoc.info/github/middleman/middleman-blog  --- https://middlemanapp.com/basics/blogging/ --- https://github.com/middleman/middleman-blog
+gem 'middleman-blog'
 
 gem 'middleman-livereload'
 gem 'middleman-compass', '>= 4.0.0'
