@@ -1,0 +1,36 @@
+
+<div class="welcome">
+
+#<%= data.about_me.name %>: {
+
+<div class="meta">
+
+####Tagline
+<%= txt_links(data.about_me.tagline, "") %>
+
+####Alias [JTronLabs](https://github.com/jtronlabs)
+
+####Contact
+<%= img_links(data.about_me.contact, "") %>
+
+####Description:
+<%= data.about_me.description %>
+
+</div>
+
+
+
+<div class="row">
+##Learning
+<%= img_links(data.about_me.learning, "") %>
+</div>
+
+
+
+<div class="row">
+##Skills
+<%= img_links(data.about_me.skills, "") %>
+</div>
+
+
+</div>

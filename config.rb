@@ -8,6 +8,11 @@
 page '/*.xml', layout: false
 page '/*.json', layout: false
 page '/*.txt', layout: false
+page '/static_md/*', layout: 'layouts/layout'
+
+set :markdown_engine, :kramdown
+set :markdown, parse_block_html: true
+
 
 # With alternative layout
 # page "/path/to/file.html", layout: :otherlayout
@@ -31,34 +36,15 @@ end
  helpers do
 
     def txt_links(array, wrap_classes)
-      returnString = "<span class=\"#{wrap_classes}\">"
-
-       array.each_with_index do |element, i|
-         if i < array.length - 1
-           returnString += app.link_to(element.txt, element.url, target: "_blank")
-           returnString += " , "
-         end
-       end
-
-       last_element = array[array.length - 1]
-       returnString += app.link_to(last_element.txt, last_element.url, target: "_blank")
-       return returnString + "</span>"
+       return array.map{ |e| "[#{e.txt}](#{e.url}){: target=\"_blank\"}" }.join(' ')
      end
 
     def img_links(array, wrap_classes)
-      returnString = "<span class=\"#{wrap_classes}\">"
-
-      array.each_with_index do |element, i|
-        if i < array.length - 1
-          returnString += app.link_to app.image_tag(element.img_url, :class => element.img_class, :alt => element.img_alt), element.url, :target => "_blank"
-          returnString += " , "
-        end
-      end
-
-      last_element = array[array.length - 1]
-      returnString += app.link_to app.image_tag(last_element.img_url, :class => last_element.img_class, :alt => last_element.img_alt), last_element.url, :target => "_blank"
-
-      return returnString + "</span>"
+      links =  array.map{ |e|
+        img="![#{e.img_alt}](#{e.img_url}){: class=\" #{e.img_class} \"}"
+        "[  #{img}  ](  #{e.url}  ){: target=\"_blank\"} "
+      }.join(' ')
+      return links
     end
 
  end
@@ -66,9 +52,9 @@ end
  activate :blog do |blog|
    # Matcher for blog source files
    # blog.taglink = "tags/{tag}.html"
-   # blog.layout = "layout"
+   blog.layout = "layouts/blog_layout"
    # blog.summary_separator = /(READMORE)/
-    blog.summary_length = 250
+   blog.summary_length = 250
    # blog.year_link = "{year}.html"
    # blog.month_link = "{year}/{month}.html"
    # blog.day_link = "{year}/{month}/{day}.html"
