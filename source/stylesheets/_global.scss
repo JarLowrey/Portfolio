@@ -9,6 +9,7 @@ body {
         padding-top: $navbar-height-palm; //navbar changes size, need to change body's top padding too
     }
 }
+
 h1,
 h2,
 h3,
@@ -20,6 +21,7 @@ h6 {
     font-weight: 400;
     margin: 0.2em;
 }
+
 navbar {
     position: fixed;
     top: 0;
@@ -40,50 +42,102 @@ navbar {
         }
     }
 }
+
+a {
+    border: 1px solid white;
+    display: inline-block;
+    border-radius: 3px;
+    padding: $a-padding ($a-padding - 0.05em);
+    color: white;
+    text-decoration: none;
+    transition: color 0.1s linear;
+    vertical-align: bottom;
+
+    img {
+        text-align: center;
+        margin: 0 auto;
+        vertical-align: bottom;
+        display: block; //required to remove a weird margin on the bottom of img when nested within an anchor
+    }
+
+    &:hover {
+        background: rgba(0,0,0,0.2);
+        color: white;
+        transition: all 0.15s linear;
+    }
+    @include media-query($on-laptop) {
+        padding: $a-padding/2 ($a-padding/2 - 0.05em);
+    }
+}
+
+.nopad {
+    padding: 0;
+}
+
+.meta {
+    width: 50%;
+    @include media-query($on-laptop) {
+        width: 100%;
+    }
+    margin: 0 auto;
+    text-align: left;
+}
+
 .row {
     width: 90%;
     margin: 6em auto;
 }
+
 .relative {
     position: relative;
 }
+
 .inivisible {
     visibility: hidden;
 }
+
 .left {
     text-align: left;
 }
+
 .right {
     text-align: right;
 }
+
 .icon {
     height: $icon-len;
     width: $icon-len;
 }
+
 .small-icon {
     height: $small-icon-len;
     width: $small-icon-len;
 }
+
 .block {
     display: block;
 }
+
 .centered {
     margin: 0 auto;
     text-align: center;
 }
-.navbar-adjust{
+
+.navbar-adjust {
     display: block;
     position: relative;
     visibility: hidden;
     top: -$navbar-height-normal;
     @include media-query($on-palm) {
-        top: -$navbar-height-palm; 
+        top: -$navbar-height-palm;
     }
 }
+
 .index {
     width: 100%;
     font-size: 1.1em;
     text-shadow: 0 0 10px #888888;
+
     h1 {
         font-size: 5em;
         @include media-query($on-laptop) {
@@ -93,42 +147,8 @@ navbar {
             font-size: 3em;
         }
     }
-    .nopad {
-        padding: 0;
-    }
-    .meta {
-        width: 50%;
-        @include media-query($on-laptop) {
-            width: 100%;
-        }
-        margin: 0 auto;
-        text-align: left;
-    }
-    a {
-        border: 1px solid white;
-        display: inline-block;
-        border-radius: 3px;
-        padding: $a-padding ($a-padding - 0.05em);
-        color: white;
-        text-decoration: none;
-        transition: color 0.1s linear;
-        vertical-align: bottom;
-        img {
-            text-align: center;
-            margin: 0 auto;
-            vertical-align: bottom;
-            display: block; //required to remove a weird margin on the bottom of img when nested within an anchor
-        }
-        &:hover {
-            background: rgba(0,0,0,0.2);
-            color: white;
-            transition: all 0.15s linear;
-        }
-        @include media-query($on-laptop) {
-            padding: $a-padding/2 ($a-padding/2 - 0.05em);
-        }
-    }
 }
+
 .welcome {
     -webkit-animation-name: welcome;
     -webkit-animation-duration: 0.9s;
@@ -138,15 +158,18 @@ navbar {
         -webkit-transform: scale(0);
         opacity: 0;
     }
+
     50% {
         -webkit-transform: scale(0);
         opacity: 0;
     }
+
     82.5% {
         -webkit-transform: scale(1.03);
         -webkit-animation-timing-function: ease-out;
         opacity: 1;
     }
+
     to {
         -webkit-transform: scale(1);
     }
