@@ -3,10 +3,12 @@
 $icon-len: 2em;
 $small-icon-len: 1em;
 $navbar-padding: 1em;
-$navbar-height-normal:4.1em; //found by inspecting the navbar to find the bottom
-$navbar-height-palm:10.95em;
+$navbar-height-normal: 4.1em; //found by inspecting the navbar to find the bottom
+$navbar-height-palm: 10.95em;
 $link-height: 1em + 0.4em * 2;
-$a-padding: .4em;
+$footer-height: 3em;
+$wrap-width: 70%;
+$a-padding: 0.4em;
 $grey-color: #828282;
 $grey-color-light: lighten($grey-color, 35%);
 $grey-color-dark: darken($grey-color, 15%);
@@ -23,4 +25,4 @@ $on-laptop: 800px; // Use media queries like this:
         @content;
     }
 }
-@import "global";
+@import "global", "footer","navbar";

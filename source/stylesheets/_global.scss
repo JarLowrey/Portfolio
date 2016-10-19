@@ -2,7 +2,7 @@ body {
     background: #ECC561;
     text-align: center;
     font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 16px;
+    font-size: 1em;
     font-weight: 300;
     padding-top: $navbar-height-normal; //found by inspecting the navbar to find the bottom
     @include media-query($on-palm) {
@@ -22,25 +22,9 @@ h6 {
     margin: 0.2em;
 }
 
-navbar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    padding: $navbar-padding;
-    box-sizing: border-box; //subtracts padding from width
-    background-color: $grey-color-dark;
-    width: 100%;
-    z-index: 10000;
-    @include media-query($on-palm) {
-        span {
-            .navbar-a {
-                //need class for higher specificity
-                display: block;
-                text-align: center;
-                margin: 0 auto;
-            }
-        }
-    }
+.wrap {
+    width: $wrap-width;
+    margin: 0 auto;
 }
 
 a {
@@ -70,10 +54,6 @@ a {
     }
 }
 
-.nopad {
-    padding: 0;
-}
-
 .meta {
     width: 50%;
     @include media-query($on-laptop) {
@@ -88,20 +68,14 @@ a {
     margin: 6em auto;
 }
 
-.relative {
-    position: relative;
-}
-
-.inivisible {
-    visibility: hidden;
-}
-
-.left {
-    text-align: left;
-}
-
-.right {
-    text-align: right;
+.flex_row {
+    // uses flexbox - https://css-tricks.com/snippets/css/a-guide-to-flexbox/
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+    //non flex-box related styles below
+    width: 100%;
 }
 
 .icon {
@@ -114,39 +88,10 @@ a {
     width: $small-icon-len;
 }
 
-.block {
-    display: block;
-}
-
-.centered {
-    margin: 0 auto;
-    text-align: center;
-}
-
-.navbar-adjust {
-    display: block;
-    position: relative;
-    visibility: hidden;
-    top: -$navbar-height-normal;
-    @include media-query($on-palm) {
-        top: -$navbar-height-palm;
-    }
-}
-
 .index {
     width: 100%;
     font-size: 1.1em;
     text-shadow: 0 0 10px #888888;
-
-    h1 {
-        font-size: 5em;
-        @include media-query($on-laptop) {
-            font-size: 4em;
-        }
-        @include media-query($on-palm) {
-            font-size: 3em;
-        }
-    }
 }
 
 .welcome {

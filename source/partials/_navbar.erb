@@ -4,12 +4,9 @@ classes ||= ""
 inline_style||= ""
 %>
 <navbar class="<%= classes %> navbar-class" style="<%= inline_style%>">
-  <span>
-    <%= link_to( image_tag("favicon/favicon-32x32.png", :class => "icon", :alt => "Logo"), "#", :class => "navbar-a nopad") %>
-  </span>
-  <span>
-    <%= link_to("Blog", "/blog", :class => "navbar-a") %>
+  <%= link_to( image_tag("favicon/favicon-32x32.png", :alt => "Logo"), "#") %>
 
-    <%= link_to("About Me", "/about.html", :class => "navbar-a") %>
-  </span>
+  <%= link_to("Blog", "/blog") %>
+
+  <%= link_to("About Me", "/about.html") %>
 </navbar>

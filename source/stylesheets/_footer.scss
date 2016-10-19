@@ -1,0 +1,21 @@
+body,
+html {
+    margin-bottom: $footer-height;
+}
+
+footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    height: $footer-height;
+    background: #999;
+    width: 100%;
+
+    .wrap {
+        height: $footer-height;
+
+        .flex_row {
+            height: $footer-height;
+        }
+    }
+}

@@ -1,0 +1,18 @@
+navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: $navbar-padding;
+    box-sizing: border-box; //subtracts padding from width
+    background-color: $grey-color-dark;
+    width: 100%;
+    z-index: 10000;
+    @include media-query($on-palm) {
+        a {
+            //need class for higher specificity
+            display: block;
+            text-align: center;
+            margin: 0 auto;
+        }
+    }
+}
