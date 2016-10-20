@@ -36,13 +36,15 @@ end
  helpers do
 
     def txt_links(array, wrap_classes)
-       return array.map{ |e| "[#{e.txt}](#{e.url}){: target=\"_blank\"}" }.join(' ')
+       return array.map{ |e|
+         app.link_to e.txt, e.url, :target => "_blank"
+       }.join(' ')
      end
 
     def img_links(array, wrap_classes)
       links =  array.map{ |e|
-        img="![#{e.img_alt}](#{e.img_url}){: class=\" #{e.img_class} \"}"
-        "[  #{img}  ](  #{e.url}  ){: target=\"_blank\"} "
+        img = app.image_tag(e.img_url, :class => e.img_class, :alt => e.img_alt)
+        app.link_to img, e.url, :class => e.img_class,:target => "_blank"
       }.join(' ')
       return links
     end

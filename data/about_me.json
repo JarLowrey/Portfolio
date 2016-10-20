@@ -5,42 +5,34 @@
     {
       "url":"http://stackoverflow.com/users/4180797/james-lowrey/",
       "img_url":"stackoverflow.svg",
-      "img_class":"small-icon",
       "img_alt":"StackOverflow"
     },{
       "url":"https://github.com/jtronlabs/",
       "img_url":"github-icon.svg",
-      "img_class":"small-icon",
       "img_alt":"GitHub"
     },{
       "url":"https://gitlab.com/u/jtronlabs/",
       "img_url":"gitlab.svg",
-      "img_class":"small-icon",
       "img_alt":"GitLab"
     },{
       "url":"https://www.linkedin.com/in/jameslowrey2/",
       "img_url":"Linkedin.svg",
-      "img_class":"small-icon",
       "img_alt":"LinkedIn"
     },{
       "url":"https://www.reddit.com/user/jtronlabs/",
       "img_url":"reddit.svg",
-      "img_class":"small-icon",
       "img_alt":"Reddit"
     },{
       "url":"https://plus.google.com/u/0/117075087218781657011/",
       "img_url":"google-plus.svg",
-      "img_class":"small-icon",
       "img_alt":"Google Plus"
     },{
       "url":"https://play.google.com/store/apps/developer?id=JTronLabs",
       "img_url":"Google_Play_symbol.svg",
-      "img_class":"small-icon",
       "img_alt":"Google Play"
     },{
       "url":"https://twitter.com/jtronlabs/",
       "img_url":"twitter.svg",
-      "img_class":"small-icon",
       "img_alt":"Twitter"
     }
   ],

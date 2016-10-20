@@ -1,17 +1,57 @@
-body,
-html {
-    margin-bottom: $footer-height;
-}
-
+/*
 footer {
-    position: fixed;
+    position: relative;
     left: 0;
     bottom: 0;
     height: $footer-height;
+    margin-top: -$footer-height;
     width: 100%;
     border-top: 1px solid black; //$grey-color-light;
 
     .sides-flex {
         width: 200px;
+    }
+}
+*/
+//http://stackoverflow.com/a/20432777
+
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+}
+
+footer {
+    width: 100%;
+    padding: $footer-padding 0;
+    border-top: 1px solid $grey-color-light;
+    font-size: 0.5em;
+
+    .sides {
+        width: 175px;
+    }
+
+    .footer-links {
+        a {
+            text-decoration: none;
+            display: inline-block;
+            width: $footer-img-len;
+            height: $footer-img-len;
+            padding: $footer-img-len/6;
+
+            &:hover {
+                background-color: $grey-color-light;
+            }
+
+            img {
+                width: $footer-img-len;
+                height: $footer-img-len;
+                padding: 0;
+            }
+        }
     }
 }

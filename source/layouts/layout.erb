@@ -19,7 +19,10 @@
 
   <body class="<%= page_classes %>">
     <%= partial "partials/navbar" %>
-    <%= yield %>
+
+    <main>
+      <%= yield %>
+    </main>
 
     <%= partial "partials/footer.erb" %>
   </body>

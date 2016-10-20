@@ -1,10 +1,8 @@
 ---
-layout: post
 title:  "Setting up USB WebCam with Raspberry Pi and Motion"
 title-subtext: "Bringing the power of the NSA to your home"
 blurb: "Learn how to set up 24/7 video monitoring with a Raspberry Pi. Setup and stream the video to a password locked, home web server. Monitor your pets, possessions, or neighborhood while you're away!"
 keywords: "raspberry,pi"
-date:   2016-02-17 18:58:16 -0500
 author: James Lowrey
 profile-img-src: "viira.jpg"
 categories: hardware

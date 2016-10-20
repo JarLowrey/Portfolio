@@ -4,10 +4,8 @@ body {
     font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 1em;
     font-weight: 300;
-    padding-top: $navbar-height-normal; //found by inspecting the navbar to find the bottom
-    @include media-query($on-palm) {
-        padding-top: $navbar-height-palm; //navbar changes size, need to change body's top padding too
-    }
+    margin: 0;
+    padding: 0;
 }
 
 h1,
@@ -23,12 +21,14 @@ h6 {
 }
 
 .wrap {
-    width: $wrap-width;
     margin: 0 auto;
-    height: 100%;
+    min-height: 100%;
+    @include media-query($on-laptop) {
+        width: $wrap-width;
+    }
 }
 
-a {
+.btn-a {
     border: 1px solid white;
     display: inline-block;
     border-radius: 3px;
@@ -53,15 +53,6 @@ a {
     @include media-query($on-laptop) {
         padding: $a-padding/2 ($a-padding/2 - 0.05em);
     }
-}
-
-.meta {
-    width: 50%;
-    @include media-query($on-laptop) {
-        width: 100%;
-    }
-    margin: 0 auto;
-    text-align: left;
 }
 
 .row {

@@ -2,17 +2,17 @@
   <div class="wrap">
     <div class="flex_row">
       <!-- Left -->
-      <span class="sides-flex"></span>
+      <span class="sides footer-links">
+        <%= img_links(data.about_me.contact, "") %>
+      </span>
 
       <!-- Middle -->
       <span class="">
-        James Lowrey
-        <br/>
         Updated <%=  File.mtime(current_page.source_file).strftime("%B %e, %Y") %> <!-- Right way? -->
-      </br/></span>
+      </span>
 
       <!-- Right -->
-      <span class="sides-flex">
+      <span class="sides">
         <%= link_to("Source", data.projects.blog.repo_url) %>
       </span>
     </div>
