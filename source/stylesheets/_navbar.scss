@@ -3,7 +3,7 @@ navbar {
     display: block;
     padding: $navbar-padding;
     box-sizing: border-box; //subtracts padding from width
-    background-color: $grey-color-dark;
+    border-bottom: 1px solid $grey-color-light;
     width: 100%;
 
     a {

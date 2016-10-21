@@ -1,5 +1,4 @@
 body {
-    background: #ECC561;
     text-align: center;
     font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 1em;
@@ -52,6 +51,20 @@ h6 {
     }
     @include media-query($on-laptop) {
         padding: $a-padding/2 ($a-padding/2 - 0.05em);
+    }
+}
+
+a {
+    color: $link-color;
+    text-decoration: none;
+
+    &:visited {
+        color: darken($link-color, 15%);
+    }
+
+    &:hover {
+        color: $text-color;
+        text-decoration: underline;
     }
 }
 
