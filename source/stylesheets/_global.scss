@@ -19,6 +19,12 @@ h6 {
     margin: 0.2em;
 }
 
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
 .wrap {
     margin: 0 auto;
     width: 95%;
@@ -27,21 +33,23 @@ h6 {
     }
 }
 
-.share-btn {
-    height: $small-icon-len;
-    width: $small-icon-len;
-    display: inline-block;
-    text-decoration: none;
-
-    &:hover {
-        border: 2px solid black;
-        border-radius: 1px;
-    }
-
-    img {
-        display: inline-block;
+.small-quick-actions {
+    a {
         height: $small-icon-len;
         width: $small-icon-len;
+        display: inline-block;
+        text-decoration: none;
+
+        &:hover {
+            border: 2px solid black;
+            border-radius: 1px;
+        }
+
+        img {
+            display: inline-block;
+            height: $small-icon-len;
+            width: $small-icon-len;
+        }
     }
 }
 
@@ -118,6 +126,11 @@ a {
 .icon {
     height: $icon-len;
     width: $icon-len;
+
+    img {
+        height: $icon-len;
+        width: $icon-len;
+    }
 }
 
 .small-icon {

@@ -4,46 +4,46 @@
   "social": {
     "stackoverflow": {
       "url":"http://stackoverflow.com/users/4180797/james-lowrey/",
-      "img_url":"stackoverflow.svg",
+      "img_url":"social/stackoverflow.svg",
       "img_alt":"StackOverflow"
     },
     "github": {
       "url":"https://github.com/jtronlabs/",
-      "img_url":"github-icon.svg",
+      "img_url":"social/github-icon.svg",
       "img_alt":"GitHub"
     },
     "gitlab": {
       "url":"https://gitlab.com/u/jtronlabs/",
-      "img_url":"gitlab.svg",
+      "img_url":"social/gitlab.svg",
       "img_alt":"GitLab"
     },
     "linkedIn": {
       "url":"https://www.linkedin.com/in/jameslowrey2/",
-      "img_url":"Linkedin.svg",
+      "img_url":"social/Linkedin.svg",
       "img_alt":"LinkedIn"
     },
     "facebook": {
-      "img_url":"facebook.svg",
+      "img_url":"social/facebook.svg",
       "img_alt":"Facebook"
     },
     "reddit": {
       "url":"https://www.reddit.com/user/jtronlabs/",
-      "img_url":"reddit.svg",
+      "img_url":"social/reddit.svg",
       "img_alt":"Reddit"
     },
     "gPlus": {
       "url":"https://plus.google.com/u/0/117075087218781657011/",
-      "img_url":"google-plus.svg",
+      "img_url":"social/google-plus.svg",
       "img_alt":"Google Plus"
     },
     "gPlay": {
       "url":"https://play.google.com/store/apps/developer?id=JTronLabs",
-      "img_url":"Google_Play_symbol.svg",
+      "img_url":"social/Google_Play_symbol.svg",
       "img_alt":"Google Play"
     },
     "twitter": {
       "url":"https://twitter.com/jtronlabs/",
-      "img_url":"twitter.svg",
+      "img_url":"social/twitter.svg",
       "img_alt":"Twitter",
       "username":"jtronlabs"
     }
@@ -51,32 +51,32 @@
   "learning":[
     {
       "url":"https://middlemanapp.com/",
-      "img_url":"middleman-logo.svg",
+      "img_url":"tech/middleman-logo.svg",
       "img_class":"icon",
       "img_alt":"Middleman"
     },{
       "url":"http://phaser.io/learn/",
-      "img_url":"phaser-logo-small.png",
+      "img_url":"tech/phaser-logo-small.png",
       "img_class":"icon",
       "img_alt":"Phaser"
     },{
       "url":"https://jekyllrb.com/",
-      "img_url":"jekyll.png",
+      "img_url":"tech/jekyll.png",
       "img_class":"icon",
       "img_alt":"Jekyll"
     },{
       "url":"http://gruntjs.com/",
-      "img_url":"grunt.svg",
+      "img_url":"tech/grunt.svg",
       "img_class":"icon",
       "img_alt":"Grunt"
     },{
       "url":"http://gulpjs.com/",
-      "img_url":"gulp.svg",
+      "img_url":"tech/gulp.svg",
       "img_class":"icon",
       "img_alt":"Gulp"
     },{
       "url":"https://www.npmjs.com/",
-      "img_url":"Npm-logo.svg",
+      "img_url":"tech/Npm-logo.svg",
       "img_class":"icon",
       "img_alt":"NPM"
     }
@@ -84,78 +84,78 @@
   "skills":[
     {
       "url":"https://git-scm.com/",
-      "img_url":"Git_icon.svg.png",
+      "img_url":"tech/Git_icon.svg.png",
       "img_class":"icon",
       "img_alt":"Git"
     },{
       "url":"http://www.w3schools.com/html/html5_intro.asp",
-      "img_url":"HTML5_logo_and_wordmark.svg",
+      "img_url":"tech/HTML5_logo_and_wordmark.svg",
       "img_class":"icon",
       "img_alt":"HTML5"
     },{
       "url":"https://www.javascript.com/",
-      "img_url":"Badge_js-strict.svg",
+      "img_url":"tech/Badge_js-strict.svg",
       "img_class":"icon",
       "img_alt":"JS-ES6"
     },{
       "url":"http://www.w3schools.com/css/css3_intro.asp",
-      "img_url":"CSS3_badge.svg",
+      "img_url":"tech/CSS3_badge.svg",
       "img_class":"icon",
       "img_alt":"CSS3"
     },{
       "url":"http://sass-lang.com/",
-      "img_url":"Sass-Logo.svg",
+      "img_url":"tech/Sass-Logo.svg",
       "img_class":"icon",
       "img_alt":"Sass"
     },{
       "url":"https://www.ruby-lang.org/en/",
-      "img_url":"Ruby_logo_64x64.png",
+      "img_url":"tech/Ruby_logo_64x64.png",
       "img_class":"icon",
       "img_alt":"Ruby"
     },{
       "url":"https://www.python.org/",
-      "img_url":"Python-logo-notext.svg",
+      "img_url":"tech/Python-logo-notext.svg",
       "img_class":"icon",
       "img_alt":"Ruby"
     },{
       "url":"https://www.java.com/en/",
-      "img_url":"Java_Logo.svg",
+      "img_url":"tech/Java_Logo.svg",
       "img_class":"icon",
       "img_alt":"Java"
     },{
       "url":"https://msdn.microsoft.com/en-us/library/67ef8sbd.aspx/",
-      "img_url":"logo-csharp.svg",
+      "img_url":"tech/logo-csharp.svg",
       "img_class":"icon",
       "img_alt":"C#"
     },{
       "url":"https://en.wikipedia.org/wiki/C_(programming_language)",
-      "img_url":"The_C_Programming_Language_logo.svg",
+      "img_url":"tech/The_C_Programming_Language_logo.svg",
       "img_class":"icon",
       "img_alt":"The C Programming Language"
     },{
       "url":"https://en.wikipedia.org/wiki/SQL",
-      "img_url":"sql-file-format.svg",
+      "img_url":"tech/sql-file-format.svg",
       "img_class":"icon",
       "img_alt":"SQL",
       "img_src":"http://www.flaticon.com"
     },{
       "url":"http://www.mathworks.com/products/matlab/?requestedDomain=www.mathworks.com/",
-      "img_url":"Matlab_Logo.png",
+      "img_url":"tech/Matlab_Logo.png",
       "img_class":"icon",
       "img_alt":"MatLab"
     },{
       "url":"https://www.linux.com/",
-      "img_url":"NewTux.svg",
+      "img_url":"tech/NewTux.svg",
       "img_class":"icon",
       "img_alt":"Linux"
     },{
       "url":"https://unity3d.com/",
-      "img_url":"unity.svg",
+      "img_url":"tech/unity.svg",
       "img_class":"icon",
       "img_alt":"Unity"
     },{
       "url":"https://www.android.com/",
-      "img_url":"Android_robot.svg",
+      "img_url":"tech/Android_robot.svg",
       "img_class":"icon",
       "img_alt":"Android"
     }

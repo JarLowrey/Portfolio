@@ -45,8 +45,7 @@ end
 
     def img_links(array)
       links =  array.map{ |e|
-        img = app.image_tag(e.img_url, :class => e.img_class, :alt => e.img_alt)
-        app.link_to img, e.url, :class => e.img_class,:target => "_blank"
+        link = img_link e.img_url,e.img_alt,e.url, "", e.img_class
       }.join(' ')
 
       return links
@@ -57,8 +56,7 @@ end
 
       hash.each do |k, v|
         if v.url
-          img = app.image_tag(v.img_url, :class => v.img_class, :alt => v.img_alt)
-          link = app.link_to img, v.url, :class => v.img_class,:target => "_blank"
+          link = img_link(v.img_url,v.img_alt,v.url, "", v.img_class)
           links = "#{links} #{link}"
         end
       end
@@ -66,9 +64,9 @@ end
       links
     end
 
-    def share_link(img_props,share_url)
-      img = app.image_tag img_props.img_url, :alt => img_props.img_alt
-      link = app.link_to img, share_url, :title => "Share on <%= img_props.img_alt%>",:target => "_blank", :rel => "nofollow", :class => "share-btn"
+    def img_link(img_url, img_alt, url, title, css_class,target = "_blank")
+      img = app.image_tag img_url, :alt => img_alt
+      link = app.link_to img, url, :title => title,:target => target, :class => css_class
     end
  end
 

@@ -1,0 +1,24 @@
+<div class="article-links">
+
+<% if current_article.data.resources %>
+<div class="link-section">
+##Related
+<%= current_article.data.resources %>
+</div>
+<% end %>
+
+<% if current_article.data.materials %>
+<div class="link-section">
+##Materials
+<%= current_article.data.materials %>
+</div>
+<% end %>
+
+<% if current_article.data.software_versions %>
+<div class="link-section">
+##Software
+<%= current_article.data.software_versions %>
+</div>
+<% end %>
+
+</div>

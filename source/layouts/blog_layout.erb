@@ -1,14 +1,22 @@
----
-title: current_article.title
----
+
+<% content_for :head do
+  #pass content to head in parent layout
+  "" #non-nil placeholder
+end %>
+
 <% wrap_layout :layout do %>
   <div class="wrap">
+    <h1><%= current_article.title %></h1>
     <div class="authored">
       By <%= link_to "James Lowrey", "/about.html", :class => "dotted_link" %> | <%= current_article.date.strftime("%B %e, %Y") %>
     </div>
+    <%= if current_article.data.introduction then current_article.data.introduction end %>
+
     <%= partial "partials/share.erb" %>
+    <%= partial "partials/article_ui_btns.erb" %>
 
     <article id="main" role="main">
+      <%= partial "partials/article_links.md.erb" %>
       <%= yield %>
     </article>
 

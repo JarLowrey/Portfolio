@@ -1,0 +1,11 @@
+.article-links {
+    text-decoration: none;
+
+    .link-section {
+        vertical-align: top;
+        @include media-query($on-laptop) {
+            width: 30%;
+            display: inline-block;
+        }
+    }
+}

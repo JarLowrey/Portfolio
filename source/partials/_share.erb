@@ -8,19 +8,19 @@ else
   title = current_article.title
   url = "#{config[:host]}#{current_page.url}"
   summary = current_article.metadata[:page]['blurb']
+  social = data.about_me.social
 
-  twitter_url = "https://twitter.com/intent/tweet?text=#{title}&url=#{url}&via=#{data.about_me.social.twitter.username}&related=#{data.about_me.social.twitter.username}"
+  twitter_url = "https://twitter.com/intent/tweet?text=#{title}&url=#{url}&via=#{social.twitter.username}&related=#{social.twitter.username}"
   fb_url = "https://facebook.com/sharer.php?u=#{url}"
   gPlus_url = "https://plus.google.com/share?url=#{url}"
   linkedIn_url = "http://www.linkedin.com/shareArticle?mini=true&url=#{url}&title=#{title}&summary=#{summary}&source=#{url}"
   reddit_url = "http://www.reddit.com/submit?url=#{url}&title=#{title}"
 end %>
 
-<div id="social-media-share-btns">
-  <span>Share: </span>
-  <%= share_link data.about_me.social.twitter, twitter_url %>
-  <%= share_link data.about_me.social.facebook, fb_url %>
-  <%= share_link data.about_me.social.gPlus, gPlus_url %>
-  <%= share_link data.about_me.social.linkedIn, linkedIn_url %>
-  <%= share_link data.about_me.social.reddit, reddit_url %>
+<div class="small-quick-actions">
+  <%= img_link social.twitter.img_url,social.twitter.img_alt, twitter_url, "Share on #{social.twitter.img_alt}", "" %>
+  <%= img_link social.facebook.img_url,social.facebook.img_alt, fb_url, "Share on #{social.facebook.img_alt}", "" %>
+  <%= img_link social.gPlus.img_url,social.gPlus.img_alt, gPlus_url, "Share on #{social.gPlus.img_alt}", "" %>
+  <%= img_link social.linkedIn.img_url,social.linkedIn.img_alt, linkedIn_url, "Share on #{social.linkedIn.img_alt}", "" %>
+  <%= img_link social.reddit.img_url,social.reddit.img_alt, reddit_url, "Share on #{social.reddit.img_alt}", "" %>
 </div>
