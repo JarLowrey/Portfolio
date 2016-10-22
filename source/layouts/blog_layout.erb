@@ -2,6 +2,11 @@
 title: current_article.title
 ---
 <% wrap_layout :layout do %>
+  <div class="authored">
+    By <%= link_to "James Lowrey", "/about.html", :class => "dotted_link" %> | <%= current_article.date.strftime("%B %e, %Y") %>
+  </div>
+  <%= partial "partials/share.erb" %>
+
   <article id="main" role="main">
     <%= yield %>
   </article>

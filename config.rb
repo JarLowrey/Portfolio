@@ -8,10 +8,11 @@
 page '/*.xml', layout: false
 page '/*.json', layout: false
 page '/*.txt', layout: false
-page '/static_md/*', layout: 'layouts/layout'
 
 set :markdown_engine, :kramdown
 set :markdown, parse_block_html: true
+
+#Setup Config vars
 
 
 # With alternative layout
@@ -25,6 +26,7 @@ set :markdown, parse_block_html: true
 
 # Reload the browser automatically whenever files change
 configure :development do
+  config[:host] = "localhost:4567"
   activate :livereload
 end
 
@@ -35,20 +37,39 @@ end
 # Methods defined in the helpers block are available in templates
  helpers do
 
-    def txt_links(array, wrap_classes)
+    def txt_links(array)
        return array.map{ |e|
          app.link_to e.txt, e.url, :target => "_blank"
        }.join(' ')
      end
 
-    def img_links(array, wrap_classes)
+    def img_links(array)
       links =  array.map{ |e|
         img = app.image_tag(e.img_url, :class => e.img_class, :alt => e.img_alt)
         app.link_to img, e.url, :class => e.img_class,:target => "_blank"
       }.join(' ')
+
       return links
     end
 
+    def img_links_from_hash(hash)
+      links = ""
+
+      hash.each do |k, v|
+        if v.url
+          img = app.image_tag(v.img_url, :class => v.img_class, :alt => v.img_alt)
+          link = app.link_to img, v.url, :class => v.img_class,:target => "_blank"
+          links = "#{links} #{link}"
+        end
+      end
+
+      links
+    end
+
+    def share_link(img_props,share_url)
+      img = app.image_tag img_props.img_url, :alt => img_props.img_alt
+      link = app.link_to img, share_url, :title => "Share on <%= img_props.img_alt%>",:target => "_blank", :rel => "nofollow", :class => "share-btn"
+    end
  end
 
  activate :blog do |blog|
@@ -86,6 +107,8 @@ end
 
 # Build-specific configuration
 configure :build do
+  config[:host] = "jtronlabs.com"
+
   # Minify CSS and JS on build
   activate :minify_css
   activate :minify_javascript

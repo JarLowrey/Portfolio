@@ -27,6 +27,37 @@ h6 {
     }
 }
 
+.share-btn {
+    height: $small-icon-len;
+    width: $small-icon-len;
+    display: inline-block;
+    text-decoration: none;
+
+    &:hover {
+        border: 2px solid black;
+        border-radius: 1px;
+    }
+
+    img {
+        display: inline-block;
+        height: $small-icon-len;
+        width: $small-icon-len;
+    }
+}
+
+.dotted_link {
+    text-decoration: none;
+    color: $text-color;
+    border-bottom: 1px dotted #ccc;
+
+    &:hover,
+    &:visited:hover {
+        text-decoration: none;
+        background-color: $grey-color-light;
+        color: $text-color;
+    }
+}
+
 .btn-a {
     border: 1px solid white;
     display: inline-block;
