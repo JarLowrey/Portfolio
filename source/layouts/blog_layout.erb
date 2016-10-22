@@ -10,10 +10,9 @@ end %>
     <div class="authored">
       By <%= link_to "James Lowrey", "/about.html", :class => "dotted_link" %> | <%= current_article.date.strftime("%B %e, %Y") %>
     </div>
-    <%= if current_article.data.introduction then current_article.data.introduction end %>
-
     <%= partial "partials/share.erb" %>
     <%= partial "partials/article_ui_btns.erb" %>
+    <%= partial "partials/introduction.md.erb" %>
 
     <article id="main" role="main">
       <%= partial "partials/article_links.md.erb" %>

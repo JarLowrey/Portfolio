@@ -15,39 +15,39 @@ introduction: |
   Enter the Raspberry Pi Survellience System. Using the R-Pi's cheap hardware and a generic USB webcam, you can construct a basic home-survellience system, for pets or theft-prevention.
 
 resources: >
-              - [Raspberry Pi Webcam Docs](https://www.raspberrypi.org/documentation/usage/webcams)
+  - [Raspberry Pi Webcam Docs](https://www.raspberrypi.org/documentation/usage/webcams)
 
-              - [Motion Wiki](http://www.lavrsen.dk/foswiki/bin/view/Motion/WebHome)
+  - [Motion Wiki](http://www.lavrsen.dk/foswiki/bin/view/Motion/WebHome)
 
-              - [Motion GitHub Repo](https://github.com/sackmotion/motion)
+  - [Motion GitHub Repo](https://github.com/sackmotion/motion)
 
-              - [Default motion.conf](https://github.com/sackmotion/motion/blob/master/motion-dist.conf.in)
+  - [Default motion.conf](https://github.com/sackmotion/motion/blob/master/motion-dist.conf.in)
 
-              - [Motion Config files](http://www.lavrsen.dk/foswiki/bin/view/Motion/ConfigFileOptions)
+  - [Motion Config files](http://www.lavrsen.dk/foswiki/bin/view/Motion/ConfigFileOptions)
 
-              - [Static IP Address](http://www.modmypi.com/blog/tutorial-how-to-give-your-raspberry-pi-a-static-ip-address)
+  - [Static IP Address](http://www.modmypi.com/blog/tutorial-how-to-give-your-raspberry-pi-a-static-ip-address)
 
-              - [Password Protect Web Serve](https://www.digitalocean.com/community/tutorials/how-to-set-up-password-authentication-with-apache-on-ubuntu-14-04)
+  - [Password Protect Web Serve](https://www.digitalocean.com/community/tutorials/how-to-set-up-password-authentication-with-apache-on-ubuntu-14-04)
 
-              - [Connect IP to Domain Name](https://www.namecheap.com/support/knowledgebase/article.aspx/1162/46/how-can-i-point-my-domain-name-to-my-home-servers-ip)
+  - [Connect IP to Domain Name](https://www.namecheap.com/support/knowledgebase/article.aspx/1162/46/how-can-i-point-my-domain-name-to-my-home-servers-ip)
 
 materials: >
-              - [Raspberry Pi Model B](https://www.raspberrypi.org/products/raspberry-pi-2-model-b/)
+  - [Raspberry Pi Model B](https://www.raspberrypi.org/products/raspberry-pi-2-model-b/)
 
-              - [Generic USB Webcam](http://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Dcomputers&field-keywords=webcam&sprefix=web%2Ccomputers%2C165)
+  - [Generic USB Webcam](http://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Dcomputers&field-keywords=webcam&sprefix=web%2Ccomputers%2C165)
 
-              - [Wi-Fi Dongle](http://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Delectronics&field-keywords=wifi+dongle)
+  - [Wi-Fi Dongle](http://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Delectronics&field-keywords=wifi+dongle)
 
-              - [Micro-USB Wall Charger](http://www.amazon.com/Motorola-Wall-Charger-Micro-Cable/dp/B005LFXBJG/ref=sr_1_5?s=electronics&ie=UTF8&qid=1455758956&sr=1-5&keywords=micro+usb+charger)
+  - [Micro-USB Wall Charger](http://www.amazon.com/Motorola-Wall-Charger-Micro-Cable/dp/B005LFXBJG/ref=sr_1_5?s=electronics&ie=UTF8&qid=1455758956&sr=1-5&keywords=micro+usb+charger)
 
-              - [8GB SD Card](http://www.amazon.com/SanDisk-Memory-SDSDUN-008G-G46-Newest-Version/dp/B00M55BS5O/ref=sr_1_3?s=electronics&ie=UTF8&qid=1455759034&sr=1-3&keywords=8gb+sd+card)
+  - [8GB SD Card](http://www.amazon.com/SanDisk-Memory-SDSDUN-008G-G46-Newest-Version/dp/B00M55BS5O/ref=sr_1_3?s=electronics&ie=UTF8&qid=1455759034&sr=1-3&keywords=8gb+sd+card)
 
-              - [Ethernet Cable](http://www.amazon.com/AmazonBasics%C2%A0RJ45%C2%A0Cat-6-Ethernet%C2%A0Patch-Cable--%C2%A010%C2%A0Feet-3%C2%A0Meters/dp/B00N2VIALK/ref=sr_1_2?s=pc&ie=UTF8&qid=1456176588&sr=1-2) or [Monitor](http://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Dcomputers&field-keywords=hdmi+monitor&rh=n%3A541966%2Ck%3Ahdmi+monitor)+[USB Keyboard](http://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Dcomputers&field-keywords=usb+keyboard&rh=n%3A541966%2Ck%3Ausb+keyboard)+[HDMI cable](http://www.amazon.com/AmazonBasics-High-Speed-HDMI-Cable-Supports/dp/B00870ZHCQ/ref=sr_1_4?s=pc&ie=UTF8&qid=1456176643&sr=1-4&keywords=hdmi+cable)
+  - [Ethernet Cable](http://www.amazon.com/AmazonBasics%C2%A0RJ45%C2%A0Cat-6-Ethernet%C2%A0Patch-Cable--%C2%A010%C2%A0Feet-3%C2%A0Meters/dp/B00N2VIALK/ref=sr_1_2?s=pc&ie=UTF8&qid=1456176588&sr=1-2) or [Monitor](http://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Dcomputers&field-keywords=hdmi+monitor&rh=n%3A541966%2Ck%3Ahdmi+monitor)+[USB Keyboard](http://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Dcomputers&field-keywords=usb+keyboard&rh=n%3A541966%2Ck%3Ausb+keyboard)+[HDMI cable](http://www.amazon.com/AmazonBasics-High-Speed-HDMI-Cable-Supports/dp/B00870ZHCQ/ref=sr_1_4?s=pc&ie=UTF8&qid=1456176643&sr=1-4&keywords=hdmi+cable)
 
 software_versions: >
-              - [Ubuntu 16.04 LTS](http://www.ubuntu.com/download)
+  - [Ubuntu 16.04 LTS](http://www.ubuntu.com/download)
 
-              - [Motion (Mar 17, 2014 commit)](https://github.com/sackmotion/motion)
+  - [Motion (Mar 17, 2014 commit)](https://github.com/sackmotion/motion)
 ---
 
 ##Installing The Operating System
