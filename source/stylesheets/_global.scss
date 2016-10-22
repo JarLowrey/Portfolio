@@ -21,9 +21,9 @@ h6 {
 
 .wrap {
     margin: 0 auto;
-    min-height: 100%;
+    width: 95%;
     @include media-query($on-laptop) {
-        width: $wrap-width;
+        width: 70%;
     }
 }
 

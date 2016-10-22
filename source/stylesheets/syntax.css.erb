@@ -1,0 +1,13 @@
+pre.highlight {
+    /* allows a horizontal scrollbar on the text */
+    overflow: auto;
+}
+
+code {
+    text-align: left;
+}
+
+
+/* Rouge themes: http://www.rubydoc.info/gems/rouge/Rouge/Themes */
+
+<%=Rouge::Themes::ThankfulEyes.render(scope: '.highlight') %>

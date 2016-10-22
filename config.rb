@@ -97,6 +97,8 @@ end
    blog.page_link = "#{blog.prefix}/page/{num}"
  end
 
+ activate :syntax, :line_numbers => true
+
  activate :deploy do |deploy|
    deploy.user = 'JTronLabs'
    deploy.deploy_method = :git

@@ -24,5 +24,7 @@ gem 'nokogiri' #required for blog summaries (+ extra functionality) - https://gi
 # Markdown processor - https://github.com/vmg/redcarpet
 gem 'redcarpet', '~> 3.3', '>= 3.3.3'
 
+gem 'middleman-syntax'
+
 # For feed.xml.builder
 gem "builder", "~> 3.0"
