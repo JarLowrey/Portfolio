@@ -5,44 +5,41 @@
 end %>
 
 <% wrap_layout :layout do %>
-  <div class="wrap">
-    <h1><%= current_article.title %></h1>
-    <div class="authored">
-      By <%= link_to "James Lowrey", "/about.html", :class => "dotted_link" %> | <%= current_article.date.strftime("%B %e, %Y") %>
+    <%= partial "partials/article_header.erb" %>
+
+    <div class="wrap">
+      <article id="main" role="main">
+        <%= partial "partials/introduction.md.erb" %>
+        <%= partial "partials/article_links.md.erb" %>
+
+        <%= yield %>
+        
+      </article>
+
+      <aside>
+        <h2>Recent Articles</h2>
+        <ol>
+          <% blog.articles[0...10].each do |article| %>
+            <li><%= link_to article.title, article %> <span><%= article.date.strftime('%b %e') %></span></li>
+          <% end %>
+        </ol>
+
+        <h2>Tags</h2>
+        <ol>
+          <% blog.tags.each do |tag, articles| %>
+            <li><%= link_to "#{tag} (#{articles.size})", tag_path(tag) %></li>
+          <% end %>
+        </ol>
+
+        <h2>By Year</h2>
+        <ol>
+          <% blog.articles.group_by {|a| a.date.year }.each do |year, articles| %>
+            <li><%= link_to "#{year} (#{articles.size})", blog_year_path(year) %></li>
+          <% end %>
+        </ol>
+      </aside>
+
+      <%= partial "partials/comments.erb" %>
+
     </div>
-    <%= partial "partials/share.erb" %>
-    <%= partial "partials/article_ui_btns.erb" %>
-    <%= partial "partials/introduction.md.erb" %>
-
-    <article id="main" role="main">
-      <%= partial "partials/article_links.md.erb" %>
-      <%= yield %>
-    </article>
-
-    <aside>
-      <h2>Recent Articles</h2>
-      <ol>
-        <% blog.articles[0...10].each do |article| %>
-          <li><%= link_to article.title, article %> <span><%= article.date.strftime('%b %e') %></span></li>
-        <% end %>
-      </ol>
-
-      <h2>Tags</h2>
-      <ol>
-        <% blog.tags.each do |tag, articles| %>
-          <li><%= link_to "#{tag} (#{articles.size})", tag_path(tag) %></li>
-        <% end %>
-      </ol>
-
-      <h2>By Year</h2>
-      <ol>
-        <% blog.articles.group_by {|a| a.date.year }.each do |year, articles| %>
-          <li><%= link_to "#{year} (#{articles.size})", blog_year_path(year) %></li>
-        <% end %>
-      </ol>
-    </aside>
-
-    <%= partial "partials/comments.erb" %>
-
-  </div>
 <% end %>

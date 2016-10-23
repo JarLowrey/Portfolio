@@ -1,0 +1,18 @@
+<%
+header = current_article.data.header
+color_background =  current_article.data.dig(:header,:color_background) ? header.color_background : "#22e67e"
+color_text =        current_article.data.dig(:header,:color_text)       ? header.color_text : "white"
+header_img =        current_article.data.dig(:header,:img_url)          ? app.image_tag(header.img_url, :alt => "Article Header Image") : ""
+%>
+
+
+<section class="article-header" style="background-color:<%= color_background %>;color:<%= color_text %>;">
+  <h1>  <%= current_article.title %>                </h1>
+  <p>   <%= current_article.data.header.subtext %>  </p>
+  <p>   By <%= link_to "James Lowrey", "/about.html", :class => "dotted_link" %> | <%= current_article.date.strftime("%B %e, %Y") %> </p>
+  <%= partial "partials/share.erb" %>
+  <%= partial "partials/article_ui_btns.erb" %>
+
+  <%= header_img %>
+
+</section>

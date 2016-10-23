@@ -1,8 +1,51 @@
 article {
+    p {
+        text-align: left;
+    }
+
     img {
         max-width: 100%;
         border: 2px solid #ccc;
         border-radius: 5px;
+    }
+}
+
+.introduction {
+    font-size: 1.2em;
+}
+
+.quick-actions {
+    a {
+        height: $icon-len;
+        width: $icon-len;
+        display: inline-block;
+        text-decoration: none;
+        padding: $icon-len / 3;
+        background-color: white;
+        border-radius: 50%;
+
+        &:hover {
+            background-color: #ccc;
+        }
+
+        img {
+            display: inline-block;
+            height: $icon-len;
+            width: $icon-len;
+        }
+    }
+}
+
+.article-header {
+    padding: 10em 0;
+
+    p {
+        font-size: 1.15em;
+    }
+
+    .dotted_link,
+    h1 {
+        color: inherit;
     }
 }
 
