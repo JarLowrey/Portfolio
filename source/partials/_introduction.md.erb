@@ -1,10 +1,14 @@
 
 <div class="introduction">
+
 <%=
 #I decided to export this small snippet of code to its own partial because it was the simplest way I could think of to get the markdown to render
 #properly in the places it's consumed (blog_layout)
 if current_article.data.introduction
-current_article.data.introduction
+  intro = current_article.data.introduction.lstrip #need to clear off the leading whitespace
+  first_letter = "<span class=\"caps\">#{ intro[0] }</span>"
+  "#{first_letter}#{intro[1..intro.length]}"
 end
 %>
+
 </div>

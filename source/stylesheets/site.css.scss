@@ -16,4 +16,12 @@ $on-desktop: 1200px;
         @content;
     }
 }
+
+.clearfix {
+    &:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+}
 @import "colors","global","posts","footer","navbar";

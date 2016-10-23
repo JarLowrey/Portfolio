@@ -1,17 +1,28 @@
 article {
+    h2,
     p {
         text-align: left;
-    }
-
-    img {
-        max-width: 100%;
-        border: 2px solid #ccc;
-        border-radius: 5px;
+        //markdown will force images to be nested in a 'p' element
+        img {
+            display: block;
+            margin: 0 auto;
+            max-width: 100%;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+        }
     }
 }
 
 .introduction {
     font-size: 1.2em;
+}
+
+.caps {
+    font-size: 2em;
+    padding: 0 0.25em;
+    color: $link-color;
+    float: left;
+    @extend .clearfix;
 }
 
 .quick-actions {
