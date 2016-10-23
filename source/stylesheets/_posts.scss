@@ -1,10 +1,19 @@
+article {
+    img {
+        max-width: 100%;
+        border: 2px solid #ccc;
+        border-radius: 5px;
+    }
+}
+
 .article-links {
     text-decoration: none;
+    border: 1px solid black;
 
     .link-section {
         vertical-align: top;
         @include media-query($on-laptop) {
-            width: 30%;
+            width: 31%;
             display: inline-block;
         }
     }
