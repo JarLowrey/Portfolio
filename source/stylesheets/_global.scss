@@ -1,21 +1,10 @@
 body {
     text-align: center;
     font-family: "Lato",Helvetica,Arial,sans-serif;
-    font-size: 1em;
+    font-size: $base-font-size;
     font-weight: 300;
     margin: 0;
     padding: 0;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    //color: rgba(0,0,0,0.5);
-    font-weight: bold;
-    margin: 0.2em;
 }
 
 ul {
@@ -26,9 +15,9 @@ ul {
 
 .wrap {
     margin: 0 auto;
-    width: 95%;
+    width: $wrap-width-mobile;
     @include media-query($on-laptop) {
-        width: 70%;
+        width: $wrap-width-desktop;
     }
 }
 

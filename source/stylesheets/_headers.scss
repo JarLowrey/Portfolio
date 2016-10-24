@@ -1,0 +1,20 @@
+// https://codepen.io/zgreen/post/contextual-heading-sizes-with-sass
+// http://stackoverflow.com/questions/38426884/how-to-generate-sizes-for-all-headers-using-sass-with-modular-scale
+// context-free header styling
+@for $i from 1 through 6 {
+    h#{$i} {
+        margin: $margin 0;
+    }
+}
+//iterate thru all the contexts in context-font, setting the header sizes in each
+@each $element, $context-sizing in $context-font {
+    #{$element} {
+        //set header sizes 1-6
+        @for $i from 1 through 6 {
+            h#{$i} {
+                $h-size: (6-$i) * $context-sizing;
+                @include font-size($h-size, $amplifier-font-heading-mobile, $amplifier-font-heading-desktop);
+            }
+        }
+    }
+}

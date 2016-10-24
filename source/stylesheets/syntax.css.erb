@@ -10,4 +10,8 @@ code {
 
 /* Rouge themes: http://www.rubydoc.info/gems/rouge/Rouge/Themes */
 
-<%=Rouge::Themes::ThankfulEyes.render(scope: '.highlight') %>
+
+<%=Rouge::Themes::ThankfulEyes.render(scope: 'code') %>/* inline code */
+
+<%=Rouge::Themes::ThankfulEyes.render(scope: '.highlight') %>/* block code */
+) %>

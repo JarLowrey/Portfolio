@@ -57,6 +57,11 @@ article {
     .dotted_link,
     h1 {
         color: inherit;
+        width: $wrap-width-mobile;
+        margin: 0 auto;
+        @include media-query($on-laptop) {
+            width: $wrap-width-mobile + 5%;
+        }
     }
 }
 
@@ -66,6 +71,7 @@ article {
 
     .link-section {
         vertical-align: top;
+        margin-bottom: $margin;
         @include media-query($on-laptop) {
             width: 31%;
             display: inline-block;

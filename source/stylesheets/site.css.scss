@@ -2,18 +2,33 @@
 @import "normalize"; //Define variables, mixins, etc for scss files
 $icon-len: 1.5em;
 $small-icon-len: 1em;
+$context-font: ( header: 1, section: 1, article: 0.67, footer: 0.5, aside: 0.33 ); // Make fonts change size dependent upon what context they are in
+$step-size-font: 0.333333; //step size for incremental font sizes
+$amplifier-font-heading-mobile: 1.2; //convenience var to in/decrease the values of header values in one place
+$amplifier-font-heading-desktop: 1.4; //convenience var to in/decrease the values of header values in one place
+$margin: 0.67em;
+$base-font-size: 1em;
 $navbar-padding: 1em;
 $navbar-height-normal: 4.1em; //found by inspecting the navbar to find the bottom
 $navbar-height-palm: 10.95em;
 $link-height: 1em + 0.4em * 2;
 $footer-padding: 1em;
 $footer-img-len: 1.25em;
+$wrap-width-mobile: 95%;
+$wrap-width-desktop: 70%;
 $a-padding: 0.4em;
 $on-laptop: 800px;
 $on-desktop: 1200px;
 @mixin media-query($device) {
      @media screen and (min-width: $device){
         @content;
+    }
+}
+@mixin font-size($size, $amplifier, $desktop-amplifier) {
+    $context-size-computed: $size * $step-size-font;
+    font-size: $context-size-computed * $amplifier + em;
+    @include media-query($on-laptop) {
+        font-size: $context-size-computed * $desktop-amplifier + em;
     }
 }
 
@@ -24,4 +39,4 @@ $on-desktop: 1200px;
         clear: both;
     }
 }
-@import "colors","global","posts","footer","navbar";
+@import "headers","colors","global","posts","footer","navbar";
