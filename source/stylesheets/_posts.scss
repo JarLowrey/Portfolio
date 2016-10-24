@@ -1,7 +1,7 @@
 article {
-    h2,
+    text-align: left;
+
     p {
-        text-align: left;
         //markdown will force images to be nested in a 'p' element
         img {
             display: block;
@@ -11,6 +11,10 @@ article {
             border-radius: 5px;
         }
     }
+}
+
+aside {
+    text-align: center;
 }
 
 .introduction {
@@ -49,7 +53,7 @@ article {
 
 .article-header {
     padding: 10em 0;
-    margin: $margin 0;
+    margin-bottom: $margin;
 
     p {
         font-size: 1.15em;
