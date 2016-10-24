@@ -64,9 +64,9 @@ end
       links
     end
 
-    def img_link(img_url, img_alt, url, title, css_class,target = "_blank")
-      img = app.image_tag img_url, :alt => img_alt
-      link = app.link_to img, url, :title => title,:target => target, :class => css_class
+    def img_link(img_url, img_alt, url, title, css_class,target = "_blank",id="")
+      img = app.image_tag img_url, alt: img_alt
+      link = app.link_to img, url, title: title,target: target, class: css_class, id: id
     end
  end
 

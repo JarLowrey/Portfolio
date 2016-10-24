@@ -1,7 +1,7 @@
 
 <% content_for :head do
   #pass content to head in parent layout
-  "" #non-nil placeholder
+  javascript_include_tag :posts
 end %>
 
 <% wrap_layout :layout do %>
@@ -13,7 +13,7 @@ end %>
         <%= partial "partials/article_links.md.erb" %>
 
         <%= yield %>
-        
+
       </article>
 
       <aside>

@@ -13,7 +13,7 @@ header_img =        current_article.data.dig(:header,:img_url)          ? app.im
       current_article.data.header.subtext
     end %>
   </h3>
-  <p>   By <%= link_to "James Lowrey", "/about.html", :class => "dotted_link" %> | <%= current_article.date.strftime("%B %e, %Y") %> </p>
+  <p id="author">   By <%= link_to "James Lowrey", "/about.html", :class => "dotted_link" %> | <%= current_article.date.strftime("%B %e, %Y") %> </p>
   <%= partial "partials/share.erb" %>
   <%= partial "partials/article_ui_btns.erb" %>
 
