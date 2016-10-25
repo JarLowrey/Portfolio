@@ -1,7 +1,5 @@
 <aside class="article-links">
 
-<%= partial "partials/article_tags.erb" %>
-
 <% if current_article.data.resources %>
 <div class="link-section">
 #Related
@@ -22,5 +20,7 @@
 <%= current_article.data.software_versions %>
 </div>
 <% end %>
+
+<%= partial "partials/article_tags.erb" %>
 
 </aside>

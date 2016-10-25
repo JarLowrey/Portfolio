@@ -10,11 +10,13 @@
     end
   %>
 
-  <% if tag_links != "" then %>
-
 <div class="article-tags">
-  <span>Similar Articles: </span><%= tag_links %>
+##Article Tags:<%= current_article.tags.join(', ') %>
+
+<% if tag_links != "" then %>
+##Similar Articles: <%= tag_links %>
+<% end %>
+
 </div>
 
-  <% end %>
 <% end %>
