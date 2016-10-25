@@ -4,6 +4,7 @@ title:  "Setting up USB WebCam with Raspberry Pi and Motion"
 blurb: "Learn how to set up 24/7 video monitoring with a Raspberry Pi. Setup and stream the video to a password locked, home web server. Monitor your pets, possessions, or neighborhood while you're away!"
 keywords: "raspberry,pi"
 author: James Lowrey
+tags: raspberry-pi, hardware, surveillance, video, raspbian, motion, IOT
 profile-img-src: "viira.jpg"
 categories: hardware
 introduction: |
@@ -467,9 +468,9 @@ DAEMON=/usr/local/bin/motion
 PIDFILE=/var/run/motion/$NAME.pid
 #...
 #In the start) section,
-start-stop-daemon --start --pidfile $PIDFILE --exec $DAEMON --chuid root #change 'motion' at end of this line to root    
+start-stop-daemon --start --pidfile $PIDFILE --exec $DAEMON --chuid root #change 'motion' at end of this line to root
 #In the restart-motion) section,
-start-stop-daemon --start --pidfile $PIDFILE --exec $DAEMON --chuid root #change 'motion' at end of this line to root    
+start-stop-daemon --start --pidfile $PIDFILE --exec $DAEMON --chuid root #change 'motion' at end of this line to root
 ~~~
 
 After running the cmds and editing the init.d file 'motion' will be registered as a daemon, and will run on boot. Hopefully this error doesn't happen to anyone else, but if it does it can now be easily fixed!

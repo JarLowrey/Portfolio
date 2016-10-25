@@ -84,7 +84,7 @@ end
    blog.calendar_template = "calendar.html"
 
    #set up blog urls
-   blog.prefix = "posts"# This will add a prefix to all links, template references and source paths
+   blog.prefix = "blog"# This will add a prefix to all links, template references and source paths
    blog.permalink = "{title}" #"{year}/{month}/{day}/{title}.html"
    blog.sources = "{year}-{month}-{day}-{title}.html" # define year-month-day in filename to make an organized dir
    blog.default_extension = ".markdown"
