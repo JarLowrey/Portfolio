@@ -1,10 +1,16 @@
-<%
-#initialize the partial vars to a defualt value
-classes ||= ""
-inline_style||= ""
-%>
-<navbar class="<%= classes %> navbar-class" style="<%= inline_style%>">
-  <%= link_to( "JTronLabs", "/") %>
+<navbar>
+    <div class="wrap flex_row">
+    <!-- Left -->
+    <span class="sides footer-links">
+      <%= link_to "JTronLabs", "/" %>
+    </span>
 
-  <%= link_to("About Me", "/about.html") %>
+    <!-- Middle -->
+    <span class=""></span>
+
+    <!-- Right -->
+    <span class="sides">
+      <%= link_to("About Me", "/about.html") %>
+    </span>
+  </div>
 </navbar>

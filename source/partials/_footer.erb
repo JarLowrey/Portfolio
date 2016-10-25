@@ -1,6 +1,5 @@
 <footer>
-  <div class="wrap">
-    <div class="flex_row">
+    <div class="wrap flex_row">
       <!-- Left -->
       <span class="sides footer-links">
         <%= img_links_from_hash(data.about_me.social) %>
@@ -12,9 +11,8 @@
       </span>
 
       <!-- Right -->
-      <span class="sides">
+      <span class="sides" style="text-align:right;">
         <%= link_to "Source", data.projects.blog.repo_url, :target => "_blank" %>
       </span>
     </div>
-  </div>
 </footer>

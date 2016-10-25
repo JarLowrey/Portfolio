@@ -1,22 +1,20 @@
 <%
 header = current_article.data.header
-color_background =  current_article.data.dig(:header,:color_background) ? header.color_background : "#22e67e"
-color_text =        current_article.data.dig(:header,:color_text)       ? header.color_text : "white"
-header_img =        current_article.data.dig(:header,:img_url)          ? app.image_tag(header.img_url, :alt => "Article Header Image") : ""
+subtext =  current_article.data.dig(:header,:subtext)                   ? header.subtext : ""
+color_background =  current_article.data.dig(:header,:color_background) ? header.color_background : data.defaults.article.header.color.bg
+color_text =        current_article.data.dig(:header,:color_text)       ? header.color_text : data.defaults.article.header.color.text
+header_img =        current_article.data.dig(:header,:img_url)          ? app.image_tag("/images/#{header.img_url}", alt: "Article Header Image", class:"title-img") : ""  
 %>
 
 
-<section class="article-header" style="background-color:<%= color_background %>;color:<%= color_text %>;">
+<header class="article-header" style="background-color:<%= color_background %>;color:<%= color_text %>;">
   <h1>  <%= current_article.title %>                </h1>
-  <h3>
-    <%=  if current_article.data.dig(:header,:subtext) then
-      current_article.data.header.subtext
-    end %>
-  </h3>
+  <h3>  <%=  if subtext != "" then subtext end %>   </h3>
   <p id="author">   By <%= link_to "James Lowrey", "/about.html", :class => "dotted_link" %> | <%= current_article.date.strftime("%B %e, %Y") %> </p>
+
   <%= partial "partials/share.erb" %>
   <%= partial "partials/article_ui_btns.erb" %>
 
-  <%= header_img %>
+  <%=  if header_img != "" then header_img end %>
 
-</section>
+</header>

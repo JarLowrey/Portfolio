@@ -31,11 +31,11 @@ aside {
 
 .quick-actions {
     a {
-        height: $icon-len;
-        width: $icon-len;
+        height: $small-icon-len;
+        width: $small-icon-len;
         display: inline-block;
         text-decoration: none;
-        padding: $icon-len / 3;
+        padding: $small-icon-len / 3;
         background-color: white;
         border-radius: 50%;
 
@@ -45,18 +45,23 @@ aside {
 
         img {
             display: inline-block;
-            height: $icon-len;
-            width: $icon-len;
+            height: $small-icon-len;
+            width: $small-icon-len;
         }
     }
 }
 
 .article-header {
-    padding: 10em 0;
+    padding: $article-header-padding 0;
     margin-bottom: $margin;
 
     p {
         font-size: 1.15em;
+    }
+
+    .title-img {
+        height: $article-header-img-height;
+        margin: $margin 0;
     }
 
     .dotted_link,
