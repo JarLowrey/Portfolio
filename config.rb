@@ -97,10 +97,11 @@ end
 
  activate :syntax, :line_numbers => true
 
+ # Documentation - https://github.com/middleman-contrib/middleman-deploy
  activate :deploy do |deploy|
    deploy.user = 'JTronLabs'
    deploy.deploy_method = :git
-   deploy.remote   = 'https://github.com/JTronLabs/JTronLabs.github.io' #add a remote = 'deploy' on branch 'master' to your .git project
+   deploy.remote   = 'https://github.com/JTronLabs/JTronLabs.github.io.git' #I recommend a URL over a 'remote' name, as those have broken on me
    deploy.branch = 'master'
    deploy.build_before = true
  end
