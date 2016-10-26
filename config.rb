@@ -83,9 +83,9 @@ end
    blog.tag_template = "tag.html"
    blog.calendar_template = "calendar.html"
 
-   #set up blog urls
+   #set up blog urls - needs an '.html' on the end or GitHub will download the link instead of opening in browser
    blog.prefix = "blog"# This will add a prefix to all links, template references and source paths
-   blog.permalink = "{title}" #"{year}/{month}/{day}/{title}.html"
+   blog.permalink = "{title}.html" #"{year}/{month}/{day}/{title}.html"
    blog.sources = "{year}-{month}-{day}-{title}.html" # define year-month-day in filename to make an organized dir
    blog.default_extension = ".markdown"
 
@@ -108,7 +108,7 @@ end
 
 # Build-specific configuration
 configure :build do
-  config[:host] = "http://jtronlabs.com"
+  config[:host] = "http://jtronlabs.github.io"
 
   # Minify CSS and JS on build
   activate :minify_css
