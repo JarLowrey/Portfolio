@@ -25,7 +25,7 @@ ul {
 .card {
     margin: $margin;
     min-width: $card-width;
-    max-width: 22.5%;
+    width: $wrap-width-mobile;
     min-height: $card-height;
     display: inline-block;
     vertical-align: top;
@@ -33,6 +33,9 @@ ul {
     overflow: hidden;
     text-align: center;
     border: 1px solid #ccc;
+    @include media-query($on-laptop) {
+        width: $card-width-desktop;
+    }
 
     &:hover {
         text-decoration: none;
