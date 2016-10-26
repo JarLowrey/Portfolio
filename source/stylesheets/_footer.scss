@@ -11,6 +11,7 @@ main {
 }
 
 footer {
+    margin-top: $margin;
     width: 100%;
     padding: $footer-padding 0;
     border-top: 1px solid $grey-color-light;
