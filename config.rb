@@ -100,7 +100,7 @@ end
  activate :deploy do |deploy|
    deploy.user = 'JTronLabs'
    deploy.deploy_method = :git
-   deploy.remote   = 'deploy' #add a remote = 'deploy' on branch 'master' to your .git project
+   deploy.remote   = 'https://github.com/JTronLabs/JTronLabs.github.io' #add a remote = 'deploy' on branch 'master' to your .git project
    deploy.branch = 'master'
    deploy.build_before = true
  end
