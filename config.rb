@@ -75,7 +75,7 @@ end
    # blog.taglink = "tags/{tag}.html"
    blog.layout = "layouts/blog_layout"
    # blog.summary_separator = /(READMORE)/
-   blog.summary_length = 250
+   blog.summary_length = 150
    # blog.year_link = "{year}.html"
    # blog.month_link = "{year}/{month}.html"
    # blog.day_link = "{year}/{month}/{day}.html"
@@ -91,7 +91,7 @@ end
 
    # Enable pagination
    blog.paginate = true
-   blog.per_page = 1
+   blog.per_page = 5
    blog.page_link = "#{blog.prefix}/page/{num}"
  end
 

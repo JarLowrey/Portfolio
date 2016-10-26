@@ -1,0 +1,17 @@
+<%
+img_url = article.data.dig(:header,:img_url) ? "images/#{article.data.header.img_url}" : "images/UI/write.svg"
+color_background =  article.data.dig(:header,:color_background) ? article.data.header.color_background : data.defaults.article.header.color.bg
+%>
+
+<a href="<%= article.url %>" class="text_like_link card">
+  <div class="card-img-wrap" style="background-color:<%= color_background %>">
+    <%= app.image_tag img_url %>
+  </div>
+  <div class="card-content">
+    <h2><%= article.title %></h2>
+
+    <time><%= article.date.strftime("%B %e, %Y") %></time>
+
+    <p><%= article.data.blurb || article.summary %></p>
+  </div>
+</a>

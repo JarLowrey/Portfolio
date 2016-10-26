@@ -22,6 +22,57 @@ ul {
     }
 }
 
+.card {
+    margin: $margin;
+    min-width: $card-width;
+    max-width: 22.5%;
+    min-height: $card-height;
+    display: inline-block;
+    vertical-align: top;
+    border-radius: 5px;
+    overflow: hidden;
+    text-align: center;
+    border: 1px solid #ccc;
+
+    &:hover {
+        text-decoration: none;
+    }
+
+    .card-img-wrap {
+        display: block;
+
+        img {
+            margin: $margin;
+            height: $card-height;
+        }
+    }
+
+    .card-content {
+        border-top: 1px solid #ccc;
+        padding: $margin;
+        background-color: $off-white;
+        color: black;
+
+        h2 {
+            font-weight: bold;
+            font-size: 1.4rem;
+        }
+
+        time {
+            font-size: 0.85rem;
+        }
+
+        p {
+            font-size: 0.75em;
+        }
+
+        &:hover {
+            margin-bottom: none;
+            background-color: white;
+        }
+    }
+}
+
 .dotted_link {
     text-decoration: none;
     color: $text-color;
@@ -67,7 +118,7 @@ a {
     text-decoration: none;
 
     &:visited {
-        color: darken($link-color, 5%);
+        color: $link-color;
     }
 
     &:hover {
