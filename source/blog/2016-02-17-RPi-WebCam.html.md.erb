@@ -1,52 +1,37 @@
 ---
 id: "post_1"
-title:  "Setting up USB WebCam with Raspberry Pi and Motion"
-blurb: "Learn how to set up 24/7 video monitoring with a Raspberry Pi. Setup and stream the video to a password locked, home web server. Monitor your pets, possessions, or neighborhood while you're away!"
+title:  "Home Surveillance with Motion, Raspberry Pi, and a USB WebCam"
+blurb: "Learn how to set up 24/7 video monitoring with a Raspberry Pi and stream it to your Pi's password protected home web server."
 header: { img_url: "tech/Raspberry_Pi.svg" }
 author: James Lowrey
 tags: raspberry-pi, hardware, surveillance, video, raspbian, motion, IOT
-profile-img-src: "viira.jpg"
-categories: hardware
 introduction: |
 
   Problem: The GF misses her dog when she's away from the house. I need a Valentine's day present. Solution: Over engineering!
 
   Enter the Raspberry Pi Survellience System. Using the R-Pi's cheap hardware and a generic USB webcam, you can construct a basic home-survellience system, for pets or theft-prevention.
 
-  ###Update: The main takeaway from this article should be to not use outdated software. It was troublesome and buggy to use Motion, as it hasn't been update since 2014. I did not realize this at first. Learn from my mistakes, and check GitHub pulse or community chatter before commiting to tech. For home survellience ZoneMinder currently seems to be the best solution.
-resources: >
+  ###Update: The main takeaway from this article should be to not use outdated software. It was troublesome and buggy to use Motion, as it hasn't been updated since 2014. I did not realize this at first. Learn from my mistakes, and check GitHub Pulse or community chatter before commiting to tech. For home survellience ZoneMinder currently seems to be the best solution.
+resources: |
   - [Raspberry Pi Webcam Docs](https://www.raspberrypi.org/documentation/usage/webcams)
-
   - [Motion Wiki](http://www.lavrsen.dk/foswiki/bin/view/Motion/WebHome)
-
   - [Motion GitHub Repo](https://github.com/sackmotion/motion)
-
   - [Default motion.conf](https://github.com/sackmotion/motion/blob/master/motion-dist.conf.in)
-
   - [Motion Config files](http://www.lavrsen.dk/foswiki/bin/view/Motion/ConfigFileOptions)
-
   - [Static IP Address](http://www.modmypi.com/blog/tutorial-how-to-give-your-raspberry-pi-a-static-ip-address)
-
   - [Password Protect Web Serve](https://www.digitalocean.com/community/tutorials/how-to-set-up-password-authentication-with-apache-on-ubuntu-14-04)
-
   - [Connect IP to Domain Name](https://www.namecheap.com/support/knowledgebase/article.aspx/1162/46/how-can-i-point-my-domain-name-to-my-home-servers-ip)
 
-materials: >
+materials: |
   - [Raspberry Pi Model B](https://www.raspberrypi.org/products/raspberry-pi-2-model-b/)
-
   - [Generic USB Webcam](http://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Dcomputers&field-keywords=webcam&sprefix=web%2Ccomputers%2C165)
-
   - [Wi-Fi Dongle](http://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Delectronics&field-keywords=wifi+dongle)
-
   - [Micro-USB Wall Charger](http://www.amazon.com/Motorola-Wall-Charger-Micro-Cable/dp/B005LFXBJG/ref=sr_1_5?s=electronics&ie=UTF8&qid=1455758956&sr=1-5&keywords=micro+usb+charger)
-
   - [8GB SD Card](http://www.amazon.com/SanDisk-Memory-SDSDUN-008G-G46-Newest-Version/dp/B00M55BS5O/ref=sr_1_3?s=electronics&ie=UTF8&qid=1455759034&sr=1-3&keywords=8gb+sd+card)
-
   - [Ethernet Cable](http://www.amazon.com/AmazonBasics%C2%A0RJ45%C2%A0Cat-6-Ethernet%C2%A0Patch-Cable--%C2%A010%C2%A0Feet-3%C2%A0Meters/dp/B00N2VIALK/ref=sr_1_2?s=pc&ie=UTF8&qid=1456176588&sr=1-2) or [Monitor](http://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Dcomputers&field-keywords=hdmi+monitor&rh=n%3A541966%2Ck%3Ahdmi+monitor)+[USB Keyboard](http://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Dcomputers&field-keywords=usb+keyboard&rh=n%3A541966%2Ck%3Ausb+keyboard)+[HDMI cable](http://www.amazon.com/AmazonBasics-High-Speed-HDMI-Cable-Supports/dp/B00870ZHCQ/ref=sr_1_4?s=pc&ie=UTF8&qid=1456176643&sr=1-4&keywords=hdmi+cable)
 
-software_versions: >
+software_versions: |
   - [Ubuntu 16.04 LTS](http://www.ubuntu.com/download)
-
   - [Motion (Mar 17, 2014 commit)](https://github.com/sackmotion/motion)
 ---
 
