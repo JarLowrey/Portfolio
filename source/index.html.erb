@@ -1,20 +1,23 @@
 ---
 pageable: true
 ---
-<% if paginate && num_pages > 1 %>
-  <p>Page <%= page_number %> of <%= num_pages %></p>
 
-  <% if prev_page %>
-    <p><%= link_to 'Previous page', prev_page %></p>
+<div class="wrap">
+  <% page_articles.each do |article| %>
+    <%= partial "partials/card.erb", :locals => {article: article } %>
   <% end %>
-<% end %>
-
-<% page_articles.each do |article| %>
-  <%= partial "partials/card.erb", :locals => {article: article } %>
-<% end %>
+</div>
 
 <% if paginate %>
-  <% if next_page %>
-    <p><%= link_to 'Next page', next_page %></p>
+  <% if num_pages > 1 %>
+    <p>Page <%= page_number %> of <%= num_pages %></p>
   <% end %>
+  <p>
+  <% if next_page %>
+    <%= link_to 'Next page', next_page %>
+  <% end %>
+  <% if prev_page %>
+    <%= link_to 'Previous page', prev_page %>
+  <% end %>
+  </p>
 <% end %>

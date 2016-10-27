@@ -38,7 +38,7 @@ function changeCodeDisplay(display) {
     showParagraphsWithImagesInThem();
 }
 
-function collapseAllHandler() {
+function collapseAllHandler(event) {
     event.preventDefault(); //prevent click event from refreshing the browser
 
     var display = all_collapsed ? 'block' : 'none';
@@ -49,7 +49,7 @@ function collapseAllHandler() {
     all_collapsed = !all_collapsed;
 }
 
-function collapseParagraphHandler() {
+function collapseParagraphHandler(event) {
     event.preventDefault(); //prevent click event from refreshing the browser
 
     var display = p_collapsed ? 'block' : 'none';

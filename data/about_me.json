@@ -29,6 +29,16 @@
       "img_url":"social/reddit.svg",
       "img_alt":"Reddit"
     },
+    "hacker_news": {
+      "url":"https://news.ycombinator.com/user?id=jtronlabs",
+      "img_url":"social/Y_Combinator.svg",
+      "img_alt":"Hacker News"
+    },
+    "strava": {
+      "url":"https://www.strava.com/athletes/15104631",
+      "img_url":"social/strava.svg",
+      "img_alt":"Strava"
+    },
     "gPlus": {
       "url":"https://plus.google.com/u/0/117075087218781657011/",
       "img_url":"social/google-plus.svg",

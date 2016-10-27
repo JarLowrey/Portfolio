@@ -22,11 +22,13 @@ ul {
     }
 }
 
+#disqus_thread {
+    margin: $margin*2 auto;
+}
+
 .card {
     margin: $margin;
-    min-width: $card-width;
-    width: $wrap-width-mobile;
-    min-height: $card-height;
+    min-width: $card-min-width;
     display: inline-block;
     vertical-align: top;
     border-radius: 5px;
@@ -45,31 +47,29 @@ ul {
         display: block;
 
         img {
-            margin: $margin;
-            height: $card-height;
+            margin: $card-img-height/2 0;
+            height: $card-img-height;
         }
     }
 
     .card-content {
+        font-size: 0.5em;
         border-top: 1px solid #ccc;
         padding: $margin;
         background-color: $off-white;
         color: black;
 
-        h2 {
-            font-weight: bold;
-            font-size: 1.4rem;
+        p {
+            font-size: $card-p-size;
         }
 
         time {
-            font-size: 0.85rem;
+            font-size: $card-p-size + 0.15em; //slightly bigger than text's 1em
         }
-
-        p {
-            font-size: 0.75em;
-        }
-
-        &:hover {
+    }
+    /* whenever the entire card is hovered over */
+    &:hover {
+        .card-content {
             margin-bottom: none;
             background-color: white;
         }
