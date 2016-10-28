@@ -1,5 +1,7 @@
 article {
     text-align: left;
+    max-width: $width-max;
+    margin: 0 auto;
 
     p {
         //markdown will force images to be nested in a 'p' element
