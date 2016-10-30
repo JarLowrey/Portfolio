@@ -1,0 +1,34 @@
+<%
+resources ||= false
+materials ||= false
+software_versions ||= false
+%>
+
+
+<aside class="article-links">
+
+<% if resources %>
+<div class="link-section">
+#Related
+<%= resources %>
+</div>
+<% end %>
+
+<% if materials %>
+<div class="link-section">
+#Materials
+<%= materials %>
+</div>
+
+<% end %>
+<% if software_versions %>
+<div class="link-section">
+#Software
+<%= software_versions %>
+</div>
+
+<% end %>
+
+<%= partial "partials/article_tags.erb" %>
+
+</aside>

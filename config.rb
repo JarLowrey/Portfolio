@@ -43,6 +43,12 @@ end
        }.join(' ')
      end
 
+    def img_alts(array)
+      return array.map{ |e|
+       e.img_alt
+     }.join(', ')
+    end
+
     def img_links(array)
       links =  array.map{ |e|
         link = img_link e.img_url,e.img_alt,e.url, "", e.img_class

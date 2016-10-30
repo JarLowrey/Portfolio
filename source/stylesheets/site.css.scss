@@ -46,4 +46,5 @@ $on-desktop: 1200px;
         clear: both;
     }
 }
-@import "headers","colors","global","posts","footer","navbar";
+@import "colors";
+@import "card","headers","global","posts","footer","navbar";

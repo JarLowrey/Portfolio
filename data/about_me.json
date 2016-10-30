@@ -64,7 +64,7 @@
       "img_alt":"Middleman"
     },{
       "url":"http://phaser.io/learn/",
-      "img_url":"tech/phaser-logo-small.png",
+      "img_url":"tech/phaser-logo.svg",
       "img_class":"icon",
       "img_alt":"Phaser"
     },{
@@ -104,7 +104,7 @@
       "url":"https://www.javascript.com/",
       "img_url":"tech/Badge_js-strict.svg",
       "img_class":"icon",
-      "img_alt":"JS-ES6"
+      "img_alt":"JavaScript"
     },{
       "url":"http://www.w3schools.com/css/css3_intro.asp",
       "img_url":"tech/CSS3_badge.svg",
@@ -139,7 +139,7 @@
       "url":"https://en.wikipedia.org/wiki/C_(programming_language)",
       "img_url":"tech/The_C_Programming_Language_logo.svg",
       "img_class":"icon",
-      "img_alt":"The C Programming Language"
+      "img_alt":"C"
     },{
       "url":"https://en.wikipedia.org/wiki/SQL",
       "img_url":"tech/sql-file-format.svg",

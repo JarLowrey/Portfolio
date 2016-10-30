@@ -3,6 +3,12 @@ article {
     max-width: $width-max;
     margin: 0 auto;
 
+    iframe {
+        margin: $margin auto;
+        display: block;
+        max-width: 100%;
+    }
+
     p {
         //markdown will force images to be nested in a 'p' element
         img {

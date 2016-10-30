@@ -9,14 +9,11 @@ end %>
 
     <div class="wrap">
       <article id="main" role="main">
-        <%= partial "partials/introduction.md.erb" %>
-        <%= partial "partials/article_links.md.erb" %>
-
+        
         <%= yield %>
 
+        <%= partial "partials/comments.erb" %>
       </article>
-
-      <%= partial "partials/comments.erb" %>
 
     </div>
 <% end %>

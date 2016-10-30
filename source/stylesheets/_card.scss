@@ -1,0 +1,51 @@
+.card {
+    margin: $margin 0;
+    min-width: $card-min-width;
+    display: inline-block;
+    vertical-align: top;
+    border-radius: 5px;
+    overflow: hidden;
+    text-align: center;
+    border: 1px solid #ccc;
+    width: 100%;
+    @include media-query($on-laptop) {
+        width: $card-width-desktop;
+        margin: $margin; //add back some horizontal margin
+    }
+
+    &:hover {
+        text-decoration: none;
+    }
+
+    .card-img-wrap {
+        display: block;
+
+        img {
+            margin: $card-img-height/2 0;
+            height: $card-img-height;
+        }
+    }
+
+    .card-content {
+        font-size: 0.6em;
+        border-top: 1px solid #ccc;
+        padding: $margin;
+        background-color: $off-white;
+        color: black;
+
+        p {
+            font-size: $card-p-size;
+        }
+
+        time {
+            font-size: $card-p-size + 0.15em; //slightly bigger than text's 1em
+        }
+    }
+    /* whenever the entire card is hovered over */
+    &:hover {
+        .card-content {
+            margin-bottom: none;
+            background-color: white;
+        }
+    }
+}
