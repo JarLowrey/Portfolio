@@ -5,27 +5,98 @@ title:  "Creating Birdu Part 1: The Technology Stack"
 blurb: "In preparation for creating Birdu, an HTML5 game made with Phaser.js, we will examine our tech stack and give background on the project."
 header: { img_url: "tech/phaser-logo.svg" }
 author: James Lowrey
-tags: Phaser,Cordova,HTML5,Javascript
+tags: Birdu,Phaser,Cordova,HTML5,Javascript
 ---
 
-<%= partial "partials/introduction.md.erb", locals: {
-  introduction: "Birdu is cool. Lets talk about Birdu. Biirrrrrdddduuuuuuuuuuuuuuuuuuuuu"
-  } %>
+<span class="caps">H</span>TML5 games have come [a long way](http://js-kongress.de/current-state-html5-game-development-2016/) in the past few years.
+As the tech continues to progress more complex game play becomes possible, but first you have to learn the basics!
+In this tutorial series, I'll cover how to make a simple 2-D game, [Birdu](https://github.com/JTronLabs/Birdu).
+The objective of Birdu is to eat small birds, and avoid being eaten by large ones.
+This post examines the tech stack behind Birdu and how the pieces all fit together.
 
 ![Birdu Preview](/images<%= current_article.url %>/birdu-preview.gif)
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/FwgmTebXOqc" frameborder="0" allowfullscreen></iframe>
+<!-- <iframe width="560" height="315" src="https://www.youtube.com/embed/FwgmTebXOqc" frameborder="0" allowfullscreen></iframe> -->
 
 <%= partial "partials/article_links.erb", locals: {
     resources: "
+- [Birdu Repo](https://github.com/JTronLabs/Birdu)
+- [Birdu on Google Play](https://play.google.com/store/apps/details?id=com.jtronlabs.birdu)
 - [Phaser Repo](https://github.com/photonstorm/phaser)
 - [Phaser Docs](https://phaser.io/docs/)
 - [Phaser Examples](https://phaser.io/examples)
 - [Phaser Examples Repo](https://github.com/photonstorm/phaser-examples)
-- [Phaser 2.0 Tutorial - Flappy Bird](http://www.codevinsky.com/phaser-2-0-tutorial-flappy-bird-part-1/)",
+- [Phaser 2.0 Tutorial - Flappy Bird](http://www.codevinsky.com/phaser-2-0-tutorial-flappy-bird-part-1/)
+",
     software_versions:"
 - [Ubuntu 16.04 LTS](http://www.ubuntu.com/download)
 - [Phaser.js 2.6.2](http://phaser.io/docs/2.6.2/index)
 - [Cordova 6.4.0](https://cordova.apache.org/docs/en/latest/)
-- NPM, Node, Gulp/Grunt?"
+- [Node 4.2.6](https://nodejs.org/en/)
+- [NPM 3.5.2](https://www.npmjs.com/)
+"
   } %>
+
+##HTML5 & JS
+
+![HTML5](/images/tech/HTML5_logo_and_wordmark.svg)
+
+Many big game companies program in a platform-specific manner to acheive performant games, or due to special deals they've made with the platform owners.
+As an indie developer you'll likely not have the same clout to make these deals, nor as strict performance needs in a 2-D world.
+It's more beneficial to increase your audience, lower dev time, and have maintainable code.
+HTML5 allows you to write code once and target all web, mobile and desktop platforms.
+Publishing on all those platforms adds work, but it is definitely do-able. I'll cover how to do it at the end of this tutorial.
+
+Depending on the engine you use, making HTML5 games can also help you become a better web developer.
+When using Phaser.js there is a lot of cross-over in the tools used for game-dev and the tools you'd use in front-end work.
+Node, NPM, Grunt, ES6, etc. You'll also be prototyping in the browser and developing for a fragmented audience.
+By working in a HTML5 land, you will be better prepared for making that transition than if you made your game in a heavier engine like Unity or UE4.
+
+##Phaser.js
+
+![Phaser.js](/images/tech/phaser-logo.svg)
+
+Phaser is a lightweight 2-D game engine that is free and [Open-Source](https://github.com/photonstorm/phaser).
+Free is always a plus. Being open-source allows you to debug at all levels of the stack, while closed source engines [can complicate things](http://stephaniehurlburt.com/blog/2016/9/16/closed-source-engines-are-a-big-risk).
+One of Phaser's greatest strengths is the [documentation](http://phaser.io/docs/2.4.7/index).
+The [offical tutorials](http://phaser.io/learn/official-tutorials), [community tutorials](http://phaser.io/learn/community-tutorials), and [specific examples](http://phaser.io/examples) give this engine a gentle learning curve, ultimately making your game quicker (and cheaper) to make.
+
+Phaser is the [most popular](https://github.com/showcases/javascript-game-engines) open source JS game engine.
+It's not perfect though. Since it's built on top of [Pixi](https://github.com/pixijs/pixi.js), some functions can be confusing.
+For example, Group.addChild is a Pixi method and Group.add is a Phaser method. These usually end up being just minor annoyances though.
+If something in the docs can be improved you can contribute back to the community by submitting a PR to the Phaser repository.
+Phaser adds [a lot on top](http://www.html5gamedevs.com/topic/12656-phaser-pixi/) of Pixi though: a variety of physics engines, a game world & pannable camera, Tilemap support, particle systems, etc.
+The next iteration of Phaser is currently in the works, [Lazer](http://phaser.io/news/2016/01/phaser-in-2015-and-beyond) (scroll down to "Lazer (aka Phaser 3)"), which will remove Pixi and add a whole bunch of new goodies.
+Learning Phaser now will help prepare for that transition.
+
+##Cordova
+
+![Cordova](/images/tech/cordova.svg)
+
+
+[Cordova](https://cordova.apache.org/) is the magic glue that allows us to stick all platforms to one code base.
+Cordova was [originally named PhoneGap](https://en.wikipedia.org/wiki/Apache_Cordova) until open sourced and released by Adobe, now it is maintained by the Apache foundation.
+[PhoneGap](http://phonegap.com/) now runs on Cordova, offering some extra goodies (like cloud compiling) on top.
+There are actually a lot of platforms to make hybrid apps: Cordova, PhoneGap, Ionic, React-Native, and more.
+I choose to use Cordova as it has the biggest community and allows me to pivot to similar ones (like PhoneGap or Ionic) if desired.
+Community is always a hugely important consideration. It ensures software will be maintained going into the future, and that there are people knowledgable on your issues out in the world.
+
+As stated in the opening paragraph, making hybrid apps has a performance hit. Generally Cordova takes a bit longer to load and takes up more memory.
+[These stats](https://taco.visualstudio.com/en-us/docs/cost-cordova/) are indictative of what you might see, but are also over a year old. Things have gotten better.
+From my testing, I can say that hybrid apps are quite "snappy", and "performant". I didn't notice any big troubles with Birdu.
+I also used [Cordova Crosswalk](https://crosswalk-project.org/), which allows you to use the newest Chrome version on your hybrid apps instead of the platform's default WebView.
+This can really [boost performace](https://taco.visualstudio.com/en-us/docs/cost-cordova/) and allow you to only target the newest web APIs.
+
+##Node and NPM
+
+***We are now entering the land of Node and it's tools.*** It may get a [bit confusing](https://hackernoon.com/how-it-feels-to-learn-javascript-in-2016-d3a717dd577f#.nl1ilwi5m), but it is [managable](https://medium.com/@kitze/how-it-actually-feels-to-write-javascript-in-2016-46b5dda17bb5#.9tbq3micz).
+Hang in there.
+You don't need perfect knowledge of all these tools to start on your game.
+
+![Node](/images/tech/node.svg) ![NPM](/images/tech/Npm-logo.svg)
+
+
+##Generator-Phaser-Plus
+
+[Generator-Phaser-Plus](https://github.com/rblopes/generator-phaser-plus) is a [Yeoman](http://yeoman.io/) generator that will output the intial skeleton of our project.
+It's maintainer, [RBlopes](https://github.com/rblopes) did all the hard work of getting build scripts working, getting the live-reloading environment set-up,

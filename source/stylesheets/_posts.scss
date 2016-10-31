@@ -12,21 +12,26 @@ article {
     p {
         //markdown will force images to be nested in a 'p' element
         img {
-            display: block;
-            margin: 0 auto;
-            max-width: 100%;
+            @extend .article-img;
             border: 2px solid #ccc;
             border-radius: 5px;
+            padding: $margin/2;
+            box-shadow: $shadow-light;
         }
     }
 }
 
-aside {
-    text-align: center;
+.article-img {
+    display: block;
+    margin: $margin auto;
+    width: 100%;
+    max-width: 450px;
+    max-height: 256px;
+    box-sizing: border-box;
 }
 
-.introduction {
-    font-size: 1.2em;
+aside {
+    text-align: center;
 }
 
 .caps {
@@ -65,11 +70,6 @@ aside {
 
     p {
         font-size: 1.15em;
-    }
-
-    .title-img {
-        height: $article-header-img-height;
-        margin: $margin 0;
     }
 
     .dotted_link,

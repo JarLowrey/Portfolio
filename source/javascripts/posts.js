@@ -28,6 +28,7 @@ function showParagraphsWithImagesInThem() {
 
 function changeAllDisplay(display) {
     changeTagDisplay('p', display);
+    changeTagDisplay('iframe', display);
     changeTagDisplay('pre', display);
     changeTagDisplay('ul', display);
     changeTagDisplay('ol', display);
