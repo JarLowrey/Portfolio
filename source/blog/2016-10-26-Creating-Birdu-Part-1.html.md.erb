@@ -9,8 +9,8 @@ tags: Birdu,Phaser,Cordova,HTML5,Javascript
 ---
 
 <span class="caps">H</span>TML5 games have come [a long way](http://js-kongress.de/current-state-html5-game-development-2016/) in the past few years.
-As the tech continues to progress more complex game play becomes possible, but first you have to learn the basics!
-In this tutorial series, I'll cover how to make a simple 2-D game, [Birdu](https://github.com/JTronLabs/Birdu).
+As the tech continues to progress it becomes possible to make gameplay more complex, but first you have to learn the basics!
+In this tutorial series, I'll cover how to make a 2-D game, [Birdu](https://github.com/JTronLabs/Birdu).
 The objective of Birdu is to eat small birds, and avoid being eaten by large ones.
 This post examines the tech stack behind Birdu and how the pieces all fit together.
 
@@ -34,6 +34,7 @@ This post examines the tech stack behind Birdu and how the pieces all fit togeth
 - [Cordova 6.4.0](https://cordova.apache.org/docs/en/latest/)
 - [Node 4.2.6](https://nodejs.org/en/)
 - [NPM 3.5.2](https://www.npmjs.com/)
+- [Generator Phaser Plus 0.7.0](https://github.com/rblopes/generator-phaser-plus)
 "
   } %>
 
@@ -41,16 +42,15 @@ This post examines the tech stack behind Birdu and how the pieces all fit togeth
 
 ![HTML5](/images/tech/HTML5_logo_and_wordmark.svg)
 
-Many big game companies program in a platform-specific manner to acheive performant games, or due to special deals they've made with the platform owners.
-As an indie developer you'll likely not have the same clout to make these deals, nor as strict performance needs in a 2-D world.
+Many big game companies program in a platform-specific manner to acheive performant games, or due to special deals they've made to be exclusives.
+Indie developer don't have the ability to make these deals, nor as strict performance needs in a 2-D world.
 It's more beneficial to increase your audience, lower dev time, and have maintainable code.
 HTML5 allows you to write code once and target all web, mobile and desktop platforms.
-Publishing on all those platforms adds work, but it is definitely do-able. I'll cover how to do it at the end of this tutorial.
+Publishing on all those platforms adds work, but it is definitely do-able. I'll cover how to do it at the end of this tutorial series.
 
 Depending on the engine you use, making HTML5 games can also help you become a better web developer.
 When using Phaser.js there is a lot of cross-over in the tools used for game-dev and the tools you'd use in front-end work.
-Node, NPM, Grunt, ES6, etc. You'll also be prototyping in the browser and developing for a fragmented audience.
-By working in a HTML5 land, you will be better prepared for making that transition than if you made your game in a heavier engine like Unity or UE4.
+Node, NPM, Grunt, ES6, etc. You will also be prototyping in the browser and developing for a fragmented audience.
 
 ##Phaser.js
 
@@ -89,14 +89,54 @@ This can really [boost performace](https://taco.visualstudio.com/en-us/docs/cost
 
 ##Node and NPM
 
-***We are now entering the land of Node and it's tools.*** It may get a [bit confusing](https://hackernoon.com/how-it-feels-to-learn-javascript-in-2016-d3a717dd577f#.nl1ilwi5m), but it is [managable](https://medium.com/@kitze/how-it-actually-feels-to-write-javascript-in-2016-46b5dda17bb5#.9tbq3micz).
+***We are now entering the land of Node and its tools.*** It may get a [bit confusing](https://hackernoon.com/how-it-feels-to-learn-javascript-in-2016-d3a717dd577f#.nl1ilwi5m), but it is [managable](https://medium.com/@kitze/how-it-actually-feels-to-write-javascript-in-2016-46b5dda17bb5#.9tbq3micz).
 Hang in there.
 You don't need perfect knowledge of all these tools to start on your game.
 
 ![Node](/images/tech/node.svg) ![NPM](/images/tech/Npm-logo.svg)
 
+So...Node. So hot right now.
+
+Node is JavaScript for the server.
+It's prides itself on being event based, instead of thread based.
+Basically, Node doesn't make threads wait on I/O, which makes it scalable.
+I'm not a Node expert though, as I've never used it to build a web server.
+For making Birdu and other Phaser games we're more interested in the Node Package Manager (NPM).
+NPM is a massive collection of tools written in JavaScript that you are free to use. [Very similar to Ruby's Gems](https://www.quora.com/How-does-npm-compare-to-other-packaging-systems-like-Ruby-gems-and-Pythons-pip).
+Many of these tools use Node (hence the NPM name). Many don't (like [Phaser](https://www.npmjs.com/package/phaser)).
+NPM allows us to setup a file, package.json, that tracks our project dependencies, both for development (like Cordova) and production (like Phaser).
+There are a TON of extremely awesome open source projects on NPM.
+[D3.js](https://www.npmjs.com/package/d3), [Phaser](https://www.npmjs.com/package/phaser), [Cordova](https://www.npmjs.com/package/cordova),
+[express](https://www.npmjs.com/package/express), [React](https://www.npmjs.com/package/react), [Passport](https://www.npmjs.com/package/passport), to just name a few.
+However, NPM isn't the only place to get these projects. You can download them directly off the project's website or off their GitHub repos.
+What NPM does do is it allows us to easily manage many dependiences all in one place, our package.json.
+As you get a bit deeper, you'll find that there's [even more you can manage](https://docs.npmjs.com/files/package.json) with the package.json.
 
 ##Generator-Phaser-Plus
 
-[Generator-Phaser-Plus](https://github.com/rblopes/generator-phaser-plus) is a [Yeoman](http://yeoman.io/) generator that will output the intial skeleton of our project.
-It's maintainer, [RBlopes](https://github.com/rblopes) did all the hard work of getting build scripts working, getting the live-reloading environment set-up,
+[Generator-Phaser-Plus](https://github.com/rblopes/generator-phaser-plus) is a [Yeoman](http://yeoman.io/) generator that will output the intial skeleton of our game.
+Its maintainer, [RBlopes](https://github.com/rblopes) did all the hard work of finding the relevant NPM dependencies, linking them together, and making an easy to use API to generate the game.
+To make his project usable for a wider audience, he didn't include Cordova though. We will cover the process of adding it in a later post.
+The rest of the tools I'm going to cover below are already set up in the generator's output, and likely won't require much configuration.
+But it's still good info to know if you intend to break out of the given mold.
+
+##Gulp
+
+[Gulp](http://gulpjs.com/), [Grunt](http://gruntjs.com/) and [NPM scripts](https://medium.freecodecamp.com/why-i-left-gulp-and-grunt-for-npm-scripts-3d6853dd22b8) can all be used to build a JavaScript project.
+There are a lot of [opinions](http://wisdomgeek.com/web-development/grunt-vs-gulp-vs-npm/) on which is best, and you can get lost down a rabbit-hole of research for choosing the perfect tool.
+You'll notice this is a common theme in Node: similar tools with relatively subtle differences that perform comparably.
+Gulp is used in this project simply because it's included in the generator, getting a game up and running is more important than choosing the "perfect" toolset.
+Though to be fair, Gulp is newer than Grunt, supposedly faster, and has a similarly sized community. Both are considered to be simpler than NPM scripting.
+In a simple web page (like this one) you may be able to write a few functions for hiding/showing elements, include it in the `<head>` and be done.
+No build or complex integration required.
+As your projects increase in complexity, you'll want to create small, [modular](https://en.wikipedia.org/wiki/Modular_design) files (components), and import them to their consuming components.
+Build tools allow you to maximize readability while taking advantage of file integration (turning many small files into one big one), [minification](https://en.wikipedia.org/wiki/Minification_(programming)), [preprocessors](https://en.wikipedia.org/wiki/Preprocessor) (like [SASS](http://sass-lang.com/)), spinning up a local server, and [more](https://css-tricks.com/gulp-for-beginners/).
+
+##Babel
+
+[Babel](https://babeljs.io/) is a step in the compilation/[transpiling](https://www.stevefenton.co.uk/2012/11/compiling-vs-transpiling/) process that ensures you can use modern JavaScript.
+This allows you to include all of the fancy new features of [ES6/ECMAScript2015](https://benmccormick.org/2015/09/14/es5-es6-es2016-es-next-whats-going-on-with-javascript-versioning/)
+(like [classes](http://es6-features.org/#ClassDefinition), [arrow functions](http://es6-features.org/#ExpressionBodies), [promises](http://es6-features.org/#PromiseUsage), and much [more](http://es6-features.org/#Constants)),
+and end up with code compiled to an older version of JavaScript, compatible with all browsers.
+As ECMAScript/JavaScript continues to evolve, Babel will let you incorporate the most up-to-date syntax in your development, while simultaneously maintaining wide browser support.
+The generator already has this set up as a part of the Gulp tasks, so you shouldn't have to worry about it too much.
