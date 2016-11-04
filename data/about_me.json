@@ -92,17 +92,17 @@
   "skills":[
     {
       "url":"https://git-scm.com/",
-      "img_url":"tech/Git_icon.svg.png",
+      "img_url":"tech/git.svg",
       "img_class":"icon",
       "img_alt":"Git"
     },{
       "url":"http://www.w3schools.com/html/html5_intro.asp",
-      "img_url":"tech/HTML5_logo_and_wordmark.svg",
+      "img_url":"tech/HTML5.svg",
       "img_class":"icon",
       "img_alt":"HTML5"
     },{
       "url":"https://www.javascript.com/",
-      "img_url":"tech/Badge_js-strict.svg",
+      "img_url":"tech/javascript.svg",
       "img_class":"icon",
       "img_alt":"JavaScript"
     },{
@@ -137,7 +137,7 @@
       "img_alt":"C#"
     },{
       "url":"https://en.wikipedia.org/wiki/C_(programming_language)",
-      "img_url":"tech/The_C_Programming_Language_logo.svg",
+      "img_url":"tech/C.svg",
       "img_class":"icon",
       "img_alt":"C"
     },{
