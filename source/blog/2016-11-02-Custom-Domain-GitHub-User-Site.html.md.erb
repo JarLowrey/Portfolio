@@ -1,20 +1,101 @@
 ---
 id: "post_3"
 published: false
-title:  "Using a Custom Domain with GitHub Pages"
-blurb: "."
+title:  "Publishing with GitHub Pages"
+blurb: "Host your static site for free on GitHub while using a custom domain."
 header: { img_url: "social/github-icon.svg" }
 author: James Lowrey
-tags: GitHub,Web,DNS,CNAME,A Record
+tags: GitHub,GitHub Pages,Web,DNS,CNAME,A Record
 ---
+
+[<span class="caps">G</span>itHub Pages](https://pages.github.com/) gives you free, reliable hosting for static websites.
+A portfolio, blog, or product page can all be [static websites](https://en.wikipedia.org/wiki/Static_web_page): pages that are delivered to the user as they are stored.
+Unlimited sites can be used on GitHub: one per user/organization and one per project.
+It even works on private repos!
+This article covers the simple process of publishing a static site on GitHub, and the slightly tricker process of getting it running with a custom domain.
 
 <%= partial "partials/article_links.erb", locals: {
     resources: "
-- [Custom Domain Settings](https://help.github.com/articles/adding-or-removing-a-custom-domain-for-your-github-pages-site/)
-- [Custom Apex & Subdomains](https://help.github.com/articles/setting-up-an-apex-domain-and-www-subdomain/)
-- [Stack Overflow Reference](http://stackoverflow.com/questions/9082499/custom-domain-for-github-project-pages)
+- [GitHub Pages](https://pages.github.com/)
+- [GitHub Custom Domain](https://help.github.com/articles/using-a-custom-domain-with-github-pages/)
 - [Web Record Differences](https://support.dnsimple.com/articles/differences-between-a-cname-alias-url/)
 - [HongKiat Tutorial](http://www.hongkiat.com/blog/github-with-custom-domain/)
 - [Chen Hui Jing Tutorial](https://www.chenhuijing.com/blog/setting-up-custom-domain-github-pages/)
 "
   } %>
+
+##Publishing Sites on GitHub
+
+Publishing a personal (user/organization) site and a project site have slightly different processes.
+For the personal site, you must name your repository "username.github.io" (not case-sensitive).
+The index.html in that repo will automatically become availble at, you guessed it, "username.github.io".
+
+You can configure your Project site under the "Settings" tab in its repository - in the "GitHub Pages" section.
+
+![GitHub Pages Settings](/images<%= current_article.url %>/gh-pages-repo-settings.png)
+
+GitHub has recently added a swanky new tool to create your site in the browser ("Launch automatic page generator" in the picture above).
+If you don't want to create a site using [markdown](https://en.wikipedia.org/wiki/Markdown) via GitHub's [CMS](https://en.wikipedia.org/wiki/Content_management_system), you can choose a [branch](https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell) in your repository that contains your HTML files.
+Use the existing 'master' branch, or create a new one via [checkout](https://git-scm.com/docs/git-checkout) and push it to the repository.
+
+~~~bash
+git checkout -b new_branch # create & switch to a new local branch
+git rm -rf .               # delete everything in new_branch
+...                        # add HTML files
+git push origin new_branch # add new_branch to your GitHub repo
+~~~
+
+These days, most people use generators to publish their static sites.
+[Jekyll](https://jekyllrb.com/) and [Middleman](https://middlemanapp.com/) are the big names in static site generators, though there are [lots more](https://www.smashingmagazine.com/2015/11/modern-static-website-generators-next-big-thing/).
+Adding templates & other tools to basic HTML sites allows content to be more readable and extendible.
+Choosing between them (like any hot software tool) is subject to a lot of debate, and deserving of its own post.
+The quick of it is: Jekyll is GitHub's choice, and they will compile it for you.
+Middleman uses more standard Ruby APIs and is [my choice](https://github.com/JTronLabs/Portfolio), but requires a dev & production repository.
+
+Let's setup a custom domain.
+By default, a user page will be found at "username.github.io" and projects at "username.github.io/repository".
+When you give your user page a custom domain, projects will show up at "custom.[tld](https://en.wikipedia.org/wiki/Top-level_domain)/repository", unless it also has a custom domain.
+
+##Domain Registration
+
+There are a huge amount of [domain name registrars](https://en.wikipedia.org/wiki/Domain_name_registrar) available, the biggest currently being [GoDaddy](https://www.godaddy.com/).
+An average domain usually goes for about $10/year.
+Personally, I use [NameCheap](https://www.namecheap.com/) for their great service, design, and [company politics](https://blog.namecheap.com/we-say-no-to-sopa/).
+Create an account to quickly find and purchase your domain.
+You don't need any frills or upsells, just go for the domain name.
+
+##Domain Configuration
+
+We're not quite done at NameCheap, DNS lookup needs to be configured.
+[DNS](https://en.wikipedia.org/wiki/Domain_Name_System) is the service that converts a URL into a machine readable [IP](https://en.wikipedia.org/wiki/IP_address) address.
+It converts a URL request into a specific server's webpage request.
+
+At NameCheap go to the Dashboard to see all your active domains.
+Click the manage button, and navigate to "Advanced DNS" settings.
+Here you can configure [Host Records](https://www.namecheap.com/support/knowledgebase/article.aspx/579) - settings that configure DNS lookup to your hosting platform.
+Without these your URL doesn't go anywhere, instead displaying the Registrar's default "Broken Link" page.
+You need to use the settings described on official [GitHub docs](https://help.github.com/articles/setting-up-an-apex-domain/) and further clarified on [Stack Overflow](http://stackoverflow.com/questions/9082499/custom-domain-for-github-project-pages).
+Here they are completed in NameCheap.
+
+![Host Record Settings](/images<%= current_article.url %>/host-records.png)
+
+Adding "A" records with a value of `192.30.252.153` and `192.30.252.154` is mandatory (unless using an Alias/ANAME record).
+An "A" record determines the content server's IP address, while [CNAME](https://en.wikipedia.org/wiki/CNAME_record) identifies subdomains (for example, www) of your default/canonical domain.
+My CNAME record for "www" simply redirects to the base site.
+Alias/ANAME records are equivalent to the "A" record, but take a URL instead of an IP address.
+Only one is needed, your registrar might not have all available.
+If using Alias or ANAME, enter `username.github.io` as the value.
+
+##Connect Domain to GitHub Repository
+
+Now, return to your repository's settings.
+Since your site is currently published with GitHub's default URL, the "GitHub Pages" section has some new options.
+
+![GitHub Pages Settings After Publishing](/images<%= current_article.url %>/gh-pages-repo-settings-after-publishing.png)
+
+Fill out the custom domain box and you're done!
+Note that [HTTPS](https://en.wikipedia.org/wiki/HTTPS) enabling, which is now in settings, is disabled on custom domains.
+It may take a little while for all the changes to propagate: up to 24 hours.
+Though sometimes it just takes a few seconds.
+Congratulations!
+Your new site is up and running!
