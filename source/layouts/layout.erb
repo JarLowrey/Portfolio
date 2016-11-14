@@ -19,11 +19,11 @@
     <%= feed_tag :atom, "#{blog.options.prefix.to_s}/feed.xml", title: "Atom Feed" %>
 
     <%= partial "partials/favicon.html" %>
+    <%= partial "partials/google_analytics.html" %>
 
     <!-- asset links -->
     <%= stylesheet_link_tag :syntax, :site %>
     <%= javascript_include_tag :all %>
-
 
     <%= # child layouts can inject code into the head via using content_for :head
     yield_content :head
