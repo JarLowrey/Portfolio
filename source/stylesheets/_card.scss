@@ -1,6 +1,5 @@
 .card {
     margin: $margin 0;
-    min-width: $card-min-width;
     display: inline-block;
     vertical-align: top;
     border-radius: 5px;
@@ -10,7 +9,7 @@
     width: 100%;
     @include media-query($on-laptop) {
         width: $card-width-desktop;
-        margin: $margin; //add back some horizontal margin
+        margin: $margin; //add horizontal margin when on desktop
     }
 
     &:hover {
@@ -21,7 +20,7 @@
         display: block;
 
         img {
-            margin: $card-img-height/2 0;
+            margin: $margin;
             height: $card-img-height;
         }
     }
