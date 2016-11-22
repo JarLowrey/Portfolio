@@ -1,0 +1,118 @@
+---
+id: "post_4"
+published: false
+title:  "Creating Birdu Part 2: Project Setup"
+blurb: "Utilize the generator to bootstrap a new project."
+header: { img_url: "tech/phaser-logo.svg" }
+author: James Lowrey
+tags: Birdu,Phaser,Cordova,HTML5,Javascript
+---
+
+[<span class="caps">L</span>ast time](/blog/Creating-Birdu-Part-1.html) we gave an overview of Birdu's tech stack.
+Now, we will use that stack to get started in our game.
+Here will will cover the generator we'll be using, basic game setup, and the creation of a menu screen.
+
+Please note, this tutorial aims to outline the main development processes involved, but not every nitty-gritty detail.
+The final product will be slightly different than the Birdu game that is available online, if you want to know how to implement it exactly you should checkout its [code](https://github.com/JTronLabs/Birdu).
+
+<%= partial "partials/article_links.erb", locals: {
+    resources: "
+- [Birdu Repo](https://github.com/JTronLabs/Birdu)
+- [Birdu on Google Play](https://play.google.com/store/apps/details?id=com.jtronlabs.birdu)
+- [Phaser Repo](https://github.com/photonstorm/phaser)
+- [Phaser Docs](https://phaser.io/docs/)
+- [Phaser Examples](https://phaser.io/examples)
+- [Phaser Examples Repo](https://github.com/photonstorm/phaser-examples)
+- [Phaser 2.0 Tutorial - Flappy Bird](http://www.codevinsky.com/phaser-2-0-tutorial-flappy-bird-part-1/)
+",
+    software_versions: "
+- [Ubuntu 16.04 LTS](http://www.ubuntu.com/download)
+- [Phaser.js 2.6.2](http://phaser.io/docs/2.6.2/index)
+- [Cordova 6.4.0](https://cordova.apache.org/docs/en/latest/)
+- [Node 4.2.6](https://nodejs.org/en/)
+- [NPM 3.5.2](https://www.npmjs.com/)
+- [Generator Phaser Plus 0.7.0](https://github.com/rblopes/generator-phaser-plus)
+"
+  } %>
+
+##Generate!
+
+Let's get to it! First Step, open up a terminal and install the [generator](https://github.com/rblopes/generator-phaser-plus).
+
+~~~ bash
+npm install --global yo                     # To install Yeoman.
+npm install --global generator-phaser-plus  # To install the generator & dependencies. Takes a little while.
+
+mkdir birdu && cd $_                        # Make a folder and enter into it
+yo phaser-plus                              # Generate!
+~~~
+
+The generator will ask for your game's name ("Birdu"), a description ("Best game ever made"), and desired physics system (Arcade).
+Phaser supports Arcade, Ninja, and P2 physics.
+In that order they [increase in customizability, but decrease in performance](http://gamedev.stackexchange.com/questions/72930/difference-between-arcade-p2-and-ninja-physics-in-phaser).
+Your physics system will vary based upon your goals and desire gameplay.
+Birdu is simple. It treats all the birds as rectanges and collision is a simple (and fast) [AABB](http://stackoverflow.com/questions/22512319/what-is-aabb-collision-detection).
+As you level up in development skill, you may eventually need a different physics engine.
+
+Anyways, the generator takes your answers, inserts the title & description text in the desired places, downloads & integrates your physics engine (it's modular), and starts the long process of downloading all your node dependencies to the node_modules folder.
+The final output will look something like this
+
+~~~ bash
+├── gulpfile.js         #Gulp code responsible for building project
+│   │
+│   ├── lib             #Specific module configuration
+│   │   └── bundler.js  #Browserify/Watchify support module
+│   │
+│   ├── tasks           #Gulp execution tasks/commands
+│   │   ├── dev.js      #Dev build process
+│   │   └── dist.js     #Distribution/Production build process
+│   │
+│   ├── config.js       #Config - Specify folder/file locations, module behaviors, etc
+│   └── index.js        #Tie it all together!
+│
+├── node_modules        #Project dependencies
+│   └── ...             #Seriously lots of dependencies
+│
+├── src                 #This is our game code!
+│   │
+│   ├── objects         #Main player, JumpingEnemy, Logo are all game objects. This is where bulk of the code will live
+│   │   └── ...
+│   │
+│   ├── States          #Different screens/displays of the game
+│   │   ├── Boot.js     #Some example states are included in the initial generation
+│   │   ├── Preload.js
+│   │   └── Game.js
+│   │
+│   ├── app.js          #Called from index.html to create, start, and adds states to Phaser's 'game' object
+│   ├── assets.js       #JSON describing how to preload assets from the 'static/assets' directory
+│   └── states.js       #List of all game states. Auto-updated if using generator to create states (covered soon)
+│
+├── static              #Static files that do not directly interact with game code. Examples: Game assets, web app assets, web pages, and more
+│   │
+│   ├── assets          #Game assets: images, music, JSON, etc
+│   │   └── ...
+│   │
+│   ├── icons           #Web app icons. Important for Progressive Web Apps (PWA). Not covered much in this tutorial
+│   │   └── ...
+│   │
+│   ├── index.html      #HTML that our game will live in! It will be copied to the build output.
+│   └── manifest.json   #Requirement for PWA's - can delete. 'browserconfig.xml' is an IE requirement for PWA's - can also delete
+│
+├── .babelrc            #Babel        (compiles code to old JS versions)                    options
+├── .editorconfig       #EditorConfig (maintains styles between disparate editors & IDEs)   options
+├── .eslintrc           #ESLint       (catches JS errors, enforces JS style, runs in Gulp)  options
+├── .gitattributes      #Special instructions for using & customizing Git. I've never had to use it
+├── .gitignore          #Specifies files you don't want to check into your remote Git repository
+├── .yo-rc.json         #Our generator's Yeoman config. Allows generator to remember customization info from prompts, and use it in future
+├── package.json        #NPM customization. Choose dev & production dependencies, specify NPM package meta info, writes scripts, and more
+└── README.md           #Describe to consumers how to use and grok your software. A quick-start guide.
+~~~
+
+Whew!
+
+##Generator Output
+
+The code block above is the quick reference guide to the generator output, but some things could use a bit more explanation.
+
+
+##Sub-Generators

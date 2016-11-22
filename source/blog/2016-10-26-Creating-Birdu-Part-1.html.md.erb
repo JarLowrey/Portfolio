@@ -13,6 +13,9 @@ In this tutorial series, I'll cover how to make a 2-D game, [Birdu](https://gith
 The objective of Birdu is to eat small birds, and avoid being eaten by large ones.
 This post examines the tech stack behind Birdu and how the pieces all fit together.
 
+This tutorial is great for people interested in Phaser, gamedev and even front-end tools.
+It's made for all experience levels, but may be a biased towards beginners.
+
 ![Birdu Preview](/images<%= current_article.url %>/birdu-preview.gif)
 
 <%= partial "partials/article_links.erb", locals: {
@@ -27,6 +30,7 @@ This post examines the tech stack behind Birdu and how the pieces all fit togeth
 ",
     software_versions: "
 - [Ubuntu 16.04 LTS](http://www.ubuntu.com/download)
+- [Git 2.10.2](https://git-scm.com/)
 - [Phaser.js 2.6.2](http://phaser.io/docs/2.6.2/index)
 - [Cordova 6.4.0](https://cordova.apache.org/docs/en/latest/)
 - [Node 4.2.6](https://nodejs.org/en/)
@@ -36,6 +40,37 @@ This post examines the tech stack behind Birdu and how the pieces all fit togeth
   } %>
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/FwgmTebXOqc" frameborder="0" allowfullscreen></iframe>
+
+##Git
+
+![Git](/images/tech/git.svg)
+
+Git is a [Version Control System](https://en.wikipedia.org/wiki/Version_control).
+VCS's track changes to your source documents and maintain your sanity.
+They are absolutely ESSENTIAL to development: providing backups, repository (repo) versioning, differential comparisons of code files, and more.
+And they're *free.
+[GitHub](https://github.com/), [GitLab](https://about.gitlab.com/), and [BitBucket](https://bitbucket.org/) are the big boys using the Git protocol.
+I recommend GitHub for public repos due to its large community, but GitLab for free private repos and rapidly growing features.
+
+There are other VCS protocols like SVN, Mercurial, Bazaar, etc.
+Git is really the go-to though, it has a [huge community](http://softwareengineering.stackexchange.com/questions/96933/why-did-git-get-so-much-hype-while-others-dont), gentle learning curve, powerful features, and near-ubiquitous presence in universities.
+
+*Public repos are free on GitHub & GitLab. Private repos are free on GitLab. Public & private repos are free for small teams (less than 5) on BitBucket.
+
+##Linux
+
+![Linux](/images/tech/NewTux.svg)
+
+[Linux](https://en.wikipedia.org/wiki/Linus) is a completely free and open-source operating system ([available on GitHub](https://github.com/torvalds/linux)).
+It runs most of the world's servers, powers Android, and has Tux the penguin.
+Linux has been integral to community development for a long time, and a ton of community software will only be tested on Linux devices.
+
+You could develop your Phaser game entirely in Windows or Mac, but I (Alert: opinion incoming) wouldn't recommend.
+Usually you want to develop on the OS you're targeting, but the Web is platform independent.
+So I choose to use what makes development easiest, and that's Linux.
+Mac would be easier, as it shares a common ancestor with Linux, but it likely will still cause problems down the road.
+If you have a Mac or Windows machine, I would recommend using [VirtualBox](https://www.virtualbox.org/wiki/VirtualBox) to run an isolated, local [VM](https://en.wikipedia.org/wiki/Virtual_machine) for development.
+Or, if you're comfortable messing with your hard drive partitions, you can setup a [dual boot system](http://www.makeuseof.com/tag/reasons-dual-boot-linux/).
 
 ##HTML5 & JS
 
