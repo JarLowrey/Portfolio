@@ -78,9 +78,9 @@ The final output will look something like this
 │   ├── objects         #Main player, JumpingEnemy, Logo are all game objects. This is where bulk of the code will live
 │   │   └── ...
 │   │
-│   ├── States          #Different screens/displays of the game
-│   │   ├── Boot.js     #Some example states are included in the initial generation
-│   │   ├── Preload.js
+│   ├── states          #Different screens/displays of the game
+│   │   ├── Boot.js
+│   │   ├── Preload.js  #Some example states are included in the initial generation
 │   │   └── Game.js
 │   │
 │   ├── app.js          #Called from index.html to create, start, and adds states to Phaser's 'game' object
@@ -113,6 +113,35 @@ Whew!
 ##Generator Output
 
 The code block above is the quick reference guide to the generator output, but some things could use a bit more explanation.
+
+###gulpfile.js
+
+This contains all of our javascript compilation logic.
+The 'tasks' subdirectory is what you'll likely end up configuring if you add new development or production dependencies.
+These files are currently set to wipe out the build output, minify files, bundle JS together into one file, and copy assets to build dir.
+I did not have to modify anything for Birdu.
+
+###node_modules
+
+This houses all of our node project dependencies.
+These dependencies are configured in 'package.json', and can be installed by running `npm install`.
+Some people think you should check in dependencies to your VCS in case they get [yanked off of NPM](http://www.theregister.co.uk/2016/03/23/npm_left_pad_chaos/), but this is a relatively rare occurrence.
+By default, .gitignore is set to not commit your dependencies.
+If you choose to commit it, you will massively inflate your VCS files, compounding each time any dependency updates.
+In the rare case something goes down, the NPM community will quickly add a [mirror or replacement](http://blog.npmjs.org/post/141577284765/kik-left-pad-and-npm).
+
+###src
+
+You guessed it, here's where the source code lives.
+The 'states' folder contains [States](http://phaser.io/docs/2.6.2/Phaser.State.html): basically a screen or display in game.
+In order of usage, Birdu will contain Boot, Preload, Menu, Settings, Stats, Game, and GameOver.
+Each state has a clearly defined purpose (Boot and Preload load assets & display distractions while the user has to wait) and may contain a variety of objects.
+The 'objects' folder contains prefabs that you can import into a given State.
+An object could be an simple, static Logo, or your glorious game player with rich handling of user interactions, varied animations, complex game logic, etc.
+Objects allow us to separate code unrelated to State execution into self-contained, modular components.
+
+###static
+
 
 
 ##Sub-Generators
