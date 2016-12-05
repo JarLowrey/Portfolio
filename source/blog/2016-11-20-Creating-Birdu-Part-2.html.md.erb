@@ -1,7 +1,7 @@
 ---
 id: "post_4"
 published: false
-title:  "Creating Birdu Part 2: Project Setup"
+title:  "Creating Birdu Part 2: Using the Generator"
 blurb: "Utilize the generator to bootstrap a new project."
 header: { img_url: "tech/phaser-logo.svg" }
 author: James Lowrey
@@ -31,7 +31,7 @@ The final product will be slightly different than the Birdu game that is availab
 - [Cordova 6.4.0](https://cordova.apache.org/docs/en/latest/)
 - [Node 4.2.6](https://nodejs.org/en/)
 - [NPM 3.5.2](https://www.npmjs.com/)
-- [Generator Phaser Plus 0.7.0](https://github.com/rblopes/generator-phaser-plus)
+- [Generator Phaser Plus 1.1.0](https://github.com/rblopes/generator-phaser-plus)
 "
   } %>
 
@@ -47,12 +47,16 @@ mkdir birdu && cd $_                        # Make a folder and enter into it
 yo phaser-plus                              # Generate!
 ~~~
 
-The generator will ask for your game's name ("Birdu"), a description ("Best game ever made"), and desired physics system (Arcade).
-Phaser supports Arcade, Ninja, and P2 physics.
+The generator will ask for your game's name ("Birdu"), a description ("Best game ever made"), desired physics system (Arcade Only), and a dev preference (Babel & ECMASCript modules).
+For physics, Phaser supports Arcade, Ninja, and P2 physics.
 In that order they [increase in customizability, but decrease in performance](http://gamedev.stackexchange.com/questions/72930/difference-between-arcade-p2-and-ninja-physics-in-phaser).
 Your physics system will vary based upon your goals and desire gameplay.
 Birdu is simple. It treats all the birds as rectanges and collision is a simple (and fast) [AABB](http://stackoverflow.com/questions/22512319/what-is-aabb-collision-detection).
 As you level up in development skill, you may eventually need a different physics engine.
+
+The "develop preference" question refers to how you choose to manage your [JS dependencies](https://github.com/rblopes/generator-phaser-plus/blob/7614a54678f4d461de1c98a6fffd9f99fb562ba3/docs/managing-dependencies.md) in your project.
+CommonJS uses "require" to import and use discrete JS modules, while the 2015 ECMAScript paradigm uses "import" (and Babel to make your code backwards compatible).
+ECMA is newer and built-in to the language, so we'll be using that.
 
 Anyways, the generator takes your answers, inserts the title & description text in the desired places, downloads & integrates your physics engine (it's modular), and starts the long process of downloading all your node dependencies to the node_modules folder.
 The final output will look something like this
@@ -92,15 +96,11 @@ The final output will look something like this
 │   ├── assets          #Game assets: images, music, JSON, etc
 │   │   └── ...
 │   │
-│   ├── icons           #Web app icons. Important for Progressive Web Apps (PWA). Not covered much in this tutorial
-│   │   └── ...
-│   │
 │   ├── index.html      #HTML that our game will live in! It will be copied to the build output.
-│   └── manifest.json   #Requirement for PWA's - can delete. 'browserconfig.xml' is an IE requirement for PWA's - can also delete
 │
 ├── .babelrc            #Babel        (compiles code to old JS versions)                    options
 ├── .editorconfig       #EditorConfig (maintains styles between disparate editors & IDEs)   options
-├── .eslintrc           #ESLint       (catches JS errors, enforces JS style, runs in Gulp)  options
+├── .eslintrc.yml       #ESLint       (catches JS errors, enforces JS style, runs in Gulp)  options
 ├── .gitattributes      #Special instructions for using & customizing Git. I've never had to use it
 ├── .gitignore          #Specifies files you don't want to check into your remote Git repository
 ├── .yo-rc.json         #Our generator's Yeoman config. Allows generator to remember customization info from prompts, and use it in future
