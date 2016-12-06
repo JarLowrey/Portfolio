@@ -9,8 +9,9 @@ tags: Birdu,Phaser,Cordova,HTML5,Javascript
 ---
 
 [<span class="caps">L</span>ast time](/blog/Creating-Birdu-Part-1.html) we gave an overview of Birdu's tech stack.
-Now, we will use that stack to get started in our game.
-Here will will cover the generator we'll be using, basic game setup, and the creation of a menu screen.
+Now, we will use that stack to get our game started.
+Here will will cover the generator we'll be using and how its pieces interact with each other.
+For another great reference, check out the [official generator documentation](https://github.com/rblopes/generator-phaser-plus/blob/master/docs/index.md).
 
 Please note, this tutorial aims to outline the main development processes involved, but not every nitty-gritty detail.
 The final product will be slightly different than the Birdu game that is available online, if you want to know how to implement it exactly you should checkout its [code](https://github.com/JTronLabs/Birdu).
@@ -21,8 +22,7 @@ The final product will be slightly different than the Birdu game that is availab
 - [Birdu on Google Play](https://play.google.com/store/apps/details?id=com.jtronlabs.birdu)
 - [Phaser Repo](https://github.com/photonstorm/phaser)
 - [Phaser Docs](https://phaser.io/docs/)
-- [Phaser Examples](https://phaser.io/examples)
-- [Phaser Examples Repo](https://github.com/photonstorm/phaser-examples)
+- [Phaser Plus Docs](https://github.com/rblopes/generator-phaser-plus/blob/master/docs/index.md)
 - [Phaser 2.0 Tutorial - Flappy Bird](http://www.codevinsky.com/phaser-2-0-tutorial-flappy-bird-part-1/)
 ",
     software_versions: "
@@ -54,7 +54,7 @@ Your physics system will vary based upon your goals and desire gameplay.
 Birdu is simple. It treats all the birds as rectanges and collision is a simple (and fast) [AABB](http://stackoverflow.com/questions/22512319/what-is-aabb-collision-detection).
 As you level up in development skill, you may eventually need a different physics engine.
 
-The "develop preference" question refers to how you choose to manage your [JS dependencies](https://github.com/rblopes/generator-phaser-plus/blob/7614a54678f4d461de1c98a6fffd9f99fb562ba3/docs/managing-dependencies.md) in your project.
+The "develop preference" question refers to how you choose to manage [JS dependencies](https://github.com/rblopes/generator-phaser-plus/blob/7614a54678f4d461de1c98a6fffd9f99fb562ba3/docs/managing-dependencies.md) in your project.
 CommonJS uses "require" to import and use discrete JS modules, while the 2015 ECMAScript paradigm uses "import" (and Babel to make your code backwards compatible).
 ECMA is newer and built-in to the language, so we'll be using that.
 
@@ -133,12 +133,26 @@ In the rare case something goes down, the NPM community will quickly add a [mirr
 ###src
 
 You guessed it, here's where the source code lives.
-The 'states' folder contains [States](http://phaser.io/docs/2.6.2/Phaser.State.html): basically a screen or display in game.
+
+The 'states' folder contains [States](http://phaser.io/docs/2.6.2/Phaser.State.html): in-game screens/displays.
 In order of usage, Birdu will contain Boot, Preload, Menu, Settings, Stats, Game, and GameOver.
-Each state has a clearly defined purpose (Boot and Preload load assets & display distractions while the user has to wait) and may contain a variety of objects.
-The 'objects' folder contains prefabs that you can import into a given State.
-An object could be an simple, static Logo, or your glorious game player with rich handling of user interactions, varied animations, complex game logic, etc.
-Objects allow us to separate code unrelated to State execution into self-contained, modular components.
+Each state has a clearly defined purpose (Boot and Preload load assets into RAM while displaying "Loading..." animations) and may contain a variety of objects.
+
+An object lives in the 'objects' folder, and is a self-contained module to be used in States.
+An object could be as simple as an image, or as complicated as your game's player with its rich handling of user interactions, varied animations, complex game logic, etc.
+Objects allow us to factor out code unrelated to State execution into self-contained, modular components, thus keeping our game maintainable.
+
+The "app.js" file starts up the Phaser game.
+If you want to change the game's size, initialize to a state other than Boot, or do anything fancy (unrelated to game logic) before start-up, this would be the place to do it.
+
+"assets.js" is a really nice little file.
+My first version of Birdu did not use this generator, and thus did not have an assets.js file.
+Every asset had a corresponding line of preloading code, and also specified exact pixel values for character spritesheets.
+It was error-prone, difficult to maintain, and inefficent (compared to texture atlases, which I learned about after using this generator).
+"assets.js" solves this problem by using an [asset pack](https://phaser.io/docs/2.6.2/Phaser.Loader.html#pack), a JSON specification of your assets, to preload your components.
+This file is that JSON (wrapped in a JavaScript class), that allows simple specification of asset paths + keys to be used with the Loader.
+An earlier version of the generator had a near-complete description of how to use these features in the output of "assets.js", but the maintainer removed it to cut down on bloat and streamline the process.
+You can find that original template [here](https://github.com/rblopes/phaser-plus-template/blob/2ef97955f08d857eef7f218f78856d03016ec0f1/src/assets.js), it's full of extremely helpful examples.
 
 ###static
 
