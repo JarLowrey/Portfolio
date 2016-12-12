@@ -1,6 +1,5 @@
 ---
 id: "post_4"
-published: false
 title:  "Creating Birdu Part 2: Using the Generator"
 blurb: "Utilize the generator to bootstrap a new project."
 header: { img_url: "tech/phaser-logo.svg" }
@@ -12,9 +11,6 @@ tags: Birdu,Phaser,Cordova,HTML5,Javascript
 Now, we will use that stack to get our game started.
 Here will will cover the generator we'll be using and how its pieces interact with each other.
 For another great reference, check out the [official generator documentation](https://github.com/rblopes/generator-phaser-plus/blob/master/docs/index.md).
-
-Please note, this tutorial aims to outline the main development processes involved, but not every nitty-gritty detail.
-The final product will be slightly different than the Birdu game that is available online, if you want to know how to implement it exactly you should checkout its [code](https://github.com/JTronLabs/Birdu).
 
 <%= partial "partials/article_links.erb", locals: {
     resources: "
@@ -37,7 +33,8 @@ The final product will be slightly different than the Birdu game that is availab
 
 ##Generate!
 
-Let's get to it! First Step, open up a terminal and install the [generator](https://github.com/rblopes/generator-phaser-plus).
+Let's get to it! First step, open up a terminal and install the [generator](https://github.com/rblopes/generator-phaser-plus).
+If you haven't [installed Node](https://nodejs.org/en/download/package-manager/) yet, you will need it to install it first, as it is a dependency.
 
 ~~~ bash
 npm install --global yo                     # To install Yeoman.
@@ -96,7 +93,7 @@ The final output will look something like this
 │   ├── assets          #Game assets: images, music, JSON, etc
 │   │   └── ...
 │   │
-│   ├── index.html      #HTML that our game will live in! It will be copied to the build output.
+│   └── index.html      #HTML that our game will live in! It will be copied to the build output.
 │
 ├── .babelrc            #Babel        (compiles code to old JS versions)                    options
 ├── .editorconfig       #EditorConfig (maintains styles between disparate editors & IDEs)   options
@@ -117,7 +114,7 @@ The code block above is the quick reference guide to the generator output, but s
 ###gulpfile.js
 
 This contains all of our javascript compilation logic.
-The 'tasks' subdirectory is what you'll likely end up configuring if you add new development or production dependencies.
+The 'tasks' sub-directory is what you'll likely end up configuring if you add new development or production dependencies.
 These files are currently set to wipe out the build output, minify files, bundle JS together into one file, and copy assets to build dir.
 I did not have to modify anything for Birdu.
 
@@ -149,6 +146,7 @@ If you want to change the game's size, initialize to a state other than Boot, or
 My first version of Birdu did not use this generator, and thus did not have an assets.js file.
 Every asset had a corresponding line of preloading code, and also specified exact pixel values for character spritesheets.
 It was error-prone, difficult to maintain, and inefficent (compared to texture atlases, which I learned about after using this generator).
+
 "assets.js" solves this problem by using an [asset pack](https://phaser.io/docs/2.6.2/Phaser.Loader.html#pack), a JSON specification of your assets, to preload your components.
 This file is that JSON (wrapped in a JavaScript class), that allows simple specification of asset paths + keys to be used with the Loader.
 An earlier version of the generator had a near-complete description of how to use these features in the output of "assets.js", but the maintainer removed it to cut down on bloat and streamline the process.
@@ -156,6 +154,55 @@ You can find that original template [here](https://github.com/rblopes/phaser-plu
 
 ###static
 
+This directory has the "assets" folder where images, sounds, fonts, etc belong, which are loaded using the "assets.js" file from above.
+You can make a new sub-directory for each asset type, and specify its relative URL from "assets.js", allowing you to keep your assets organized.
 
+The other file, "index.html", is the HTML page that our game will live on.
+If you don't want the game to take up the full screen, you can use this page to stylize the HTML page's background.
+You can also include external scripts, CSS, or modify the game's initialization call.
+
+###Miscellaneous files
+
+The other files don't have a parent directory, and thus will generally be used by other programs that expect them to be at the top level of your project.
+BabelRC, editorconfig, eslint, yo-rc, and the git stuff are generally used by some plugins that come integrated with this project.
+You may want to update the eslint file to fit your preferrences, and the gitignore file as your project advances, but the others probably won't require much customization.
+You should describe your project in the README, giving readers (and future you), an overview on what you intend to do and how.
+
+Package.json managemes your node environment.
+Use it to list out all dependencies: development (like Babel) and production/deployment (like Phaser).
+It can also contain meta-data like author's name and email, which is useful if you intend to publish on NPM.
+You can also define one-line scripts in the "scripts" section, which you can run with
+
+~~~bash
+npm run-script myScript
+~~~
+
+This makes it easy to simplify a multi-step build, test, or deployment operation all into one bash call.
+It comes with a "dist" command and a few other scripts for building the project, try running them to see what they do.
 
 ##Sub-Generators
+
+In addition to the main generator, which creates the entire file structure discussed above, there are some sub-generators made for more specifc tasks.
+These sub-generators are used for quick scaffolding while developing (instead of setup at the beginning, like the main generator).
+You can use yeoman sub-generators by appending `: sub-gen-name` to the end of the original generator call.
+So our new generator calls look like this
+
+~~~bash
+yo phaser-plus: object
+yo-phaser-plus: state
+~~~
+
+###object
+
+A prompt will be displayed asking what type of object you want to extend: Sprite, Group, TileSprite, etc.
+There are many options availble, and this saves you from having to memorize the initialization code for each type.
+After the prompt a new JS object will be created in the "objects" sub-directory.
+
+###state
+
+This is a bit simpler, as there is only one type of State.
+After it is auto-created in the "states" sub-directory, the game file importing all the states will be updated for the new creation.
+
+And that's it! You are now a phaser-plus expert.
+As the project is updated, some aspects of this tutorial may come out of date - so be sure to check the [official documentation](https://github.com/rblopes/generator-phaser-plus/blob/master/docs/index.md).
+In the next step, we will be making a Menu screen and discussing how to get started with Phaser.
