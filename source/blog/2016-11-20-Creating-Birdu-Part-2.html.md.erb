@@ -4,13 +4,13 @@ title:  "Creating Birdu Part 2: Using the Generator"
 blurb: "Utilize the generator to bootstrap a new project."
 header: { img_url: "tech/phaser-logo.svg" }
 author: James Lowrey
-tags: Birdu,Phaser,Cordova,HTML5,Javascript
+tags: Birdu,Phaser,HTML5,Javascript
 ---
 
 [<span class="caps">L</span>ast time](/blog/Creating-Birdu-Part-1.html) we gave an overview of Birdu's tech stack.
 Now, we will use that stack to get our game started.
-Here will will cover the generator we'll be using and how its pieces interact with each other.
-For another great reference, check out the [official generator documentation](https://github.com/rblopes/generator-phaser-plus/blob/master/docs/index.md).
+Here we will cover the project generator and how its pieces interact with one another.
+Check out the [official generator documentation](https://github.com/rblopes/generator-phaser-plus/blob/master/docs/index.md) for an alternate, up-to-date explanation.
 
 <%= partial "partials/article_links.erb", locals: {
     resources: "
@@ -45,11 +45,11 @@ yo phaser-plus                              # Generate!
 ~~~
 
 The generator will ask for your game's name ("Birdu"), a description ("Best game ever made"), desired physics system (Arcade Only), and a dev preference (Babel & ECMASCript modules).
-For physics, Phaser supports Arcade, Ninja, and P2 physics.
+For physics, Phaser supports Arcade, Ninja, and P2.
 In that order they [increase in customizability, but decrease in performance](http://gamedev.stackexchange.com/questions/72930/difference-between-arcade-p2-and-ninja-physics-in-phaser).
 Your physics system will vary based upon your goals and desire gameplay.
 Birdu is simple. It treats all the birds as rectanges and collision is a simple (and fast) [AABB](http://stackoverflow.com/questions/22512319/what-is-aabb-collision-detection).
-As you level up in development skill, you may eventually need a different physics engine.
+As you level up in development skill, you may need a different physics engine.
 
 The "develop preference" question refers to how you choose to manage [JS dependencies](https://github.com/rblopes/generator-phaser-plus/blob/7614a54678f4d461de1c98a6fffd9f99fb562ba3/docs/managing-dependencies.md) in your project.
 CommonJS uses "require" to import and use discrete JS modules, while the 2015 ECMAScript paradigm uses "import" (and Babel to make your code backwards compatible).

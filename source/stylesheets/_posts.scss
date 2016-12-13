@@ -9,15 +9,23 @@ article {
         max-width: 100%;
     }
 
+    .caps {
+        font-size: 2em;
+        padding: 0 0.25em;
+        color: $link-color;
+        float: left;
+        @extend .clearfix;
+    }
+
     p {
         //markdown will force images to be nested in a 'p' element
         img {
             @extend .article-img;
-            border: 2px solid #ccc;
-            border-radius: 5px;
-            padding: $margin/2;
-            box-shadow: $shadow-light;
         }
+    }
+
+    .article-links{
+      text-align: center;
     }
 }
 
@@ -29,17 +37,6 @@ article {
     box-sizing: border-box;
 }
 
-aside {
-    text-align: center;
-}
-
-.caps {
-    font-size: 2em;
-    padding: 0 0.25em;
-    color: $link-color;
-    float: left;
-    @extend .clearfix;
-}
 
 .quick-actions {
     a {
