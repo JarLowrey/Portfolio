@@ -1,0 +1,17 @@
+<%
+img_caption ||= ""
+alt ||= ""
+is_one_use_img ||= true
+
+#src is mandatory
+if is_one_use_img then
+  src = "/images#{current_article.url}/#{src}"
+end
+%>
+
+{::nomarkdown}
+<figure>
+  <img src="<%= src %>" alt="<%= alt %>">
+  <figcaption><%= img_caption %></figcaption>
+</figure>
+{:/}

@@ -13,10 +13,13 @@ In this tutorial series, I'll cover how to make a 2-D game, [Birdu](https://gith
 The objective of Birdu is to eat small birds, and avoid being eaten by large ones.
 This post examines the tech stack behind Birdu and how the pieces all fit together.
 
-This tutorial is great for people interested in Phaser, gamedev and even front-end tools.
+This tutorial is great for people interested in Phaser, gamedev, webdev and front-end tools.
 It's made for all experience levels, but may be a bit biased towards beginners.
 
-![Birdu Preview](/images<%= current_article.url %>/birdu-preview.gif)
+<%= partial "partials/image.erb", locals: {
+    src: "birdu-preview.gif",
+    alt: "Birdu Preview",
+    img_caption: "Birdu 2.0" } %>
 
 <%= partial "partials/article_links.erb", locals: {
     resources: "
@@ -47,15 +50,16 @@ It's made for all experience levels, but may be a bit biased towards beginners.
 
 Git is a [Version Control System](https://en.wikipedia.org/wiki/Version_control).
 VCS's track changes to your source documents and maintain your sanity.
-They are absolutely ESSENTIAL to development: providing backups, repository (repo) versioning, differential comparisons of code files, and more.
-And they're *free.
+They are absolutely ESSENTIAL to development: providing backups, versioning, code differential comparisons, and more.
 [GitHub](https://github.com/), [GitLab](https://about.gitlab.com/), and [BitBucket](https://bitbucket.org/) are the big boys using the Git protocol.
-I recommend GitHub for public repos due to its large community, but GitLab for free private repos and rapidly growing features.
+I recommend GitHub for public repositories due to its large community, but GitLab for free private repos and rapidly growing features.
+
+These tools are free, with some caveats.
+Public repos are free on GitHub & GitLab. Private repos are free on GitLab.
+Public & private repos are free for small teams (less than 5) on BitBucket.
 
 There are other VCS protocols like SVN, Mercurial, Bazaar, etc.
-Git is really the go-to though, it has a [huge community](http://softwareengineering.stackexchange.com/questions/96933/why-did-git-get-so-much-hype-while-others-dont), gentle learning curve, powerful features, and near-ubiquitous presence in universities.
-
-*Public repos are free on GitHub & GitLab. Private repos are free on GitLab. Public & private repos are free for small teams (less than 5) on BitBucket.
+Git is really the go-to though, as it has a [huge community](http://softwareengineering.stackexchange.com/questions/96933/why-did-git-get-so-much-hype-while-others-dont), gentle learning curve, powerful features, and near-ubiquitous presence in universities.
 
 ##Linux
 
@@ -63,13 +67,12 @@ Git is really the go-to though, it has a [huge community](http://softwareenginee
 {: .icon }
 
 [Linux](https://en.wikipedia.org/wiki/Linus) is a completely free and open-source operating system ([available on GitHub](https://github.com/torvalds/linux)).
-It runs most of the world's servers, powers Android, and has Tux the penguin.
-Linux has been integral to community development for a long time, and a ton of community software will only be tested on Linux devices.
+It runs most of the world's servers, powers Android, has a penguin (Tux), and a lot of community software will only be tested on it.
+I like to use [Ubuntu](https://www.ubuntu.com/download).
 
-You could develop your Phaser game entirely in Windows or Mac, but I (Alert: opinion incoming) wouldn't recommend.
-Usually you want to develop on the OS you're targeting, but the Web is platform independent.
-So I choose to use what makes development easiest, and that's Linux.
-Mac would be easier, as it shares a common ancestor with Linux, but it likely will still cause problems down the road.
+You could develop your Phaser game entirely in Windows or Mac, but I wouldn't recommend it.
+Mac is easier than Windows as it shares a common ancestor with Linux, but both will likely have issues eventually.
+I choose to use what makes development easiest, and that's Linux.
 If you have a Mac or Windows machine, I would recommend using [VirtualBox](https://www.virtualbox.org/wiki/VirtualBox) to run an isolated, local [VM](https://en.wikipedia.org/wiki/Virtual_machine) for development.
 Or, if you're comfortable messing with your hard drive partitions, you can setup a [dual boot system](http://www.makeuseof.com/tag/reasons-dual-boot-linux/).
 
@@ -87,10 +90,9 @@ It's more beneficial to increase your audience, lower dev time, and have maintai
 HTML5 allows you to write code once and target all web, mobile and desktop platforms.
 I'll cover how to publish on mobile devices with Cordova at the end of this tutorial series.
 
-Depending on the engine you use, making HTML5 games can also help you become a better web developer.
-When using Phaser.js there is a lot of cross-over in the tools used for game-dev and the tools you'd use in front-end work.
-Node, NPM, Grunt, ES6, etc. You will also be prototyping in the browser and developing for a fragmented audience.
-Using these build tools and JS libraries allow us to create a game that is faster and smaller than is possible in current-gen game engines like Unity or UE4.
+Making HTML5 games can also help you become a better web developer.
+You'll gain experience with JavaScript tools, best practices, be prototyping in the browser and developing for a fragmented audience.
+Imagine working on a game as a passion project while becoming more generally employable by using tools/tech like Node, NPM, Grunt, ES6, etc.
 
 ##Phaser.js
 
@@ -100,21 +102,28 @@ Using these build tools and JS libraries allow us to create a game that is faste
 [Phaser](http://phaser.io/) is a lightweight 2-D game engine that is free and [Open-Source](https://github.com/photonstorm/phaser).
 Free is always a plus.
 Being open-source allows you to debug at all levels of the stack, while closed source engines [can complicate things](http://stephaniehurlburt.com/blog/2016/9/16/closed-source-engines-are-a-big-risk).
-This allows you to know exactly what the engine is doing by examining its code on GitHub, instead of having to make an educated guess from documentation (e.g. Unity3D).
+This allows you to know exactly what the engine is doing by examining its code on GitHub or as it runs, instead of having to make an educated guess from online documentation.
 
 I have heard that on mobile Unity and UE4 can have [large packages and be inefficient](https://www.slant.co/versus/1047/1065/~unity_vs_phaser-io), with Unity appearing to be [slightly better](http://www.makinggames.biz/feature/unreal-vs-unity-which-engine-is-better-for-mobile-games,8472.html).
-In addition, their GUIs can be awkward to use for 2D work. Meanwhile, Phaser doesn't have an annoying GUI (though I think the [paid editor](http://phasereditor.boniatillo.com/) does - it's not needed), only adds itself to the build output, and is wholly optimized for the browser and 2D Gaming.
+In addition, their GUIs can be awkward to use for 2D work (at least in my opinion).
+Phaser doesn't have an annoying GUI (though I think the [paid editor](http://phasereditor.boniatillo.com/) might), only adds itself to the build output, and is wholly optimized for the browser and 2D Gaming.
 One of Phaser's greatest strengths is the [documentation](http://phaser.io/docs/2.4.7/index).
 The [offical tutorials](http://phaser.io/learn/official-tutorials), [community tutorials](http://phaser.io/learn/community-tutorials), and [specific examples](http://phaser.io/examples) give this engine a gentle learning curve, ultimately making your game quicker (and cheaper) to make.
 Just compare [LibGDX's](https://libgdx.badlogicgames.com/nightlies/docs/api/) API to [Phaser's](https://phaser.io/docs/2.6.2/index).
 
 Phaser is the [most popular](https://github.com/showcases/javascript-game-engines) open source JS game engine.
-It's not perfect though. Since it's built on top of [Pixi](https://github.com/pixijs/pixi.js), some functions can be confusing.
-For example, Group.addChild is a Pixi method and Group.add is a Phaser method. These usually end up being just minor annoyances though.
+It's not perfect, but it's pretty great.
+Since it's built on top of [Pixi](https://github.com/pixijs/pixi.js), some functions (like Group.addChild vs Group.add) can be confusing.
+The next generation of Phasr, [Lazer](https://github.com/photonstorm/lazer) ([scroll down to "Lazer (aka Phaser 3)"](http://phaser.io/news/2016/01/phaser-in-2015-and-beyond)), will come with its own rendering engine and hopefully solve those types of issues.
 If something in the docs can be improved you can contribute back to the community by submitting a pull request to the Phaser repository.
 Phaser adds [a lot on top](http://www.html5gamedevs.com/topic/12656-phaser-pixi/) of Pixi: a variety of physics engines, a game world with pannable camera, Tilemap support, particle systems, etc.
-The next iteration of Phaser is currently in the works, [Lazer](http://phaser.io/news/2016/01/phaser-in-2015-and-beyond) (scroll down to "Lazer (aka Phaser 3)"), which will remove Pixi and add a whole bunch of new goodies.
+
 Even with Lazer coming up, Phaser will still be around for a long time.
+Phaser2's development recently ceased and entered [Community Edition](https://github.com/photonstorm/phaser/tree/master/v2-community).
+[Rich's](https://www.patreon.com/photonstorm) company is stepping out of the reigns of leading development, and allowing the community to take over.
+This allows him to save his limited resources for Lazer and Phaser3's dev.
+Thus the Phaser repo is currently divided into 3 parts: v2 (Phaser2), v2-community (CE edition), and v3 (new version of Phaser).
+This tutorial will use the last official verion, 2.6.2.
 
 ##Cordova
 
@@ -123,17 +132,18 @@ Even with Lazer coming up, Phaser will still be around for a long time.
 
 [Cordova](https://cordova.apache.org/) is the magic glue that allows us to stick all platforms to one code base.
 Cordova was [originally named PhoneGap](https://en.wikipedia.org/wiki/Apache_Cordova) until open sourced and released by Adobe, now it is maintained by the Apache foundation.
-[PhoneGap](http://phonegap.com/) now runs on Cordova, offering some extra goodies (like cloud compiling) on top.
+The [PhoneGap](http://phonegap.com/) project lives on and now runs on Cordova, offering some extra goodies (like cloud compiling) on top.
 There are actually a lot of platforms to make hybrid apps: Cordova, PhoneGap, Ionic, React-Native, and more.
 I choose to use Cordova as it has the biggest community and allows me to pivot to similar platforms (like PhoneGap or Ionic) if desired.
-Community is always a hugely important consideration. It ensures software will be maintained going into the future, and that there are people knowledgable on your issues out in the world.
+Community is always a hugely important consideration when choosing your toolset.
+It ensures software will be maintained going into the future, and that there are people knowledgable on your issues out in the world.
 
 As stated in the opening paragraph, making hybrid apps has a performance hit.
 Generally they take a bit longer to open and use more RAM than a native application.
 [These stats](https://taco.visualstudio.com/en-us/docs/cost-cordova/) are indictative of what you might see, but are also over a year old. Things have gotten better.
 From my testing, I can say that hybrid apps are quite "snappy", and "performant". I didn't notice any big troubles with Birdu.
-I also used [Cordova Crosswalk](https://crosswalk-project.org/), which allows you to use the newest Chrome version on your hybrid apps instead of the platform's default WebView.
-This can really [boost performace](https://taco.visualstudio.com/en-us/docs/cost-cordova/) and allow you to only target the newest web APIs.
+I also used [Cordova Crosswalk](https://crosswalk-project.org/), which allows your hybrid app to use the newest Chrome browser instead of the device's default WebView.
+This really [boosts performace](https://taco.visualstudio.com/en-us/docs/cost-cordova/) and allows you to only target the newest web APIs.
 
 ##Node and NPM
 
@@ -145,24 +155,23 @@ This can really [boost performace](https://taco.visualstudio.com/en-us/docs/cost
 
 ***We are now entering the land of Node and its tools.*** It may get a [bit confusing](https://hackernoon.com/how-it-feels-to-learn-javascript-in-2016-d3a717dd577f#.nl1ilwi5m), but it is [managable](https://medium.com/@kitze/how-it-actually-feels-to-write-javascript-in-2016-46b5dda17bb5#.9tbq3micz).
 Hang in there.
-You don't need perfect knowledge of all these tools to start on your game.
+You don't need perfect knowledge of all these tools to start on your game, in fact, [you probably shouldn't have it](https://blog.neap.co/how-you-can-leverage-technical-debt-why-you-should-4ec48a387751#.et83dbo5f).
 
-So...Node. So hot right now.
+Node...so hot right now.
 
 Node is JavaScript for the server.
-It's prides itself on being event based, instead of thread based.
-Basically, Node doesn't make threads wait on I/O, which makes it scalable.
-I'm not a Node expert though, as I've never used it to build a web server.
+It's event based back-end tech, meaning it doesn't make threads wait on I/O, which makes it scalable.
+Honestly though, I've never used it to build a web server (yet) so I won't pretend to know much about it.
 For making Birdu and other Phaser games we're more interested in the Node Package Manager (NPM).
 NPM is a massive collection of tools written in JavaScript that you are free to use. [Very similar to Ruby's Gems](https://www.quora.com/How-does-npm-compare-to-other-packaging-systems-like-Ruby-gems-and-Pythons-pip).
 Many of these tools use Node (hence the NPM name). Many don't (like [Phaser](https://www.npmjs.com/package/phaser)).
+
 NPM allows us to use a file, package.json, to manage project dependencies, both for development (like Cordova) and production (like Phaser).
 There are a TON of extremely awesome open source projects on NPM.
 [D3.js](https://www.npmjs.com/package/d3), [Phaser](https://www.npmjs.com/package/phaser), [Cordova](https://www.npmjs.com/package/cordova),
 [express](https://www.npmjs.com/package/express), [React](https://www.npmjs.com/package/react), [Passport](https://www.npmjs.com/package/passport), to just name a few.
-However, NPM isn't the only place to get these projects. You can download them directly off the project's website or off their GitHub repos.
-What NPM does do is it allows us to easily manage many dependiences all in one place, our package.json.
-As you get a bit deeper, you'll find that there's [even more you can manage](https://docs.npmjs.com/files/package.json) with the package.json.
+NPM gives developers a one-stop shop for JS tools, and a great management system.
+As you get a bit deeper, you'll find that there's [even more you can manage](https://docs.npmjs.com/files/package.json) with package.json.
 
 ##Generator-Phaser-Plus
 
@@ -170,8 +179,8 @@ As you get a bit deeper, you'll find that there's [even more you can manage](htt
 {: .icon }
 
 [Generator-Phaser-Plus](https://github.com/rblopes/generator-phaser-plus) is a [Yeoman](http://yeoman.io/) generator that will output the intial skeleton of our game.
-Its maintainer, [RBlopes](https://github.com/rblopes) did all the hard work of finding the relevant NPM dependencies, linking them together, and making an easy to use API to generate the game.
-To make his project usable for a wider audience, he didn't include Cordova though. I will cover the process of adding it in a later post.
+Its maintainer, [RBlopes](https://github.com/rblopes) did all the hard work of finding the relevant JS tools, linking them together, and making an easy to use API to generate the project.
+To make phaser-plus usable for a wider audience, he didn't include Cordova, I will cover the process of adding it in a later post.
 The rest of the tools I'm going to cover below are already set up in the generator's output, and likely won't require much configuration.
 But it's still good info to know if you intend to break out of the given mold.
 
@@ -184,12 +193,13 @@ But it's still good info to know if you intend to break out of the given mold.
 There are a lot of [opinions](http://wisdomgeek.com/web-development/grunt-vs-gulp-vs-npm/) on which is best, and you can get lost down a rabbit-hole of research for choosing the perfect tool.
 You'll notice this is a common theme in Node: similar tools with relatively subtle differences that perform comparably.
 Gulp is newer than Grunt, supposedly faster, and has a similarly sized community.
-Both are considered to be simpler than NPM scripting.
-We'll use Gulp because it's already setup in the generator.
-In a simple web page (like this one) you may be able to write a few functions for hiding/showing elements, include it in the `<head>` and be done.
+Both are considered to be simpler than NPM scripting, but it's more robust.
+The generator uses Gulp.
+
+In a simple web page (like this one) you may be able to write a few functions, include them in the `<head>` and be done.
 No build or complex integration required.
 As your projects increase in complexity, you'll want to create small, [modular](https://en.wikipedia.org/wiki/Modular_design) files (components), and import them to their consuming components.
-Building allow you to take advantage of tools that can automatically [bundle files](https://www.asp.net/mvc/overview/performance/bundling-and-minification), [minify files](https://en.wikipedia.org/wiki/Minification_(programming)), [preprocess css](https://en.wikipedia.org/wiki/Preprocessor) (e.g. with [SASS](http://sass-lang.com/)), spin up a local server, and [more](https://css-tricks.com/gulp-for-beginners/).
+The build step allows you to take advantage of tools that can automatically [bundle](https://www.asp.net/mvc/overview/performance/bundling-and-minification), [minify](https://en.wikipedia.org/wiki/Minification_(programming)), and [preprocess](https://en.wikipedia.org/wiki/Preprocessor) (e.g. [SASS](http://sass-lang.com/)) files, spin up a local server, and [more](https://css-tricks.com/gulp-for-beginners/).
 
 ##Babel
 
@@ -237,15 +247,15 @@ The [first war](https://en.wikipedia.org/wiki/Editor_war) never really finished,
 I suppose a second one was inevitable.
 
 Atom is my personal choice.
-All are good choices, though Brackets is geared more towards front-end work; it feels more like a text-editor than an IDE-lite.
+All are good choices (though Brackets feels more like a text-editor than an IDE-lite).
 VSCode gets a lot of love as the Microsoft team continues to add more features and maintain a tool with a clear performance edge.
 Atom however, has a vibrant community with over 5,000 home-grown, easy to use plug-ins.
 I keep my favorites up-to-date [here](https://gist.github.com/JTronLabs/941821b71a746dc31f418fd03a6c7236).
 They include a file mini-map, auto-completion of HTML tags, linting in-editor, auto-beautification upon saving, in-editor terminals (my favorite), and much more.
-I'm sure a lot of this is also availble in VSCode, the big difference being their package manager is a ["Marketplace"](https://marketplace.visualstudio.com/) while Atom's is just a [collection](https://atom.io/packages).
-I would guess that Atom's performance continues to improve, and their plug-ins stay community driven, open source, and far ahead of VSCode.
+I'm sure a lot of this is also available in VSCode, the big difference being their package manager is a ["Marketplace"](https://marketplace.visualstudio.com/) while Atom's is a [community](https://atom.io/packages).
+I would guess that Atom's performance continues to improve, and their plug-ins stay community driven, open source, and ahead of VSCode.
 
 ##That's all folks
 
-[Next time]((/blog/Creating-Birdu-Part-2.html)) I'll be covering the set up and execution of a basic Phaser game.
+[Next time](/blog/Creating-Birdu-Part-2.html) I'll be covering the set up and execution of a basic Phaser game.
 Thanks for stopping by!
