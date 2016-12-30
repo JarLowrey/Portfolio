@@ -31,18 +31,33 @@ Check out the [official generator documentation](https://github.com/rblopes/gene
 "
   } %>
 
+##Dependencies
+
+Install Node, NPM, and our generator with [NVM](https://github.com/creationix/nvm).
+
+~~~ bash
+curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.32.1/install.sh | bash # Install NVM
+export NVM_DIR="/home/james/.nvm"               # This loads nvm in current terminal
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" # This loads nvm in current terminal
+command -v nvm                                  # if installation worked, "nvm" will be printed
+nvm install node                                # Install Node & NPM
+nvm use default                                 # use NVM's node - just in case a system installation already exists
+nvm which current                               # location of the current version of node - should have ".nvm" in the name
+# Install global NPM packages - these will not need to go into the local node_modules folder of your project
+npm -g install yo                               # Framework for generators, helps devs quickly build high quality web apps
+npm -g install generator-phaser-plus            # Phaser.io project generator
+npm -g install cordova                          # Compile JS apps to hybrid mobile apps
+~~~
+
 ##Generate!
 
 Let's get to it! First step, open up a terminal and install the [generator](https://github.com/rblopes/generator-phaser-plus).
 If you haven't [installed Node](https://nodejs.org/en/download/package-manager/) yet, you will need it to install it first, as it is a dependency.
 
 ~~~ bash
-npm install --global yo                     # To install Yeoman.
-npm install --global generator-phaser-plus  # To install the generator & dependencies. Takes a little while.
-
-mkdir birdu && cd $_                        # Make a folder and enter into it
-yo phaser-plus                              # Generate!
-npm install                                 # Once done with prompts, install dependencies
+mkdir birdu && cd $_ # Make a folder and enter into it
+yo phaser-plus       # Generate!
+npm install          # Once done with prompts, install dependencies
 ~~~
 
 The generator will ask for your game's name ("Birdu"), a description ("Best game ever made"), desired physics system (Arcade Only), and a dev preference (Babel & ECMASCript modules).
