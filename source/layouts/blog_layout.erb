@@ -2,6 +2,7 @@
 <% content_for :head do
   #pass content to head in parent layout
   javascript_include_tag :posts
+  partial "partials/email_subscribe_popup.erb"
 end %>
 
 <% wrap_layout :layout do %>

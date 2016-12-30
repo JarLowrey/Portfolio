@@ -1,0 +1,14 @@
+<!-- MailChimp is dumb - https://gist.github.com/scottmagdalein/259d878ad46ed6f2cdce -->
+
+<script async defer type="text/javascript" src="//s3.amazonaws.com/downloads.mailchimp.com/js/signup-forms/popup/embed.js" data-dojo-config="usePlainJson: true, isDebug: false"></script>
+
+<script>
+function showMailingPopUp() {
+    require(["mojo/signup-forms/Loader"], function(L) { L.start({"baseUrl":"mc.us14.list-manage.com","uuid":"79368d686d3757a621cb913e9","lid":"17ab55d88e"}) })
+    document.cookie = 'MCEvilPopupClosed=;path=/;expires=Thu, 01 Jan 1970 00:00:00 UTC;';
+};
+
+document.addEventListener("DOMContentLoaded", function(event) {
+  document.getElementById("open-mailchimp-subscribe-popup").onclick = function() {showMailingPopUp()};
+});
+</script>

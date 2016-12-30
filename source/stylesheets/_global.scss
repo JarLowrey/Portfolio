@@ -78,6 +78,7 @@ a {
     &:hover {
         color: $text-color;
         text-decoration: underline;
+        cursor:pointer; //needed for links with no href
     }
 }
 

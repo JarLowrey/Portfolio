@@ -13,7 +13,12 @@ header_img =        current_article.data.dig(:header,:img_url)          ? app.im
   <p id="author">   <!-- By <%= link_to "James Lowrey", "/about.html", :class => "dotted_link" %> | --> <%= current_article.date.strftime("%B %e, %Y") %> </p>
 
   <%= partial "partials/share.erb" %>
-  <%= partial "partials/article_ui_btns.erb" %>
+
+  <!-- UI Buttons-->
+  <div class="quick-actions">
+    <%= img_link "UI/collapse.png","Collapse",  "", "", "", "_self", "collapse-all-btn" %>
+    <%= img_link "UI/code.png","Code",          "", "", "", "_self","collapse-p-btn" %>
+  </div>
 
   <%=  if header_img != "" then header_img end %>
 
