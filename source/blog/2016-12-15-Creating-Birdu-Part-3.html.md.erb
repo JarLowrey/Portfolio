@@ -2,18 +2,20 @@
 id: "post_5"
 published: false
 title:  "Creating Birdu Part 3: Making a State"
-blurb: "Getting started with Phaser."
+blurb: "Create a simple game with Phaser."
 header: { img_url: "tech/phaser-logo.svg" }
 author: James Lowrey
 tags: Birdu,Phaser,HTML5,Javascript
 ---
 
-<span class="caps">S</span>o far we've covered the tech stack behind the Birdu game, and how to get a new Phaser project started using an automatic generator.
-Now, we'll jump into the weeds of game creation.
-Here we'll get started on the game: showing stuff on screen, making a new state, debugging JS, and more.
+<span class="caps">S</span>o far we've covered the tech stack behind the Birdu game and how to get a new Phaser project started using an automatic generator.
+Now, we'll jump into the weeds of creating a new game: showing stuff on screen, making a new state, and more.
 
 Please note, this tutorial aims to outline the main development processes involved, but maybe not every nitty-gritty detail.
 The final product will be slightly different than the Birdu game that is available online, if you want to know how to implement it exactly you should checkout its [code](https://github.com/JTronLabs/Birdu).
+
+While you're following along, if you run into trouble and can't figure out what's going wrong, check out the [next article](/blog/Creating-Birdu-Part-4.html) for debugging tips.
+If you weren't here [last time](/blog/Creating-Birdu-Part-2.html), we covered how to generate a Phaser project with a yeoman generator.
 
 <%= partial "partials/article_links.erb", locals: {
     resources: "
@@ -39,14 +41,6 @@ The final product will be slightly different than the Birdu game that is availab
 whatis preloading, current generator's preload vs Birdu's, boot>preload>menu state transitions, preload ending conditional check?,
 
 sidenote = Assets: dimensions/sizing, texture atlas, sound types
-
-##debugging!
-
-code/low level = JS - view source (F12), console printing, debugger command, insert breakpoints in code, stepping thru code
-
-Game/medium level = Phaser Debug util library
-
-environment = high/user level = BrowserSync
 
 ##Making a State
 

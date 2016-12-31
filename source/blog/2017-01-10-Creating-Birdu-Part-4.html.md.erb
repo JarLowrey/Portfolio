@@ -1,0 +1,45 @@
+---
+id: "post_5"
+published: false
+title:  "Creating Birdu Part 4: Phaser and HTML Debugging"
+blurb: "Use a variety of different tools to simplify JS, Web, and Phaser debugging."
+header: { img_url: "tech/phaser-logo.svg" }
+author: James Lowrey
+tags: Birdu,Phaser,HTML5,Javascript
+---
+
+<span class="caps">T</span>his is a bit of an aside an our Birdu journey, but an absolutely essential one.
+Debugging.
+Now that we have a scaffold up and running, we need to learn how to debug the issues that arise.
+There are a ton of different ways you can find issues with your code, and a plethora of different tools you can use.
+Even though we haven't covered Cordova yet, we'll throw in some Cordova debugging tips in at the end too.
+
+Pros of HTML5 and Phaser debugging can feel free to skip on to the [next article](), it covers $TOPIC.
+If you weren't here [last time](/blog/Creating-Birdu-Part-3.html), we covered how to start making a Phaser game.
+
+<%= partial "partials/article_links.erb", locals: {
+    resources: "
+- [Birdu Repo](https://github.com/JTronLabs/Birdu)
+- [Birdu on Google Play](https://play.google.com/store/apps/details?id=com.jtronlabs.birdu)
+- [Phaser Repo](https://github.com/photonstorm/phaser)
+- [Phaser Docs](https://phaser.io/docs/)
+- [Phaser Plus Docs](https://github.com/rblopes/generator-phaser-plus/blob/master/docs/index.md)
+- [Phaser 2.0 Tutorial - Flappy Bird](http://www.codevinsky.com/phaser-2-0-tutorial-flappy-bird-part-1/)
+",
+    software_versions: "
+- [Ubuntu 16.04 LTS](http://www.ubuntu.com/download)
+- [Phaser.js 2.6.2](http://phaser.io/docs/2.6.2/index)
+- [Cordova 6.4.0](https://cordova.apache.org/docs/en/latest/)
+- [Node 4.2.6](https://nodejs.org/en/)
+- [NPM 3.5.2](https://www.npmjs.com/)
+- [Generator Phaser Plus 1.1.0](https://github.com/rblopes/generator-phaser-plus)
+"
+  } %>
+
+##debugging!
+
+code/low level = JS - view source (F12), console printing, debugger command, insert breakpoints in code, stepping thru code
+
+Game/medium level = Phaser Debug util library
+
+environment = high/user level = BrowserSync
