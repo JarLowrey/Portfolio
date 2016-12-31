@@ -9,6 +9,11 @@ function showMailingPopUp() {
 };
 
 document.addEventListener("DOMContentLoaded", function(event) {
-  document.getElementById("open-mailchimp-subscribe-popup").onclick = function() {showMailingPopUp()};
+  //add click listeners to show pop up when certain class is clicked
+  //use classes instead of id's so that multiple popup links can be on same page
+  var classes = document.getElementsByClassName("open-mailchimp-subscribe-popup");
+  for (var i = 0; i < classes.length; i++) {
+    classes[i].addEventListener('click', showMailingPopUp, false);
+  }
 });
 </script>
