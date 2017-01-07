@@ -1,5 +1,5 @@
 <%
-img_caption ||= ""
+caption ||= ""
 alt ||= ""
 
 #strip extension off artcile link to get folder path
@@ -17,6 +17,6 @@ end
 {::nomarkdown}
 <figure>
   <img src="<%= src %>" alt="<%= alt %>">
-  <figcaption><%= img_caption %></figcaption>
+  <figcaption><%= caption %></figcaption>
 </figure>
 {:/}
