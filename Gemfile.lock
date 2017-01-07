@@ -143,7 +143,7 @@ PLATFORMS
 
 DEPENDENCIES
   builder (~> 3.0)
-  middleman (>= 4.1)
+  middleman (>= 4.0.0)
   middleman-blog
   middleman-compass (>= 4.0.0)
   middleman-deploy (~> 2.0.0.pre.alpha)
@@ -155,4 +155,4 @@ DEPENDENCIES
   wdm (~> 0.1.0)
 
 BUNDLED WITH
-   1.13.3
+   1.13.7

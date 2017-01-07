@@ -9,22 +9,13 @@ gem 'wdm', '~> 0.1.0', platforms: [:mswin, :mingw]
 gem 'tzinfo-data', platforms: [:mswin, :mingw, :jruby]
 
 # Middleman Gems
-gem 'middleman', '>= 4.1'
-
-# http://www.rubydoc.info/github/middleman/middleman-blog  --- https://middlemanapp.com/basics/blogging/ --- https://github.com/middleman/middleman-blog
-gem 'middleman-blog'
-
+gem 'middleman', '>= 4.0.0'
 gem 'middleman-livereload'
 gem 'middleman-compass', '>= 4.0.0'
-
+gem 'middleman-syntax'
+gem 'middleman-blog'
 gem 'middleman-deploy', '~> 2.0.0.pre.alpha'
 
-gem 'nokogiri' #required for blog summaries (+ extra functionality) - https://github.com/sparklemotion/nokogiri
-
-# Markdown processor - https://github.com/vmg/redcarpet
-gem 'redcarpet', '~> 3.3', '>= 3.3.3'
-
-gem 'middleman-syntax'
-
-# For feed.xml.builder
-gem "builder", "~> 3.0"
+gem 'nokogiri' #for summaries
+gem 'redcarpet', '~> 3.3', '>= 3.3.3'#for markdown
+gem "builder", "~> 3.0"# For feed.xml.builder

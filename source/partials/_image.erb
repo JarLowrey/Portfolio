@@ -1,11 +1,16 @@
 <%
 img_caption ||= ""
 alt ||= ""
-is_one_use_img ||= true
 
-#src is mandatory
-if is_one_use_img then
-  src = "/images#{current_article.url}/#{src}"
+#strip extension off artcile link to get folder path
+url = current_article.url
+url_without_ext = url[0..url.length-6]
+
+#determine if image is external or internal
+prefix = src[0..6]
+if prefix != "http://" and prefix != "https:/" then
+  #link is not external - add prefix to img src
+  src = "/images#{url_without_ext}/#{src}"
 end
 %>
 
