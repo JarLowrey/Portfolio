@@ -6,7 +6,7 @@ em ||= 1
 
 <section class="post_summary" style="font-size:<%= em %>em">
   <aside>
-    <img src="<%= get_article_img(article.tags) %>" class="article-type"/>
+    <img src="<%= article.data.header.img_url %>" class="article-type"/>
 
     <!-- tags -->
     <div class="tags">

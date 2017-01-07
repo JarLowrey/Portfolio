@@ -36,19 +36,6 @@ end
 
 # Methods defined in the helpers block are available in templates
  helpers do
-    def get_article_img(article_tags)
-      tag_links = data.tags.tag_images
-      #search thru data's tag list, return image url of first tag found
-      for tag in tag_links do
-        if article_tags.include? tag.name then
-          return tag.url
-        end
-      end
-
-      #return last tag's image url
-      return tag_links[tag_links.length-1].url
-    end
-
     def txt_links(array)
        return array.map{ |e|
          app.link_to e.txt, e.url, :target => "_blank"
