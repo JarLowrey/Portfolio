@@ -4,6 +4,7 @@ per_page: 12
 ---
 <h1>Articles tagged '<%= tagname %>'</h1>
 
+<!-- Show prev page -->
 <% if paginate && num_pages > 1 %>
   <p>Page <%= page_number %> of <%= num_pages %></p>
 
@@ -12,12 +13,15 @@ per_page: 12
   <% end %>
 <% end %>
 
-<ul>
-  <% page_articles.each_with_index do |article, i| %>
-    <li><%= link_to article.title, article %> <span><%= article.date.strftime('%b %e') %></span></li>
-  <% end %>
-</ul>
+<!-- Show all articles -->
+<% page_articles.each_with_index do |article, i| %>
+  <%= partial "partials/post_summary.erb", locals: {
+      article:article,
+      summary_len: 100,
+      em: 0.75 } %>
+<% end %>
 
+<!-- Show next page -->
 <% if paginate %>
   <% if next_page %>
     <p><%= link_to 'Next page', next_page %></p>

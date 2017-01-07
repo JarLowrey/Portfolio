@@ -6,15 +6,15 @@
     current_article.tags.each do |tag|
       articles = blog.tags[tag]
       if articles.size > 1 then #if only 1 article is in the tag, it is the current article
-        tag_links.push(link_to "#{tag} (#{articles.size - 1})", tag_path(tag))
+        tag_links.push(link_to "#{tag}", tag_path(tag), { class:"button button_primary" })
       end
     end
   %>
 
 <div class="article-tags">
 
-<% if tag_links != "" then %>
-##Similar Articles: <%= tag_links.join(', ') %>
+<% if tag_links.length > 0 then %>
+<%= tag_links.join(' ') %>
 <% end %>
 
 </div>

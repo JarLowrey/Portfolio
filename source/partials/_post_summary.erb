@@ -1,0 +1,27 @@
+<%
+summary_len ||= 250
+em ||= 1
+%>
+
+
+<section class="post_summary" style="font-size:<%= em %>em">
+  <aside>
+    <img src="<%= get_article_img(article.tags) %>" class="article-type"/>
+
+    <!-- tags -->
+    <div class="tags">
+      <% article.tags.each do |tag| %>
+        <%= link_to "#{tag}", tag_path(tag), { class: "button button_primary" }%>
+      <% end %>
+    </div>
+  </aside>
+
+  <article>
+    <h2><%= link_to article.title, article %> </h2>
+    <time><%= article.date.strftime("%B %e, %Y") %></time>
+    <%=
+    article.summary(summary_len)
+    #article.body
+    %>
+  </article>
+</section>

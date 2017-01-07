@@ -1,0 +1,56 @@
+// modified from http://codepen.io/cbracco/pen/ywdbm?css-preprocessor=none
+$buttons_color: white;
+$buttons_color_hover: black;
+
+.button {
+	display: inline-block;
+	margin: 0;
+	padding: $margin;
+	border: 0;
+	border-radius: 0.317rem;
+	background-color: #aaa;
+	color: $buttons_color;
+	text-decoration: none;
+	font-weight: 700;
+	font-family: "Helvetica Neue", Arial, sans-serif;
+	cursor: pointer;
+	-webkit-appearance: none;
+	-webkit-font-smoothing: antialiased;
+
+	&:hover,
+	&:visited:hover {
+		opacity: 0.85;
+		text-decoration: none;
+		color: $buttons_color_hover;
+	}
+
+	&:active {
+		box-shadow: inset 0 3px 4px hsla(0, 0%, 0%, 0.2);
+	}
+
+	&:focus {
+		outline: thin dotted #444;
+		outline: 5px auto -webkit-focus-ring-color;
+		outline-offset: -2px;
+	}
+
+	&:visited {
+		color: $buttons_color;
+	}
+}
+
+.button_primary {
+	background-color: #1fa3ec;
+}
+
+.button_secondary {
+	background-color: #e98724;
+}
+
+.button-icon {
+	display: inline-block;
+	position: relative;
+	top: -0.1em;
+	vertical-align: middle;
+	margin-right: 0.317rem;
+}

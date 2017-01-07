@@ -17,35 +17,28 @@ article {
         @extend .clearfix;
     }
 
-    p{
-      img {
-        @extend .article-img;
-      }
+    p {
+        img {
+            @extend .article-img;
+        }
     }
-    figure{
+
+    figure {
         //markdown usually forces images to be nested in a 'p' element, but I get around this by using my _image.erb partial
         img {
             @extend .article-img;
         }
-        figcaption{
-          text-align: center;
-          font-size: 0.9rem;
+
+        figcaption {
+            text-align: center;
+            font-size: 0.9rem;
         }
     }
 
-    .article-links{
-      text-align: center;
+    .article-links {
+        text-align: center;
     }
 }
-
-.article-img {
-    display: block;
-    margin: $margin auto;
-    width: 100%;
-    max-width: 450px;
-    box-sizing: border-box;
-}
-
 
 .quick-actions {
     a {
@@ -69,8 +62,19 @@ article {
     }
 }
 
+.article-img {
+    display: block;
+    margin: $margin auto;
+    max-width: 450px;
+    box-sizing: border-box;
+    width: 90%;
+    @include media-query($on-laptop) {
+        width: 100%;
+    }
+}
+
 .article-header {
-    padding: $article-header-padding 0;
+    padding: $margin * 5 0;
     margin-bottom: $margin;
 
     p {
@@ -86,18 +90,41 @@ article {
             width: $wrap-width-mobile + 5%;
         }
     }
+
+    .article-img {}
 }
 
 .article-links {
     text-decoration: none;
     border: 1px solid black;
 
+    .article-tags {
+        font-size: 0.5em;
+    }
+
     .link-section {
         vertical-align: top;
         margin-bottom: $margin;
         @include media-query($on-laptop) {
-            width: 31%;
             display: inline-block;
+
+            li {
+                margin-bottom: $margin * 0.5;
+            }
+        }
+    }
+    //classes that determine link section width
+    @include media-query($on-laptop) {
+        .links-1 {
+            @include links_width(1);
+        }
+
+        .links-2 {
+            @include links_width(2);
+        }
+
+        .links-3 {
+            @include links_width(3);
         }
     }
 }

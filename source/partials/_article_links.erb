@@ -1,32 +1,46 @@
 <%
+#initialize locals
 resources ||= false
 materials ||= false
 software_versions ||= false
+
+#find number of link sections to display to calculate their widths
+sum = 0
+if resources then
+  sum += 1
+end
+if materials then
+  sum += 1
+end
+if software_versions then
+  sum += 1
+end
+width_class = "links-#{sum}"
+
 %>
 
 
 <aside class="article-links">
 
 <% if resources %>
-<div class="link-section">
+<div class="link-section <%= width_class %>">
 #Related
 <%= resources %>
 </div>
 <% end %>
 
 <% if materials %>
-<div class="link-section">
+<div class="link-section <%= width_class %>">
 #Materials
 <%= materials %>
 </div>
-
 <% end %>
+
 <% if software_versions %>
-<div class="link-section">
+<div class="link-section <%= width_class %>">
 #Software
 <%= software_versions %>
 </div>
-
 <% end %>
 
 <%= partial "partials/article_tags.erb" %>

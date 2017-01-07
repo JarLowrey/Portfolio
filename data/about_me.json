@@ -2,56 +2,56 @@
   "social": {
     "stackoverflow": {
       "url":"http://stackoverflow.com/users/4180797/james-lowrey/",
-      "img_url":"social/stackoverflow.svg",
+      "img_url":"icons/social/stackoverflow.svg",
       "img_alt":"StackOverflow"
     },
     "github": {
       "url":"https://github.com/jtronlabs/",
-      "img_url":"social/github-icon.svg",
+      "img_url":"icons/social/github-icon.svg",
       "img_alt":"GitHub"
     },
     "gitlab": {
       "url":"https://gitlab.com/u/jtronlabs/",
-      "img_url":"social/gitlab.svg",
+      "img_url":"icons/social/gitlab.svg",
       "img_alt":"GitLab"
     },
     "linkedIn": {
       "url":"https://www.linkedin.com/in/jameslowrey2/",
-      "img_url":"social/Linkedin.svg",
+      "img_url":"icons/social/Linkedin.svg",
       "img_alt":"LinkedIn"
     },
     "facebook": {
-      "img_url":"social/facebook.svg",
+      "img_url":"icons/social/facebook.svg",
       "img_alt":"Facebook"
     },
     "reddit": {
       "url":"https://www.reddit.com/user/jtronlabs/",
-      "img_url":"social/reddit.svg",
+      "img_url":"icons/social/reddit.svg",
       "img_alt":"Reddit"
     },
     "hacker_news": {
       "url":"https://news.ycombinator.com/user?id=jtronlabs",
-      "img_url":"social/Y_Combinator.svg",
+      "img_url":"icons/social/Y_Combinator.svg",
       "img_alt":"Hacker News"
     },
     "strava": {
       "url":"https://www.strava.com/athletes/15104631",
-      "img_url":"social/strava.svg",
+      "img_url":"icons/social/strava.svg",
       "img_alt":"Strava"
     },
     "gPlus": {
       "url":"https://plus.google.com/u/0/117075087218781657011/",
-      "img_url":"social/google-plus.svg",
+      "img_url":"icons/social/google-plus.svg",
       "img_alt":"Google Plus"
     },
     "gPlay": {
       "url":"https://play.google.com/store/apps/developer?id=JTronLabs",
-      "img_url":"social/Google_Play_symbol.svg",
+      "img_url":"icons/social/Google_Play_symbol.svg",
       "img_alt":"Google Play"
     },
     "twitter": {
       "url":"https://twitter.com/jtronlabs/",
-      "img_url":"social/twitter.svg",
+      "img_url":"icons/social/twitter.svg",
       "img_alt":"Twitter",
       "username":"jtronlabs"
     }
@@ -59,32 +59,32 @@
   "learning":[
     {
       "url":"https://middlemanapp.com/",
-      "img_url":"tech/middleman-logo.svg",
+      "img_url":"icons/tech/middleman-logo.svg",
       "img_class":"icon",
       "img_alt":"Middleman"
     },{
       "url":"http://phaser.io/learn/",
-      "img_url":"tech/phaser-logo.svg",
+      "img_url":"icons/tech/phaser-logo.svg",
       "img_class":"icon",
       "img_alt":"Phaser"
     },{
       "url":"https://jekyllrb.com/",
-      "img_url":"tech/jekyll.png",
+      "img_url":"icons/tech/jekyll.png",
       "img_class":"icon",
       "img_alt":"Jekyll"
     },{
       "url":"http://gruntjs.com/",
-      "img_url":"tech/grunt.svg",
+      "img_url":"icons/tech/grunt.svg",
       "img_class":"icon",
       "img_alt":"Grunt"
     },{
       "url":"http://gulpjs.com/",
-      "img_url":"tech/gulp.svg",
+      "img_url":"icons/tech/gulp.svg",
       "img_class":"icon",
       "img_alt":"Gulp"
     },{
       "url":"https://www.npmjs.com/",
-      "img_url":"tech/Npm-logo.svg",
+      "img_url":"icons/tech/Npm-logo.svg",
       "img_class":"icon",
       "img_alt":"NPM"
     }
@@ -92,78 +92,78 @@
   "skills":[
     {
       "url":"https://git-scm.com/",
-      "img_url":"tech/git.svg",
+      "img_url":"icons/tech/git.svg",
       "img_class":"icon",
       "img_alt":"Git"
     },{
       "url":"http://www.w3schools.com/html/html5_intro.asp",
-      "img_url":"tech/HTML5.svg",
+      "img_url":"icons/tech/HTML5.svg",
       "img_class":"icon",
       "img_alt":"HTML5"
     },{
       "url":"https://www.javascript.com/",
-      "img_url":"tech/javascript.svg",
+      "img_url":"icons/tech/javascript.svg",
       "img_class":"icon",
       "img_alt":"JavaScript"
     },{
       "url":"http://www.w3schools.com/css/css3_intro.asp",
-      "img_url":"tech/CSS3_badge.svg",
+      "img_url":"icons/tech/CSS3_badge.svg",
       "img_class":"icon",
       "img_alt":"CSS3"
     },{
       "url":"http://sass-lang.com/",
-      "img_url":"tech/Sass-Logo.svg",
+      "img_url":"icons/tech/Sass-Logo.svg",
       "img_class":"icon",
       "img_alt":"Sass"
     },{
       "url":"https://www.ruby-lang.org/en/",
-      "img_url":"tech/Ruby_logo_64x64.png",
+      "img_url":"icons/tech/Ruby_logo_64x64.png",
       "img_class":"icon",
       "img_alt":"Ruby"
     },{
       "url":"https://www.python.org/",
-      "img_url":"tech/Python-logo-notext.svg",
+      "img_url":"icons/tech/Python-logo-notext.svg",
       "img_class":"icon",
       "img_alt":"Ruby"
     },{
       "url":"https://www.java.com/en/",
-      "img_url":"tech/Java_Logo.svg",
+      "img_url":"icons/tech/Java_Logo.svg",
       "img_class":"icon",
       "img_alt":"Java"
     },{
       "url":"https://msdn.microsoft.com/en-us/library/67ef8sbd.aspx/",
-      "img_url":"tech/logo-csharp.svg",
+      "img_url":"icons/tech/logo-csharp.svg",
       "img_class":"icon",
       "img_alt":"C#"
     },{
       "url":"https://en.wikipedia.org/wiki/C_(programming_language)",
-      "img_url":"tech/C.svg",
+      "img_url":"icons/tech/C.svg",
       "img_class":"icon",
       "img_alt":"C"
     },{
       "url":"https://en.wikipedia.org/wiki/SQL",
-      "img_url":"tech/sql-file-format.svg",
+      "img_url":"icons/tech/sql-file-format.svg",
       "img_class":"icon",
       "img_alt":"SQL",
       "img_src":"http://www.flaticon.com"
     },{
       "url":"http://www.mathworks.com/products/matlab/?requestedDomain=www.mathworks.com/",
-      "img_url":"tech/Matlab_Logo.png",
+      "img_url":"icons/tech/Matlab_Logo.png",
       "img_class":"icon",
       "img_alt":"MatLab"
     },{
       "url":"https://www.linux.com/",
-      "img_url":"tech/NewTux.svg",
+      "img_url":"icons/tech/NewTux.svg",
       "img_class":"icon",
       "img_alt":"Linux"
     },{
       "url":"https://unity3d.com/",
-      "img_url":"tech/unity.svg",
+      "img_url":"icons/tech/unity.svg",
       "img_class":"icon",
       "img_alt":"Unity"
     },{
       "url":"https://www.android.com/",
-      "img_url":"tech/Android_robot.svg",
+      "img_url":"icons/tech/Android_robot.svg",
       "img_class":"icon",
       "img_alt":"Android"
     }

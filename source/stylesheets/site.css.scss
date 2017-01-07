@@ -14,8 +14,6 @@ $card-img-height: 5em;
 $card-width-desktop: 30%;
 $base-font-size: 21px;
 $navbar-padding: 1em;
-$article-header-img-height: 13em;
-$article-header-padding: 5em;
 $navbar-height-normal: 4.1em; //found by inspecting the navbar to find the bottom
 $navbar-height-palm: 10.95em;
 $link-height: 1em + 0.4em * 2;
@@ -38,6 +36,9 @@ $on-desktop: 1200px;
         font-size: $context-size-computed * $desktop-amplifier + em;
     }
 }
+@mixin links_width($num_links) {
+    width: 100% / $num_links - 1%;
+}
 
 .clearfix {
     &:after {
@@ -47,4 +48,4 @@ $on-desktop: 1200px;
     }
 }
 @import "colors";
-@import "card","headers","global","posts","footer","navbar";
+@import "card","headers","global","posts","footer","navbar","buttons","post_summary";
