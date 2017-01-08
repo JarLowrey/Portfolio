@@ -3,7 +3,7 @@ header = current_article.data.header
 subtext =  current_article.data.dig(:header,:subtext)                   ? header.subtext : ""
 color_background =  current_article.data.dig(:header,:color_background) ? header.color_background : data.defaults.article.header.color.bg
 color_text =        current_article.data.dig(:header,:color_text)       ? header.color_text : data.defaults.article.header.color.text
-header_img =        current_article.data.dig(:header,:img_url)          ? app.image_tag("/images/#{header.img_url}", alt: "Article Header Image", class:"article-img") : ""
+header_img =        current_article.data.dig(:header,:img_url)          ? app.image_tag(header.img_url, alt: "Article Header Image", class:"article-img") : ""
 %>
 
 
