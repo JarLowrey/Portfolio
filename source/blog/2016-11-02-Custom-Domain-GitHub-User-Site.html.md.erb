@@ -31,7 +31,9 @@ The index.html in that repo will automatically become availble at, you guessed i
 
 You can configure your Project site under the "Settings" tab in its repository - in the "GitHub Pages" section.
 
-![GitHub Pages Settings](/images<%= current_article.url %>/gh-pages-repo-settings.png)
+<%= partial "partials/image.erb", locals: {
+    src: "gh-pages-repo-settings.png",
+    alt: "GitHub Pages Settings" } %>
 
 GitHub has recently added a swanky new tool to create your site in the browser ("Launch automatic page generator" in the picture above).
 If you don't want to create a site using [markdown](https://en.wikipedia.org/wiki/Markdown) via GitHub's [CMS](https://en.wikipedia.org/wiki/Content_management_system), you can choose a [branch](https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell) in your repository that contains your HTML files.
@@ -76,7 +78,9 @@ Without these your URL doesn't go anywhere, instead displaying the Registrar's d
 You need to use the settings described on official [GitHub docs](https://help.github.com/articles/setting-up-an-apex-domain/) and further clarified on [Stack Overflow](http://stackoverflow.com/questions/9082499/custom-domain-for-github-project-pages).
 Here they are completed in NameCheap.
 
-![Host Record Settings](/images<%= current_article.url %>/host-records.png)
+<%= partial "partials/image.erb", locals: {
+    src: "host-records.png",
+    alt: "Host Record Settings" } %>
 
 Adding "A" records with a value of `192.30.252.153` and `192.30.252.154` is mandatory (unless using an Alias/ANAME record).
 Alias/ANAME records are equivalent to the "A" record, but take a URL instead of an IP address.
@@ -91,7 +95,9 @@ My CNAME record in NameCheap for "www" simply redirects to the canonical site, "
 Now, return to your repository's settings.
 Since your site is currently published with GitHub's default URL, the "GitHub Pages" section has some new options.
 
-![GitHub Pages Settings After Publishing](/images<%= current_article.url %>/gh-pages-repo-settings-after-publishing.png)
+<%= partial "partials/image.erb", locals: {
+    src: "gh-pages-repo-settings-after-publishing.png",
+    alt: "GitHub Pages Settings After Publishing" } %>
 
 Fill out the custom domain box and you're done!
 Note that [HTTPS](https://en.wikipedia.org/wiki/HTTPS) enabling, which is now in settings, is disabled on custom domains.

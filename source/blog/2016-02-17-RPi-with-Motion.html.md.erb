@@ -356,23 +356,31 @@ First step is to set up [port forwarding](https://en.wikipedia.org/wiki/Port_for
 
 Routers made by different companies will have different log-in steps. Typically though, you will enter your router's IP address (192.168.0.1 by default) into the browser and log-in with the default credentials visible on the bottom of the router. Usually the username and password are both 'admin', or maybe the username is 'admin' with no password.
 
-![Router Log-in](/images<%= current_article.url %>/router_log_in.png)
+<%= partial "partials/image.erb", locals: {
+    src: "router_log_in.png",
+    alt: "Router Log-in" } %>
 
 Once logged in, navigate to the 'Forwarding' or 'Port-Forwarding' section. Here we will setup some records that will translate requests at a specific port on your public IP to be routed to a local IP. Remember, by default HTTP requests are at port 80, and HTTPS requests are at 443. If using a custom port then a colon and number (:XXXX) must be appended to the end of the url. Here is a screenshot of my setup, and some useful info from TPLink's router as well. My Motion server is available on port 8081, and my web server is on port 8079 (as discussed in the Apache section).
 
-![Port Forwarding](/images<%= current_article.url %>/port_forwarding.png)
+<%= partial "partials/image.erb", locals: {
+    src: "port_forwarding.png",
+    alt: "Port Forwarding" } %>
 
 With that, your site and video stream are active! You can put your public IP and port number into any browser and view the output.
 
 Typing in an IP address every time you want to view your site will get a bit tedious, it's best to connect it to a [Domain Name](https://en.wikipedia.org/wiki/Domain_name). Instead of an IP, we  will be able to type words into the browser's URL to reach our site. To do this, you will need a yearly subscription from [a domain name registrar](https://en.wikipedia.org/wiki/Domain_name_registrar) (don't worry, it's very cheap). I highly, highly recommend [Namecheap](https://www.namecheap.com/). I've registered a few domains with them and their customer service has been extremely helpful when I've had issues. They also have some of the lowest prices, a beautifully designed website, and support a [free and open](https://blog.namecheap.com/we-say-no-to-sopa/) web (which [GoDaddy](http://www.bbc.com/news/technology-16320149) does not without pressure). So first step is to go to namecheap and register a domain.
 
-![Namecheap](/images<%= current_article.url %>/namecheap.png)
+<%= partial "partials/image.erb", locals: {
+    src: "namecheap.png",
+    alt: "Namecheap" } %>
 
 Once you have a shiny new domain you can follow [Namecheap's tutorial](https://www.namecheap.com/support/knowledgebase/article.aspx/1162/46/how-can-i-point-my-domain-name-to-my-home-servers-ip) or follow along here with me. Go to your domain list and click on your new domain. From there, go to the advanced DNS section and click on 'Add a new record'. We will be adding an 'A' record (Address Record). Input your public IP into the 'Value' field, and an '@' into the host field. Wait a few minutes and your domain name will be live!
 
 At this point, I would also recommend adding a URL redirect record. Since port 80 is default and we are not using it, we would like to be auto redirected to the correct port. The Masked/Unmasked option is what displays in the browser's URL. For more info on DNS record types, click [here](https://www.namecheap.com/support/knowledgebase/article.aspx/579).
 
-![A Record](/images<%= current_article.url %>/a_record.png)
+<%= partial "partials/image.erb", locals: {
+    src: "a_record.png",
+    alt: "A Record" } %>
 
 Don't forget to save them by clicking the 'Checkmark' icon.
 

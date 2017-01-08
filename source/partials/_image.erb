@@ -1,22 +1,23 @@
 <%
 caption ||= ""
 alt ||= ""
+classes ||= ""
 
-#strip extension off artcile link to get folder path
+#strip extension off article link to get folder path
 url = current_article.url
 url_without_ext = url[0..url.length-6]
 
-#determine if image is external or internal
+#determine if image has an exact link or belongs to "/images/blog/CURRENT_ARTICLE_NAME/"
 prefix = src[0..6]
-if prefix != "http://" and prefix != "https:/" then
-  #link is not external - add prefix to img src
+if prefix != "http://" and prefix != "https:/" and src[0] !="/" then
+  #image belongs to "/images/blog/CURRENT_ARTICLE_NAME/" - add prefix to src
   src = "/images#{url_without_ext}/#{src}"
 end
 %>
 
 {::nomarkdown}
-<figure>
-  <img src="<%= src %>" alt="<%= alt %>">
+<figure class="<%= classes %>">
+  <a href="<%= src %>" ><img src="<%= src %>" alt="<%= alt %>"></a>
   <figcaption><%= caption %></figcaption>
 </figure>
 {:/}
