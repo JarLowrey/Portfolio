@@ -1,0 +1,9 @@
+<h1>Archive</h1>
+
+<!-- Show all articles -->
+<% blog.articles.each_with_index do |article, i| %>
+  <%= partial "partials/post_summary.erb", locals: {
+      article:article,
+      summary_len: 100,
+      em: 0.75 } %>
+<% end %>

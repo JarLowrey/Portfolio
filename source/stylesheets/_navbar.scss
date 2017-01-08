@@ -10,7 +10,7 @@ navbar {
         //need class for higher specificity
         display: block;
         text-align: center;
-        margin: 0 auto;
+        margin: 0 $margin/2;
     }
     @include media-query($on-laptop) {
         a {
