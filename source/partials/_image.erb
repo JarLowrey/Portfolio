@@ -1,9 +1,10 @@
 <%
+#initialize local variables in case they were not included
 caption ||= ""
 alt ||= ""
 classes ||= ""
 
-#strip extension off article link to get folder path
+#strip '.html' extension off article link to get name of folder
 url = current_article.url
 url_without_ext = url[0..url.length-6]
 
@@ -15,9 +16,14 @@ if prefix != "http://" and prefix != "https:/" and src[0] !="/" then
 end
 %>
 
+<!-- Use Kramdown's 'nomarkdown' tag so that this figure is not wrapped in a 'p' tag in the blog pages that use this partial -->
 {::nomarkdown}
 <figure class="<%= classes %>">
-  <a target="_blank" href="<%= src %>" ><img src="<%= src %>" alt="<%= alt %>"></a>
+  <!-- Show the image and link to the full resolution on click-->
+  <a target="_blank" href="<%= src %>" >
+    <img src="<%= src %>" alt="<%= alt %>">
+  </a>
+
   <figcaption><%= caption %></figcaption>
 </figure>
 {:/}
