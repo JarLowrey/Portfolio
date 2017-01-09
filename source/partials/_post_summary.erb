@@ -1,12 +1,13 @@
 <%
 summary_len ||= 250
 em ||= 1
+img_url = article.data.dig(:header,:img_url) ? article.data.header.img_url : "/images/icons/write.svg"
 %>
 
 
 <section class="post_summary" style="font-size:<%= em %>em">
   <aside>
-    <img src="<%= article.data.header.img_url %>" class="article-type"/>
+    <img src="<%= img_url %>" class="article-type"/>
 
     <!-- tags -->
     <div class="tags">

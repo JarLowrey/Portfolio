@@ -1,5 +1,5 @@
 <%
-img_url = article.data.dig(:header,:img_url) ? article.data.header.img_url : "/images/icons/write.svg"
+img_url = article.data.dig(:header,:img_url) ? "images/#{article.data.header.img_url}" : "images/icons/write.svg"
 color_background =  article.data.dig(:header,:color_background) ? article.data.header.color_background : data.defaults.article.header.color.bg
 %>
 

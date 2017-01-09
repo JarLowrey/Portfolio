@@ -27,6 +27,16 @@ ul {
     }
 }
 
+blockquote {
+    color: $quote-color;
+    border-left: 0.25em solid #ddd;
+    padding: 0 1em;
+}
+
+strong {
+    font-weight: bold;
+}
+
 .dotted_link {
     text-decoration: none;
     color: $text-color;
@@ -78,7 +88,7 @@ a {
     &:hover {
         color: $text-color;
         text-decoration: underline;
-        cursor:pointer; //needed for links with no href
+        cursor: pointer; //needed for links with no href
     }
 }
 
