@@ -1,18 +1,17 @@
 ---
 id: "post_6"
-published: false
-title:  "Tips For Optimizing Your Game"
-blurb: "Checklist for ensuring maximum performance when developing your next game"
+title:  "Basic Game Optimization Techniques"
+blurb: "Ensure maximum performance when developing your next game"
 author: James Lowrey
-tags: Games,Optimization
+tags: Games,Optimization,Performance
 ---
 
 <span class="caps">R</span>ecently I made a [simple game](/blog/Creating-Birdu-Part-1.html) and was surprised to run into performance issues.
 How to fix it?
 I could invest my time in micro optimizations ([JS](https://medium.com/@xilefmai/efficient-javascript-14a11651d563?imm_mid=0eb24a#.v4qkvtyf3)), intensive graphical analysis ([GTAV](http://www.adriancourreges.com/blog/2015/11/02/gta-v-graphics-study/) and [DOOM](http://www.adriancourreges.com/blog/2016/09/09/doom-2016-graphics-study/)), or conflicting forum advice.
-Eventually I discovered the issue, and also collected some broadly applicable optimization tips.
-I hope it helps other devs, but just remember how demanding and diverse games are, there's no silver bullet for improving performance.
-I'll start with broad advice, and narrow it down to directly applicable information.
+Eventually I discovered the issue, and also collected some juicy optimization tips.
+I hope it helps other devs.
+I'll start with broad advice, and narrow down to generally applicable programming patterns.
 
 >The key to making programs fast is to make them do practically nothing. ;-) - [Mike Haertel](https://lists.freebsd.org/pipermail/freebsd-current/2010-August/019310.html)
 
@@ -21,9 +20,9 @@ I'll start with broad advice, and narrow it down to directly applicable informat
     resources: "
 - [Optimization Patterns](http://gameprogrammingpatterns.com/optimization-patterns.html)
 - [10 Myths of Game Optimization](http://www.gamasutra.com/view/feature/130296/the_top_10_myths_of_video_game_.php)
-- [Crowd Optimization in Planet Coaster](http://www.gamasutra.com/view/news/288020/Game_Design_Deep_Dive_Creating_believable_crowds_in_Planet_Coaster.php)
-- [JavaScript optimizations](https://github.com/petkaantonov/bluebird/wiki/Optimization-killers)
+- [Example: Crowd Optimization in Planet Coaster](http://www.gamasutra.com/view/news/288020/Game_Design_Deep_Dive_Creating_believable_crowds_in_Planet_Coaster.php)
 - [Unity Graphics Optimization Tips](https://docs.unity3d.com/Manual/OptimizingGraphicsPerformance.html)
+- [How Riot Optimizes](https://engineering.riotgames.com/news/random-acts-optimization)
 "
   } %>
 
@@ -31,12 +30,14 @@ I'll start with broad advice, and narrow it down to directly applicable informat
 
 Profilers are tools that track a program's usage of the CPU, GPU, memory allocation, frame rate, and other key metrics.
 They are absolutely essential.
-Software does not run in a vaccum, so sometimes your game's slowdown could be caused by abode checking for updates in the background, and you'll be sent on a wild goose chase.
+Software does not run in a vaccum, so sometimes your game's slowdown could be caused by abode in the background.
+When optimizing you first need to identify the problem, and then you can begin comprehending it.
+Profilers allow you to start that journey.
 
 Since my game was written with [Phaser](http://phaser.io/) and Javascript I used Chrome's Timeline tool to profile.
 Below you can see the output of a short run of my game.
 It looks pretty daunting at first glance, but I highlighted some areas that help break it down.
-Other profilers act similarly, and by using it to find areas of poor performance you can find the the code causing it and hunt down optimization issues.
+Other profilers act similarly, and by using them to find areas of poor performance you can immediately see the code causing it and start hunting down optimization issues.
 
 <%= partial "partials/image.erb", locals: {
     src: "chrome_timeline.png",
@@ -50,16 +51,6 @@ Engines are constantly getting better, make sure yours is up-to-date.
 Do some research into plugins and tools that can accompany your engine.
 Stuff won't always be available, helpful, or as significant as advertised, but I feel I have to include this because incoporating [Crosswalk](https://crosswalk-project.org/) into my hybrid app dramatically improved game performance.
 
-##Use Network Calls Asynchronously
-
-When accessing the network, please do it in an asynchronous manner.
-Synchonous operations execute one-after-another, while [asynchronous operations](http://stackoverflow.com/questions/748175/asynchronous-vs-synchronous-execution-what-does-it-really-mean) are pushed off to another [thread](https://en.wikipedia.org/wiki/Thread_(computing)) and allow the calling code to keep running.
-Some languages make it possible to run network calls in the UI thread, once it starts the entire UI is frozen until the network call finishes.
-Most commonly though, developers will wait to use network calls until the user clicks on something, and then will make the user wait for it to return.
-Fetch this data early, and don't make people wait.
-I've also seen games that have multiple loading screens, one for making server calls and another to load assets/images into RAM (preloading).
-Combine those!
-
 ##Input/Output and Graphics
 
 Between levels of the memory hierarchy there are [orders of magnitude differences](http://stackoverflow.com/questions/4087280/approximate-cost-to-access-various-caches-and-main-memory) in the time it takes to access data, so be sure you are using memory closer to the top.
@@ -70,9 +61,7 @@ Performance is commonly an aspect of data, not code.
     alt: "Memory Hierarchy",
     caption: "<a href=\"http://superuser.com/questions/78362/what-is-the-relationship-between-cpu-usage-and-ram/78364\">Source</a>" } %>
 
-However, as a game programmer memory hierarchy is usually abstracted away from you by your engine and language of choice.
-They handle and optimize for complicated things like garbage collection, draw calls, static/dynamic batching, and other rendering related buzzwords.
-It's your job to make sure you don't tax these systems and use them in ways they are not prepared for.
+As a game programmer a lot of memory interaction is usually abstracted away from you by your engine and language of choice, but there is still plenty that you can control.
 
 First off, ensure your don't run out of memory by **using smaller assets**, or less of them.
 Trying to load huge images, sounds, and files into memory will cause it to fill up fast and lead to abysmal performance.
@@ -80,35 +69,94 @@ Ensure that the **assets are optimized**.
 Using a texture atlas or spritesheet instead of individual images will dramatically lower GPU draw calls and improve 2D performance.
 Using 3D objects with less vertices or polygons will make collision detection and rendering many times faster.
 Watch out for **asset decompression**.
-For example, in my game Birdu mp3's induced a noticeable lag when starting while wav's did not.
+For example, in my game [Birdu](/blog/Creating-Birdu-Part-1.html) mp3's induced a noticeable lag when starting while wav's did not.
 There was less decompression required.
-Next, **reduce game world size** to lower the amount that needs rendered at once.
-Only render what the user can see and load more of the game world as needed.
+Next, **reduce game world size** to lower the amount that needs rendered and loaded at once.
+Only render what the user can see and load more of the game as needed.
 In general, try to improve **data locality** to improve cache performance.
 Read [this article](http://gameprogrammingpatterns.com/data-locality.html) to find out how.
-This is a problem difficult to diagnosis and solve so just be wary of it and start debugging for it as a last ditch effort, it can yield great benefits.
-Finally **read documentation** to find any engine-specific functions that can help improve performance.
+Locality can be difficult to diagnosis and solve, just be wary of it if you can't see an issue when checking your profiler.
+Poor locality leads to cache misses, which can be abysmal for performance.
 
 GPU and graphics optimizations can get [super complicated and in-depth](http://www.adriancourreges.com/blog/2016/09/09/doom-2016-graphics-study/), so there is much more that you can optimize.
 For most non-AAA games the above advice should be sufficient, but I will try to keep it updated as I learn more.
 
-##Do Less Stuff
+##Leverage Asynchronous Actions
 
-reduce code in update() loop (use timers?)
-focus on optimizing functions that execute frequently
+Synchonous operations execute one-after-another, while [asynchronous operations](http://stackoverflow.com/questions/748175/asynchronous-vs-synchronous-execution-what-does-it-really-mean) can be executed simultaneously.
+Most programs run synchronously.
+Asynchronous programs utilize [threads](https://en.wikipedia.org/wiki/Thread_(computing)) to start a new task and still allow the calling code to keep running.
 
-Cut down on expensive/complicated function calls by reusing their values after calling them the first time.
-This is also known as caching, but is different from a memory cache (though both improve performance by storing intermediate values).
+Asynchonous programming can be difficult to manage, but can greatly improve performance in certain tasks.
+The tasks need to be capable of parallelization, e.g. rendering, I/O, enemy AI, pathfinding and more.
+Once you start trying to have your program run simultaneously with itself, you need to watch out for **data races, deadlocks, live locks, synchronization and increased complexity**.
+Threading can be hard, you should be prepared.
+I have not utilized multithreading in any games yet, but my understanding is that many game engines have a "job" style of multi-threading.
+Break tasks into atomic units (with dependencies on other units), and submit them all to a queue which will dispatch it to whatever worker thread is available.
+You typically do not want to create a thread per task, or try to manage everything on your own, as creating threads and having too many at once can cause lagginess.
 
-##Heroes Never Die
-
-Creating objects is expensive (why?)
-Recycle sprites! do not create and destroy stuff dynamically
-pre-allocate sprites when starting game
+Network calls should be also used asynchronously.
+Most commonly developers will wait to use network calls until the user clicks on something, and then will make the user wait for it to return.
+Fetch this data early, and don't make people wait.
+I've also seen games that have multiple loading screens, one for making server calls and another to load assets/images into RAM (preloading).
+Combine those!
+This is an easy way to "optimize" the user experience.
 
 ##Algorithm Analysis
 
 Meat-and-potatoes CSE: know your big-O notation, algorithmic complexities, and be extremely wary of loops.
-Finding neighbors, paths, blank and blank are all common tasks in games that can dramatically benefit from data structures or better algorithm design.
+Learn to love [hashmaps](https://en.wikipedia.org/wiki/Hash_table#Related_data_structures).
+Nearest neighbor computation and pathfinding are common tasks in games that can dramatically benefit from data structures or better algorithm design.
 
-##And beyond?
+##Focus on Reoccurring Tasks
+
+A lot of game programming occurs in the main update loop, or the physics loop.
+Even a small performance hit can make an impact when it is occurring 60 times per second, potentially on many different objects.
+So use a keen eye when examining your game loops, frequently occurring enemies, or common tasks.
+A profiler can give more precise info on long-running functions, but if there is a general slowness to your game, this is a great place to start.
+
+Sometimes, update code could go into a timer.
+Instead of running 60 times per second, a task could run once every few seconds, or even once a second.
+Similarly, code does not always need to run in every object instance.
+You might be able to do a calculation once, and use the result to update all individuals (similar to how Planet Coaster optimized their [crowd mechanics](http://www.gamasutra.com/view/news/288020/Game_Design_Deep_Dive_Creating_believable_crowds_in_Planet_Coaster.php)).
+Also, be sure to cache (store) the output of expensive functions for subsequent use.
+It allows you to reuse the stored variable instead of using the offending function again.
+
+##Heroes Never Die
+
+An extremely fundamental game optimization technique is recycling objects.
+Creating new objects is expensive: memory needs to be found and initialization code has to be traversed throughout the entire stack.
+Once you're done with that object, if you destroy its references the garbage collector will cause a performance hit when the GC cleans it up.
+
+Recycle your objects!
+Do not create nor destory dynamically.
+Instead, on game start pre-allocate your objects: enemies, friendlies, bullets, etc, and disable them.
+Once you need a new one, grab a disabled/dead one and revive it - make it visible, start its update loop, set a new position.
+This is called **resource pooling**.
+Once an object "dies", re-disable it and release it back to the pool.
+This will keep object allocation and deallocation snappy, despite your game's many interacting pieces.
+
+##Finding Neighbors
+
+Finding an object's nearest neighbor can be a very expensive task.
+By default, objects have no ordering.
+So, to find a neighbor, you need to loop over all objects, calculate distance metrics, and then find the closest.
+If you have many objects, then leveraging **spatial locality** could help.
+
+Keep an array of the items sorted by their distance to your player.
+We're trading memory for CPU cycles.
+Of course, moving objects will now have to update their position, so perform measurements to avoid a negative overall impact on CPU performance.
+You can vary your array/data structure to a grid or other type of structure to get even greater performance gains.
+Check out [this article](http://gameprogrammingpatterns.com/spatial-partition.html) for more information.
+
+##And beyond!
+
+This guide is by no means comprehensive, but should be enough to get you started.
+Be sure to **read documentation** and **perform research** to find engine-specific functions or problem-specific research that can help improve performance.
+
+**Be wary of pre-optimizing code and over-optimizing code.**
+As a developer, your primary goal is to ship your project.
+As an engineer, you need to be aware of the value of your time, tradeoffs of maintainable and optimized code, and the risk of unintented consequences when modifying code.
+Try to program with a mind towards optimization, but refrain from making significant changes to existing systems until a verifiable problem arises.
+
+Thanks for stopping by!
