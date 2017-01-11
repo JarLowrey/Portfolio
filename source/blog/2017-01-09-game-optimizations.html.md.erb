@@ -30,7 +30,7 @@ I'll start with broad advice, and narrow down to generally applicable programmin
 
 Profilers are tools that track a program's usage of the CPU, GPU, memory allocation, frame rate, and other key metrics.
 They are absolutely essential.
-Software does not run in a vaccum, so sometimes your game's slowdown could be caused by abode in the background.
+Software does not run in a vaccum, so sometimes your game's slowdown could be caused by Adobe in the background.
 When optimizing you first need to identify the problem, and then you can begin comprehending it.
 Profilers allow you to start that journey.
 
@@ -42,7 +42,7 @@ Other profilers act similarly, and by using them to find areas of poor performan
 <%= partial "partials/image.erb", locals: {
     src: "chrome_timeline.png",
     alt: "Chrome Timeline in Birdu game",
-    caption: "Chrome Timeline, zoomed in on small section" } %>
+    caption: "Looks like my collision detection could use some work..." } %>
 
 ##Use the latest and greatest
 
@@ -65,17 +65,19 @@ As a game programmer a lot of memory interaction is usually abstracted away from
 
 First off, ensure your don't run out of memory by **using smaller assets**, or less of them.
 Trying to load huge images, sounds, and files into memory will cause it to fill up fast and lead to abysmal performance.
+Using tiny or poor quality assets will make your game look bad, so work on this only if it becomes a problem.
 Ensure that the **assets are optimized**.
-Using a texture atlas or spritesheet instead of individual images will dramatically lower GPU draw calls and improve 2D performance.
+Using a texture atlas or spritesheet over individual images will dramatically lower GPU draw calls and improve 2D performance.
 Using 3D objects with less vertices or polygons will make collision detection and rendering many times faster.
 Watch out for **asset decompression**.
-For example, in my game [Birdu](/blog/Creating-Birdu-Part-1.html) mp3's induced a noticeable lag when starting while wav's did not.
+For example, in my game [Birdu](/blog/Creating-Birdu-Part-1.html), mp3's induced a noticeable lag when starting while wav's did not.
 There was less decompression required.
 Next, **reduce game world size** to lower the amount that needs rendered and loaded at once.
 Only render what the user can see and load more of the game as needed.
-In general, try to improve **data locality** to improve cache performance.
+Try to improve **data locality**.
+Commonly accessed data is loaded into the cache along with nearby data and it all can be accessed much faster than from RAM.
 Read [this article](http://gameprogrammingpatterns.com/data-locality.html) to find out how.
-Locality can be difficult to diagnosis and solve, just be wary of it if you can't see an issue when checking your profiler.
+Locality can be difficult to diagnosis and solve, so keep it in mind and recognise it may be causing issues when checking your profiler.
 Poor locality leads to cache misses, which can be abysmal for performance.
 
 GPU and graphics optimizations can get [super complicated and in-depth](http://www.adriancourreges.com/blog/2016/09/09/doom-2016-graphics-study/), so there is much more that you can optimize.
@@ -89,13 +91,13 @@ Asynchronous programs utilize [threads](https://en.wikipedia.org/wiki/Thread_(co
 
 Asynchonous programming can be difficult to manage, but can greatly improve performance in certain tasks.
 The tasks need to be capable of parallelization, e.g. rendering, I/O, enemy AI, pathfinding and more.
-Once you start trying to have your program run simultaneously with itself, you need to watch out for **data races, deadlocks, live locks, synchronization and increased complexity**.
-Threading can be hard, you should be prepared.
-I have not utilized multithreading in any games yet, but my understanding is that many game engines have a "job" style of multi-threading.
+Once you start trying to have your program run simultaneously with itself, you need to watch out for a myriad of issues: data races, deadlocks, live locks, synchronization and increased complexity.
+**Multi-threading** can be hard, you should be prepared.
+I have not utilized multithreading in any games yet, but my understanding is that many game engines have a "job"-like architecture of multi-threading.
 Break tasks into atomic units (with dependencies on other units), and submit them all to a queue which will dispatch it to whatever worker thread is available.
-You typically do not want to create a thread per task, or try to manage everything on your own, as creating threads and having too many at once can cause lagginess.
+You typically do not want to create a thread per task, or try to manage everything on your own, as creating threads and having too many at once have performance tradeoffs.
 
-Network calls should be also used asynchronously.
+**Network calls should be also used asynchronously.**
 Most commonly developers will wait to use network calls until the user clicks on something, and then will make the user wait for it to return.
 Fetch this data early, and don't make people wait.
 I've also seen games that have multiple loading screens, one for making server calls and another to load assets/images into RAM (preloading).
