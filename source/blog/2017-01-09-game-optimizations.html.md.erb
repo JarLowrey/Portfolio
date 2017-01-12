@@ -18,11 +18,11 @@ I'll start with broad advice, and narrow down to generally applicable programmin
 
 <%= partial "partials/article_links.erb", locals: {
     resources: "
+- [How Riot Optimizes](https://engineering.riotgames.com/news/random-acts-optimization)
 - [Optimization Patterns](http://gameprogrammingpatterns.com/optimization-patterns.html)
 - [10 Myths of Game Optimization](http://www.gamasutra.com/view/feature/130296/the_top_10_myths_of_video_game_.php)
 - [Example: Crowd Optimization in Planet Coaster](http://www.gamasutra.com/view/news/288020/Game_Design_Deep_Dive_Creating_believable_crowds_in_Planet_Coaster.php)
 - [Unity Graphics Optimization Tips](https://docs.unity3d.com/Manual/OptimizingGraphicsPerformance.html)
-- [How Riot Optimizes](https://engineering.riotgames.com/news/random-acts-optimization)
 "
   } %>
 
@@ -75,7 +75,7 @@ There was less decompression required.
 Next, **reduce game world size** to lower the amount that needs rendered and loaded at once.
 Only render what the user can see and load more of the game as needed.
 Try to improve **data locality**.
-Commonly accessed data is loaded into the cache along with nearby data and it all can be accessed much faster than from RAM.
+Data that is used often will be loaded into the cache where it can accessed much more quickly.
 Read [this article](http://gameprogrammingpatterns.com/data-locality.html) to find out how.
 Locality can be difficult to diagnosis and solve, so keep it in mind and recognise it may be causing issues when checking your profiler.
 Poor locality leads to cache misses, which can be abysmal for performance.
@@ -97,7 +97,7 @@ I have not utilized multithreading in any games yet, but my understanding is tha
 Break tasks into atomic units (with dependencies on other units), and submit them all to a queue which will dispatch it to whatever worker thread is available.
 You typically do not want to create a thread per task, or try to manage everything on your own, as creating threads and having too many at once have performance tradeoffs.
 
-**Network calls should be also used asynchronously.**
+**Network calls should be used asynchronously.**
 Most commonly developers will wait to use network calls until the user clicks on something, and then will make the user wait for it to return.
 Fetch this data early, and don't make people wait.
 I've also seen games that have multiple loading screens, one for making server calls and another to load assets/images into RAM (preloading).
@@ -146,9 +146,9 @@ So, to find a neighbor, you need to loop over all objects, calculate distance me
 If you have many objects, then leveraging **spatial locality** could help.
 
 Keep an array of the items sorted by their distance to your player.
-We're trading memory for CPU cycles.
+This is a time-to-space tradeoff, but is usually worth it.
 Of course, moving objects will now have to update their position, so perform measurements to avoid a negative overall impact on CPU performance.
-You can vary your array/data structure to a grid or other type of structure to get even greater performance gains.
+You can change your array to a grid or other data structure to get even greater performance gains.
 Check out [this article](http://gameprogrammingpatterns.com/spatial-partition.html) for more information.
 
 ##And beyond!
