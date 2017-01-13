@@ -7,7 +7,9 @@
 
       <!-- Middle -->
       <span class="">
-        Updated <%=  File.mtime(current_page.source_file).strftime("%b %e, %Y") %> <!-- Right way? -->
+        <% if current_article %>
+          Article updated <%=  File.mtime(current_page.source_file).strftime("%b %e, %Y") %> <!-- Right way? -->
+        <% end %>
       </span>
 
       <!-- Right -->
