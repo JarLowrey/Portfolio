@@ -86,9 +86,7 @@ Adding "A" records with a value of `192.30.252.153` and `192.30.252.154` is mand
 Alias/ANAME records are equivalent to the "A" record, but take a URL instead of an IP address.
 If using Alias or ANAME, enter `username.github.io` as the value.
 An "A" record determines the content server's IP address, while [CNAME](https://en.wikipedia.org/wiki/CNAME_record) identifies subdomains (for example, www) of your default/canonical domain.
-CNAME also requires creating a file named "CNAME" next to your index.html.
-Write your canonical name in this file, mine is simply "jtronlabs.com".
-My CNAME record in NameCheap for "www" simply redirects to the canonical site, "jtronlabs.com" (see above image).
+This CNAME record will redirect traffic to jtronlabs.com
 
 ##Connect Domain to GitHub Repository
 
@@ -99,9 +97,16 @@ Since your site is currently published with GitHub's default URL, the "GitHub Pa
     src: "gh-pages-repo-settings-after-publishing.png",
     alt: "GitHub Pages Settings After Publishing" } %>
 
-Fill out the custom domain box and you're done!
-Note that [HTTPS](https://en.wikipedia.org/wiki/HTTPS) enabling, which is now in settings, is disabled on custom domains.
+Fill out the custom domain box and GitHub will automatically create a CNAME file in your repository.
+Without this file, your new address will not work (but the username.github.io address will still work).
+If you are using a generator like Middleman, make sure to add the CNAME next to index.html (at the top level of the directory) in your source code.
+Otherwise you may overwrite this auto-generated file when you force push your website to GitHub, and your site's new address will break.
+
+Also, if you are not creating a Jekyll site you must add an empty file named `.nojekyll` next to your CNAME and index.html files.
+This stops GitHub from getting confused and trying to compile your project as if it was a Jekyll project.
+Finally, note that [HTTPS](https://en.wikipedia.org/wiki/HTTPS) enabling, which is now in settings, is disabled on custom domains.
+
 It may take a little while for all the changes to propagate: up to 24 hours.
-Though sometimes it just takes a few seconds.
+Though usually it just takes a few seconds.
 Congratulations!
 Your new site is up and running!
