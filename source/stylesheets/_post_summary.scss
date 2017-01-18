@@ -14,10 +14,14 @@
             margin: 0 auto;
         }
 
+        img {
+            padding: $margin/2;
+        }
+
         .tags {
             a {
                 margin: $margin/4 0;
-                max-width: 100%;
+                max-width: 90%;
                 @include media-query($on-laptop) {
                     margin: $margin/4;
                 }
