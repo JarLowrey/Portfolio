@@ -1,5 +1,5 @@
 .post_summary {
-    margin: $margin * 6 0;
+    margin: $margin * 3 0;
 
     aside {
         vertical-align: top;
@@ -16,7 +16,11 @@
 
         .tags {
             a {
-                margin: $margin/4;
+                margin: $margin/4 0;
+                max-width: 100%;
+                @include media-query($on-laptop) {
+                    margin: $margin/4;
+                }
             }
         }
     }
