@@ -1,5 +1,5 @@
 .post_summary {
-    margin-top: $margin * 2;
+    margin: $margin * 6 0;
 
     aside {
         vertical-align: top;
@@ -15,8 +15,6 @@
         }
 
         .tags {
-            font-size: 0.55rem;
-
             a {
                 margin: $margin/4;
             }

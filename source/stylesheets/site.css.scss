@@ -7,7 +7,7 @@ $context-font: ( header: 1, section: 1, article: 0.67, footer: 0.5, aside: 0.4 )
 $step-size-font: 0.333333; //step size for incremental font sizes
 $amplifier-font-heading-mobile: 1.2; //convenience var to in/decrease the values of header values in one place
 $amplifier-font-heading-desktop: 1.4; //convenience var to in/decrease the values of header values in one place
-$margin: 0.67em;
+$margin: 0.67rem;
 $width-max: 780px;
 $card-p-size: 1.2em;
 $card-img-height: 5em;
@@ -48,4 +48,5 @@ $on-desktop: 1200px;
     }
 }
 @import "colors";
-@import "card","headers","global","posts","footer","navbar","buttons","post_summary";
+@import "about","index";
+@import "headers","global","posts","footer","navbar","buttons","post_summary";

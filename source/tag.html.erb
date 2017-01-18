@@ -2,7 +2,12 @@
 pageable: true
 ---
 
+<div class="wrap">
+
 <h1>Articles tagged '<%= tagname %>'</h1>
 
-<%= partial "partials/summaries.erb", locals: {
-    articles: page_articles } %>
+<%= partial "partials/summaries.erb" %>
+
+<%= partial "partials/pages.erb" %>
+
+</div>

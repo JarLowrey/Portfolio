@@ -1,9 +1,9 @@
-<!-- Show all articles -->
+
 <% articles.each_with_index do |article, i| %>
   <%= partial "partials/post_summary.erb", locals: {
-      article:article,
-      summary_len: 100,
-      em: 0.75 } %>
-<% end %>
+      article:article } %>
 
-<%= partial "partials/pages.erb" %>
+  <% if i!=(articles.length-1) then %>
+    <%=  "<hr  />" %>
+  <% end %>
+<% end %>

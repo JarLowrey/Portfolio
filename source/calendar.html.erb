@@ -2,6 +2,8 @@
 pageable: true
 ---
 
+<div class="wrap">
+
 <!-- Print title showing day/month/year -->
 <h1>Archive for
   <% case page_type
@@ -14,5 +16,8 @@ pageable: true
   <% end %>
 </h1>
 
-<%= partial "partials/summaries.erb", locals: {
-    articles: page_articles } %>
+<%= partial "partials/summaries.erb" %>
+
+<%= partial "partials/pages.erb" %>
+
+</div>
