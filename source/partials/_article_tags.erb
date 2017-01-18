@@ -5,9 +5,8 @@
     tag_links=[]
     current_article.tags.each do |tag|
       articles = blog.tags[tag]
-      if articles.size > 1 then #if only 1 article is in the tag, it is the current article
-        tag_links.push(link_to "#{tag}", tag_path(tag), { class:"button button_primary" })
-      end
+
+      tag_links.push(link_to "#{tag}", tag_path(tag), { class:"button button_primary" })
     end
   %>
 
