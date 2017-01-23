@@ -62,8 +62,12 @@ Performance is commonly an aspect of data, not code.
 
 As a game programmer a lot of memory interaction is usually abstracted away from you by your engine and language of choice, but there is still plenty that you can control.
 
-First off, ensure your don't run out of memory by **using smaller assets**, or less of them.
-Trying to load huge images, sounds, and files into memory will cause it to fill up fast and lead to abysmal performance.
+
+First off, having a garbage collector doesn't free you from needing to **assiduously manage your memory**.
+Each time the GC runs, it will eat up a lot of CPU resources.
+Ensure you only allocate what you need, and be sure to reuse as much as possible (covered more in the 'Heroes Never Die' section).
+Next, ensure you don't run out of memory by **using smaller assets**, or less of them.
+Trying to load huge images, sounds, and files into memory will may cause viable RAM to fill up, leading to abysmal performance.
 Using tiny or poor quality assets will make your game look bad, so work on this only if it becomes a problem.
 Ensure that the **assets are optimized**.
 Using a texture atlas or spritesheet over individual images will dramatically lower GPU draw calls and improve 2D performance.
@@ -128,11 +132,13 @@ It allows you to reuse the stored variable instead of using the offending functi
 An extremely fundamental game optimization technique is recycling objects.
 Creating new objects is expensive: memory needs to be found and initialization code has to be traversed throughout the entire stack.
 Once you're done with that object, if you destroy its references the garbage collector will cause a performance hit when the GC cleans it up.
+If you don't destroy the references, but are done using it, GC will ignore it and you've created a [memory leak](https://en.wikipedia.org/wiki/Memory_leak).
 
 Recycle your objects!
 Do not create nor destory dynamically.
-Instead, on game start pre-allocate your objects: enemies, friendlies, bullets, etc, and disable them.
-Once you need a new one, grab a disabled/dead one and revive it - make it visible, start its update loop, set a new position.
+Instead, on game start pre-allocate your objects: enemies, bullets, etc, and disable them.
+Don't just stop at sprites: be sure to enable animations, tweens, text, annonymous functions...really any commonly created objects for reuse.
+Once you need a new one, grab a disabled/dead one and revive it: make it visible, reassign it to a new parent, start its update loop, set a new position, etc.
 This is called **resource pooling**.
 Once an object "dies", re-disable it and release it back to the pool.
 This will keep object allocation and deallocation snappy, despite your game's many interacting pieces.
