@@ -1,5 +1,5 @@
 .post_summary {
-    margin-top: $margin * 2;
+    margin: $margin * 3 0;
 
     aside {
         vertical-align: top;
@@ -14,11 +14,17 @@
             margin: 0 auto;
         }
 
-        .tags {
-            font-size: 0.55rem;
+        img {
+            padding: $margin;
+        }
 
+        .tags {
             a {
-                margin: $margin/4;
+                margin: $margin/4 0;
+                max-width: 90%;
+                @include media-query($on-laptop) {
+                    margin: $margin/4;
+                }
             }
         }
     }

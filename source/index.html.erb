@@ -2,11 +2,20 @@
 pageable: true
 ---
 
+<!--
+
 <div class="wrap">
   <% page_articles.each do |article| %>
     <%= partial "partials/card.erb", locals: {article: article } %>
   <% end %>
 
   <%= partial "partials/pages.erb" %>
+
+</div>
+-->
+
+<div class="wrap">
+
+  <%= partial "partials/summaries.erb" %>
 
 </div>

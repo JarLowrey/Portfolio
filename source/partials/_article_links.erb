@@ -22,6 +22,8 @@ width_class = "links-#{sum}"
 
 <aside class="article-links">
 
+<%= partial "partials/article_tags.erb" %>
+
 <% if resources %>
 <div class="link-section <%= width_class %>">
 #Related
@@ -43,8 +45,6 @@ width_class = "links-#{sum}"
 </div>
 <% end %>
 
-<%= partial "partials/article_tags.erb" %>
-
-<a class="open-mailchimp-subscribe-popup">Subscribe!</a>
+<%= partial "partials/email_subscribe_embed.erb" %>
 
 </aside>
