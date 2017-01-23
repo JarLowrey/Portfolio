@@ -35,13 +35,13 @@ Profilers allow you to start that journey.
 
 Since my game was written with [Phaser](http://phaser.io/) and Javascript I used Chrome's Timeline tool to profile.
 Below you can see the output of a short run of my game.
-It looks pretty daunting at first glance, but I highlighted some areas that help break it down.
+The top section has labelled graphs of performance, mid-section has time taken to run specific functions, and the lower section has heap performance and summary.
 Other profilers act similarly, and by using them to find areas of poor performance you can immediately see the code causing it and start hunting down optimization issues.
 
 <%= partial "partials/image.erb", locals: {
     src: "chrome_timeline.png",
     alt: "Chrome Timeline in Birdu game",
-    caption: "Looks like my collision detection could use some work..." } %>
+    caption: "'Birdu' before and after I re-optimized for this article. Notice in the 'before' memory must be cleaned up more frequently, the CPU does more work, and there are more frame drops." } %>
 
 ##Use the latest and greatest
 
