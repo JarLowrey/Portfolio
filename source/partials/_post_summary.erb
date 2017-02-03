@@ -4,7 +4,7 @@ img_url = article.data.dig(:header,:img_url) ? article.data.header.img_url : "/i
 classes||=""
 %>
 
-<section class="post_summary classes">
+<section class="post_summary <%= classes %>">
   <aside>
     <img src="<%= img_url %>" class="article-type"/>
 
