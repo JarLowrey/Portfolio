@@ -1,0 +1,15 @@
+<!-- Implementing Open Graph Protocol - http://ogp.me/ -->
+<meta property="og:image" content="<%= config[:host] %>/images/favicon/favicon.ico" />
+<meta property="og:title" content="<%= title %>" />
+<% if current_article %>
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="<%= current_article.date.strftime("%Y-%m-%d") %>" />
+  <meta property="article:modified_time" content="<%= File.mtime(current_page.source_file).strftime("%Y-%m-%d") %>" />
+  <meta property="article:author" content="<%= author %>" />
+  <% current_article.tags.each do |tag| %>
+    <meta property="article:tag" content="<%= tag %>" />
+  <% end %>
+<% else %>
+  <meta property="og:type" content="website" />
+<% end %>
+<meta property="og:url" content="<%= config[:host] %><%= current_page.url %>" />
