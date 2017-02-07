@@ -1,23 +1,38 @@
+
+  <% # Use title if it's in the page YAML frontmatter
+  if current_page.data.dig(:title) then
+    title = current_page.data.title
+  else
+    title = "JTronLabs"
+  end
+  %>
+
 <!doctype html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:fb="http://ogp.me/ns/fb#"> <!-- http://stackoverflow.com/questions/6693499/how-can-i-set-a-website-image-that-will-show-as-preview-on-facebook -->
+<html xmlns="https://www.w3.org/1999/xhtml" xmlns:og="https://ogp.me/ns#" xmlns:fb="https://www.facebook.com/2008/fbml">
   <head>
+    <!-- Begin Implement Open Graph Protocol - http://ogp.me/ -->
     <meta property="og:image" content="<%= config[:host] %>/images/favicon/favicon.ico" />
+    <meta property="og:title" content="<%= title %>" />
+    <% if current_article %>
+      <meta property="og:type" content="article" />
+      <meta property="article:published_time" content="<%= current_article.date.strftime("%Y-%m-%d") %>" />
+      <meta property="article:modified_time" content="<%= File.mtime(current_page.source_file).strftime("%Y-%m-%d") %>" />
+      <meta property="article:author" content="James Lowrey" />
+      <% current_article.tags.each do |tag| %>
+        <meta property="article:tag" content="<%= tag %>" />
+      <% end %>
+    <% else %>
+      <meta property="og:type" content="website" />
+    <% end %>
+    <meta property="og:url" content="<%= config[:host] %>/images/favicon/favicon.ico" />
+    <!-- End Implement Open Graph Protocol - http://ogp.me/ -->
 
     <meta content="IE=edge;chrome=1" http-equiv="X-UA-Compatible">
     <meta charset="utf-8">
     <meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
     <meta name="theme-color" content="#e67e22" />
 
-    <title>
-      <%= # Use title if it's in the page YAML frontmatter
-      if current_page.data.dig(:title) then
-        current_page.data.title
-      else
-        "JTronLabs"
-      end
-      %>
-    </title>
+    <title><%= title %></title>
 
     <!-- setup feeds -->
     <%= feed_tag :atom, "#{blog.options.prefix.to_s}/feed.xml", title: "Atom Feed" %>
