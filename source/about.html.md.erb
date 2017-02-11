@@ -1,5 +1,9 @@
 <div class="wrap">
 
+<%= img_links_from_hash(data.about_me.social) %>
+
+---
+
 ##About
 
 I'm a developer. I make games, websites and AI.
@@ -21,14 +25,6 @@ If you choose to subscribe, watch out for the emails being sorted into your spam
 Thanks!
 
 <%= partial "partials/email_subscribe_embed.erb" %>
-
-###Contact
-
----
-
-<%= img_links_from_hash(data.about_me.social) %>
-
----
 
 <!--
 ###Learning
