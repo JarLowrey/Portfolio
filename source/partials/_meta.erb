@@ -1,0 +1,42 @@
+<%
+if current_page.data.dig(:description) then
+  description = current_page.data.description
+elsif current_article then
+  description = Nokogiri::HTML(current_article.summary(250)).text
+else
+  description = "Homepage of James Lowrey, JTronLabs. Read about game, AI, web development and more!"
+end
+
+author = "James Lowrey"
+
+if current_page.data.dig(:title) then
+  title = current_page.data.title
+else
+  title = "JTronLabs"
+end
+
+if current_page.data.dig(:tags) then
+  keywords = current_page.data.tags
+else
+  keywords = "Programming, Development, dev, game dev, AI, portfolio"
+end
+%>
+
+<!-- chrome tab color -->
+<meta name="theme-color" content="#e67e22" />
+
+<meta charset="utf-8" />
+<meta http-equiv='X-UA-Compatible' content='IE=edge;chrome=1' />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="description" content="<%= description %>">
+<meta name="keywords" content="<%= keywords %>">
+<meta name="author" content="<%= author %>">
+
+<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?" />
+<title><%= title %></title>
+
+
+<%= partial "partials/ogp.erb", locals: {
+    title: title,
+    author: author } %>
