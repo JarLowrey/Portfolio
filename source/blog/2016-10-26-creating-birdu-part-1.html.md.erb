@@ -125,16 +125,17 @@ Just compare [LibGDX's](https://libgdx.badlogicgames.com/nightlies/docs/api/) AP
 Phaser is the [most popular](https://github.com/showcases/javascript-game-engines) open source JS game engine.
 It's not perfect, but it's pretty great.
 Since it's built on top of [Pixi](https://github.com/pixijs/pixi.js), some functions (like Group.addChild vs Group.add) can be confusing.
-The next generation of Phasr, [Lazer](https://github.com/photonstorm/lazer) ([scroll down to "Lazer (aka Phaser 3)"](http://phaser.io/news/2016/01/phaser-in-2015-and-beyond)), will come with its own rendering engine and hopefully solve those types of issues.
-If something in the docs can be improved you can contribute back to the community by submitting a pull request to the Phaser repository.
+The next generation of Phaser, [Phaser3](http://phaser.io/news/2016/12/phaser-in-2016-and-beyond), will come with its own rendering engine and hopefully solve those types of issues.
+If something in the docs/source can be improved you can contribute back to the community by submitting a pull request to the Phaser repository.
 Phaser adds [a lot on top](http://www.html5gamedevs.com/topic/12656-phaser-pixi/) of Pixi: a variety of physics engines, a game world with pannable camera, Tilemap support, particle systems, etc.
 
-Even with Lazer coming up, Phaser will still be around for a long time.
+Even with Phaser3 coming up, Phaser2 will still be around for a long time.
 Phaser2's development recently ceased and entered [Community Edition](https://github.com/photonstorm/phaser/tree/master/v2-community).
 [Rich's](https://www.patreon.com/photonstorm) company is stepping out of the reigns of leading development, and allowing the community to take over.
-This allows him to save his limited resources for Lazer and Phaser3's dev.
+This allows him to save his limited resources for Phaser3's dev.
 Thus the Phaser repo is currently divided into 3 parts: v2 (Phaser2), v2-community (CE edition), and v3 (new version of Phaser).
 This tutorial will use the most up-to-date stable version of Phaser, the Community Edition.
+A slight complication is that only Phaser2's documentation is available online, if you want to use Phaser-CE's then you have to download the [repo](https://github.com/photonstorm/phaser-ce) and open the docs from your local filesystem.
 
 ##Cordova
 
@@ -234,6 +235,24 @@ This allows you to include all of the fancy new features of [ES6/ECMAScript2015]
 (like [classes](http://es6-features.org/#ClassDefinition), [arrow functions](http://es6-features.org/#ExpressionBodies), [promises](http://es6-features.org/#PromiseUsage), and much [more](http://es6-features.org/#Constants)),
 and end up with code compiled to an older version of JavaScript, compatible with all browsers.
 As ECMAScript/JavaScript continues to evolve, Babel will let you incorporate the most up-to-date syntax in your development, while simultaneously maintaining wide browser support.
+
+##Browserify
+
+<%= partial "partials/image.erb", locals: {
+    src: "/images/icons/tech/Browserify.svg",
+    alt: "Browserify",
+    classes: "icon" } %>
+
+[Browserify](http://browserify.org/) bundles all your separate JS files into one large file.
+[Webpack](https://webpack.js.org/) is a similar tool to complete the same task.
+
+[Bundling is important](https://medium.freecodecamp.com/javascript-modules-part-2-module-bundling-5020383cf306#.6t1ymuz8c) for a few reasons.
+In HTTP1.1 [downloading a lot of files was much slower than downloading one big file](https://scotthelme.co.uk/http-2-is-here/), due to specifications in the protocol.
+HTTP2 [adoption](http://isthewebhttp2yet.com/measurements/adoption.html) is improving, but it helps to support as much as possible.
+Note: this isn't really relevant to a downloaded Cordova application, but you may one day decide to host your code in a website or [PWA](https://developers.google.com/web/progressive-web-apps/).
+If you're creating a library, and potentially [publishing on NPM](how-to-publish-a-package-on-npm.html), a bundled file is easier for consumers to use than a bunch of disjoint files.
+Bundling will also automatically pull in outside dependencies (like the phaser.js engine) and ensure your source code can use it.
+Finally, in the process of bundling you can do things like [minify/uglify](https://github.com/mishoo/UglifyJS2) to lower the storage space required for your code in a production system.
 
 ##Browsersync
 

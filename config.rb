@@ -11,6 +11,7 @@ page '/*.txt', layout: false
 
 set :markdown_engine, :kramdown
 set :markdown, parse_block_html: true
+activate :syntax, :line_numbers => true
 
 #Setup Config vars
 
@@ -99,8 +100,6 @@ end
    blog.per_page = 10
    blog.page_link = "#{blog.prefix}/page/{num}"
  end
-
- activate :syntax, :line_numbers => true
 
  # Documentation - https://github.com/middleman-contrib/middleman-deploy
  activate :deploy do |deploy|

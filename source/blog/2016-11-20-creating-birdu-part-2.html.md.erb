@@ -37,7 +37,7 @@ If you weren't here [last time](/blog/Creating-Birdu-Part-1.html), we covered Bi
 
 Install Node, NPM, and our generator with [NVM](https://github.com/creationix/nvm).
 
-~~~ bash
+~~~ shell
 curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.32.1/install.sh | bash # Install NVM
 export NVM_DIR="/home/james/.nvm"               # This loads nvm in current terminal
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" # This loads nvm in current terminal
@@ -56,7 +56,7 @@ npm -g install cordova                          # Compile JS apps to hybrid mobi
 Let's get to it! First step, open up a terminal and install the [generator](https://github.com/rblopes/generator-phaser-plus).
 If you haven't [installed Node](https://nodejs.org/en/download/package-manager/) yet, you will need it to install it first, as it is a dependency.
 
-~~~ bash
+~~~ shell
 mkdir birdu && cd $_ # Make a folder and enter into it
 yo phaser-plus       # Generate!
 npm install          # Once done with prompts, install dependencies
@@ -76,7 +76,7 @@ ECMA is newer and built-in to the language, so we'll be using that.
 Anyways, the generator takes your answers, inserts the title & description text in the desired places, downloads & integrates your physics engine (it's modular), and starts the long process of downloading all your node dependencies to the node_modules folder.
 The final output will look something like this
 
-~~~ bash
+~~~ shell
 ├── gulpfile.js         #Gulp code responsible for building project
 │   │
 │   ├── lib             #Specific module configuration
