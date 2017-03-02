@@ -8,7 +8,7 @@ tags: Birdu,Phaser,HTML5,Javascript
 ---
 
 <span class="caps">S</span>o far we've covered the tech stack behind Birdu and how to get a new Phaser project started using an automatic generator.
-Now, we'll jump into the weeds of creating a new game: showing stuff on screen, making a new state, and more.
+Now, we'll jump into the weeds of creating a new game.
 
 Please note, this tutorial aims to outline the main development processes involved, but not every nitty-gritty detail.
 The final product will be different from the full game, if you want to know how to implement it exactly you should checkout its [code](https://github.com/JTronLabs/Birdu).
@@ -39,7 +39,8 @@ If you weren't here [last time](/blog/Creating-Birdu-Part-2.html), we covered ho
 
 As mentioned previously, a state is a 'screen' of the game.
 For example: Settings, Menu, Gameplay, Gameover, etc.
-A state has a variety of [public methods](http://phaser.io/docs/2.6.2/Phaser.State.html#create)
+A state has a variety of [public methods](http://phaser.io/docs/2.6.2/Phaser.State.html#create), the most important of which are `preload`, `create`, and `update`.
+The first thing to
 
 ##Preload/get something running
 

@@ -182,14 +182,15 @@ You can also include external scripts, CSS, or modify the game's initialization 
 ###Miscellaneous files
 
 The other files don't have a parent directory, and thus will generally be used by other programs that expect them to be at the top level of your project.
-BabelRC, editorconfig, eslint, yo-rc, and the git stuff are generally used by some plugins that come integrated with this project.
+[BabelRC](https://babeljs.io/docs/usage/babelrc/), [editorconfig](http://editorconfig.org/), [eslintrc](http://eslint.org/docs/user-guide/configuring), [yo-rc](http://yeoman.io/authoring/storage.html), and the [git stuff](https://git-scm.com/docs/gitignore) are generally used by the plugins that come integrated with this project.
 You may want to update the eslint file to fit your preferrences, and the gitignore file as your project advances, but the others probably won't require much customization.
 You should describe your project in the README, giving readers (and future you), an overview on what you intend to do and how.
 
-Package.json managemes your node environment.
+[Package.json](https://docs.npmjs.com/files/package.json) manages your node environment.
 Use it to list out all dependencies: development (like Babel) and production/deployment (like Phaser).
+To add a new dependency use `npm install DEP_NAME --save` for deployment dependencies or `--save-dev` for dev dependencies.
 It can also contain meta-data like author's name and email, which is useful if you intend to publish on NPM.
-You can also define one-line scripts in the "scripts" section, which you can run with
+Most importantly, you can add one-line scripts in the "scripts" section, which can be ran via
 
 ~~~bash
 npm run-script myScript

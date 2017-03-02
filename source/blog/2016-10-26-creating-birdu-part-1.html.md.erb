@@ -250,7 +250,7 @@ As ECMAScript/JavaScript continues to evolve, Babel will let you incorporate the
 In HTTP1.1 [downloading a lot of files was much slower than downloading one big file](https://scotthelme.co.uk/http-2-is-here/), due to specifications in the protocol.
 HTTP2 [adoption](http://isthewebhttp2yet.com/measurements/adoption.html) is improving, but it helps to support as much as possible.
 Note: this isn't really relevant to a downloaded Cordova application, but you may one day decide to host your code in a website or [PWA](https://developers.google.com/web/progressive-web-apps/).
-If you're creating a library, and potentially [publishing on NPM](how-to-publish-a-package-on-npm.html), a bundled file is easier for consumers to use than a bunch of disjoint files.
+If you're creating a library, and potentially [publishing on NPM](publishing-webpack2-package-on-npm.html), a bundled file is easier for consumers to use than a bunch of disjoint files.
 Bundling will also automatically pull in outside dependencies (like the phaser.js engine) and ensure your source code can use it.
 Finally, in the process of bundling you can do things like [minify/uglify](https://github.com/mishoo/UglifyJS2) to lower the storage space required for your code in a production system.
 
