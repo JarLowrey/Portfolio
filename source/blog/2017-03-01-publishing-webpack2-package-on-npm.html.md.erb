@@ -11,6 +11,14 @@ However none of them fit my use cases, so I decided to write my own and [publish
 In this article I cover how to write your own ES6+ library, bundle it with Webpack2+Babel+ESLint, consume it in a calling application, and publish to NPM.
 
 <%= partial "partials/article_links.erb", locals: {
+    resources: "
+- [Webpack2](https://webpack.js.org/)
+- [Webpack2 Concepts](https://webpack.js.org/concepts/#loaders)
+- [Webpack2 Configuration](https://webpack.js.org/concepts/configuration/)
+- [Getting Started with Webpack2](https://blog.madewithenvy.com/getting-started-with-webpack-2-ed2b86c68783#.29xyo6lob)
+- [NPM - package.json](https://docs.npmjs.com/files/package.json)
+- [NPM - Publishing Packages](https://docs.npmjs.com/getting-started/publishing-npm-packages)
+",
     software_versions: "
 - [Ubuntu 16.04 LTS](http://www.ubuntu.com/download)
 - [NPM 4.3.0](https://github.com/sackmotion/motion)
@@ -111,6 +119,10 @@ You can see how to do this in more detail at Webpack's ['Authoring Libraries'](h
 
 While you're modifying the output object, you should specify the `path` and `filename` of your build output.
 Then, copy that value over to your package.json's `main` configuration - this allows consumers of your package to use the right files after downloading.
+
+Once you have the output portion set up correctly, you can add `rules` in the module section.
+[Rules](https://webpack.js.org/configuration/module/#rule) can be used to setup parser options, [loaders](https://webpack.js.org/concepts/#loaders), and more.
+We are using the Babel and ESLint loaders, but you may also want to add in a [live reloading development server](https://github.com/webpack/webpack-dev-server) or more.
 
 At the end, your webpack may look something like this:
 

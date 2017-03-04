@@ -1,0 +1,90 @@
+---
+published: false
+title:  "Creating Birdu Part 3: Creating a Game"
+blurb: "Create a simple game with Phaser."
+header: { img_url: "/images/icons/tech/phaser-logo.svg" }
+author: James Lowrey
+tags: Birdu,Phaser,HTML5,Javascript
+---
+
+<span class="caps">S</span>o far we've covered the tech stack behind Birdu and how to get a new Phaser project started using an automatic generator.
+Now, we'll jump into the weeds of creating a new game.
+
+Please note, this tutorial aims to outline the main development processes involved, but not every nitty-gritty detail.
+The final product will be different from the full game, if you want to know how to implement it exactly you should checkout its [code](https://github.com/JTronLabs/Birdu).
+
+While you're following along, if you run into trouble and can't figure out what's going wrong, check out the [next article](/blog/Creating-Birdu-Part-4.html) for debugging tips.
+If you weren't here [last time](/blog/Creating-Birdu-Part-2.html), we covered how to generate a Phaser project with a yeoman generator.
+
+<%= partial "partials/article_links.erb", locals: {
+    resources: "
+- [Birdu Repo](https://github.com/JTronLabs/Birdu)
+- [Birdu on Google Play](https://play.google.com/store/apps/details?id=com.jtronlabs.birdu)
+- [Phaser-CE Repo](https://github.com/photonstorm/phaser-ce)
+- [Phaser Docs](https://phaser.io/docs/)
+- [Leshy SpriteSheet Tool](https://www.leshylabs.com/apps/sstool/)
+- [TexturePacker](https://www.codeandweb.com/texturepacker)
+",
+    software_versions: "
+- [Ubuntu 16.04 LTS](http://www.ubuntu.com/download)
+- [Phaser.js 2.6.2](http://phaser.io/docs/2.6.2/index)
+- [Cordova 6.4.0](https://cordova.apache.org/docs/en/latest/)
+- [Node 4.2.6](https://nodejs.org/en/)
+- [NPM 3.5.2](https://www.npmjs.com/)
+- [Generator Phaser Plus 1.1.0](https://github.com/rblopes/generator-phaser-plus)
+"
+  } %>
+
+##Getting Started with States
+
+As mentioned previously, a state is a 'screen' of the game.
+For example: Settings, Menu, Gameplay, Gameover, etc.
+A state has a variety of [public methods](http://phaser.io/docs/2.6.2/Phaser.State.html#create), the most important of which are `preload`, `create`, and `update`.
+After you run the generator, a couple of states will already be created for you: Boot, Preloader, and Game.
+
+Boot and Preload both take the resources outlined in [asset packs](https://phaser.io/docs/2.6.2/Phaser.Loader.html#pack) created in `assets.js` and load them into the game's cache.
+These states also complete some initial game configuration.
+If you want to create a loading screen, do so in the Preloader state and only use assets that are loaded in the 'boot' asset pack.
+Boot's main job is to load assets for the Preloader state, and Preloader loads assets for the rest of the game.
+
+As a side note, you do not want to make all of your assets individual images - use a [Texture Atlas](https://en.wikipedia.org/wiki/Texture_atlas) instead.
+A Texture Atlas combines all your images and spritesheets into a single image, and uses JSON to define where the images start/end.
+You can use the free [Leshy SpriteSheet Tool](https://www.leshylabs.com/apps/sstool/) or the more advanced [TexturePacker](https://www.codeandweb.com/texturepacker)
+This will greatly improve game performance by reducing draw calls (check out my article on [improving game performance](game-optimizations.html))
+
+##Making a State
+
+Any new states must be created from the 'states' folder, all of those files are added to the game in 'app.js'.
+To make a new state, you can copy, paste, and modify an old one or use the generator `yo phaser-plus:state`.
+Create a new State and name it 'Menu'.
+This will be the screen Users enter after Preloader is finished.
+We will display a sprite, tween it (giving it some juice), and provide buttons to start the game or visit other states.
+
+~~~ javascript
+/*
+ * Menu state
+ *
+ * preceeds game state
+ */
+
+export default class Menu extends Phaser.State {
+
+  create() {
+      //state background is some clouds, retrieve it from Cache and set to game's width/height
+      var background = this.game.add.sprite(0, 0, 'background');
+      background.height = this.game.world.height;
+      background.width = this.game.world.width;
+
+      //
+  }
+}
+~~~
+
+
+generate, how to access assets, logo object, positioning, state transitions
+
+##Starting the game
+
+adding main player, physics, controls, collisions?,
+
+Next article
