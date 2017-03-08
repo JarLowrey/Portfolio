@@ -105,13 +105,8 @@ article {
 
     .link-section {
         vertical-align: top;
-        margin-bottom: $margin;
         @include media-query($on-laptop) {
             display: inline-block;
-
-            li {
-                margin-bottom: $margin * 0.5;
-            }
         }
     }
     //classes that determine link section width
