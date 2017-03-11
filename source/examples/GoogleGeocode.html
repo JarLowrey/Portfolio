@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Geocoding service</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+    <!-- replace API key below -->
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAD0ItEHgyIPJ5yzJiC9bH8bnksY20JUeE&libraries=places"></script>
+    <style>
+        #results {
+            white-space: pre-line
+        }
+    </style>
+    <script>
+        var service;
+        $(document).ready(() => {
+            service = new google.maps.places.PlacesService(document.getElementById('map'));
+            $("#btn").click(processPlaces);
+        })
+
+        function processPlaces(text) {
+            text = $("#places").val(); // get the input text
+            places = text.split('\n'); //split input text into an array
+            var addresses = [];
+
+            //loop over every place in the given text
+            for (let place of places) {
+                addresses.push(new Promise((resolve, reject) => { //create a promise for each search - allow it to be asynchronous
+                    service.textSearch({ //use the library to input our search query
+                        query: place
+                    }, (results, status) => { //create a callback for when the search finishes
+                        if (status == google.maps.places.PlacesServiceStatus.OK) {
+                            //if search is OK, then add best (first) address to addresses array
+                            if (results.length > 1) {
+                                let best_place = results[0];
+                                let address = best_place.formatted_address + '\n' + best_place.geometry.location.lat() + '\n' + best_place.geometry.location.lng();
+                                address += '\n';
+                                resolve(address);
+                            }
+                            //search is OK, but nothing was found!
+                            else {
+                                resolve("NONE FOUND")
+                            }
+                        }
+                        //something went wrong...
+                        else {
+                            resolve("SEARCH ERROR = " + status);
+                        }
+                    });
+                }));
+            }
+
+            //wait for all of our promises/searches to finish, then print to screen
+            Promise.all(addresses).then(values => {
+                $("#results").text(values.join('\n'));
+                console.log(values)
+            }).catch(reason => {
+                $("#results").text('Error - check console (F12)');
+                console.log(reason)
+            });
+        }
+    </script>
+</head>
+
+<body>
+    Places: <textarea type="text" id="places" name="places" cols="40" rows="5"></textarea>
+    <button id="btn" type="button">Click Me!</button>
+
+    <h2>Results</h2>
+    <div id="results"> </div>
+
+    <div id="map"></div>
+
+</body>
+
+</html>
