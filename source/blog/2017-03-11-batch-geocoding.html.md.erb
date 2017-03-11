@@ -2,16 +2,14 @@
 title:  "Batch Geocoding a List of Addresses with Google Maps"
 header: { img_url: "/images/icons/tech/Google_Maps_Logo.svg" }
 author: James Lowrey
-published: false
 tags: Google Maps, Automation, Geocoding, jQuery
 ---
 
-Recently my brother needed some help converting lists of hundreds of terse addresses to their geographical coordinates and formatted street addresses.
+Recently my brother needed some help converting hundreds of terse addresses to their geographical coordinates and formatted street addresses.
 We spent a few hours and eventually came up with a working solution using jQuery and the Google Maps API.
-Using JavaScript, you can make automatic, parallel requests to Google Maps to quickly find all your places.
 You can check out my example [here](/examples/GoogleGeocode.html), but I only get 1,000 free requests per day.
-If it's not working open the dev tools (F12) and check the console for errors (may be over limit).
-If you need more, you can get yourself a key and substitute it into the code below.
+If it's not working open the dev tools (F12) and check the console for errors (it may be over limit).
+If you need more, you can get yourself a key and substitute it into the code.
 
 <%= partial "partials/article_links.erb", locals: {
     resources: "
@@ -27,7 +25,7 @@ If you need more, you can get yourself a key and substitute it into the code bel
 
 API stands for [Application Programming Interface](https://en.wikipedia.org/wiki/Application_programming_interface) - in this case it is a set of tools and functions that allows us to use Google's amazing Maps functionality.
 We could set up a system to [scrap](https://en.wikipedia.org/wiki/Web_scraping) the addresses off of Google Search results, but then Google would get mad at the absurd amount of server time one user is taking, and potentially lay down an IP block.
-The key is the secret password to let Google keep track of all your API calls, and apply a limit once you've reached the max for the day.
+The API Key is the secret password to let Google keep track of all your API calls, and apply a limit once you've reached the max for the day.
 To get one, log into your Google account, visit the [Get a Key](https://developers.google.com/maps/documentation/javascript/get-api-key#key) site, and click the blue button that says "Get A Key".
 
 <%= partial "partials/image.erb", locals: {
@@ -48,10 +46,49 @@ To get one, log into your Google account, visit the [Get a Key](https://develope
 ##How to get those addresses
 
 Now that we have the key, let's check out the code.
+This is the HTML file that you can use/view by clicking [here](/examples/GoogleGeocode.html).
+Check the the code's comments for an explanation of how it works.
+
+To summarize, we load jQuery and the Google Maps JS library (be sure to replace my key with yours!).
+Next, the user inputs their queries into the text box, one query per line.
+When they click the button, we split the text into an array, and use Google's [PlacesService](https://developers.google.com/maps/documentation/javascript/3.exp/reference#PlacesService) class to run textSearch on every element in the array.
+All those searches return [Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise), which are essentially a placeholder until the asynchronous search finishes running.
+After the loop is finished, and all of our searches have been sent off, we wait for all the promises to complete with [Promise.all](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all).
+Then the results are printed to the screen.
+
+One very important thing to note is that this code assumes the first returned result it the corrrect result.
+Each search may return 0 or more results, and you might not want the first one only.
+After you run your search on the [test page](/examples/GoogleGeocode.html), check the console for the full list of results of each query (hit F12 to open console).
 
 <script src="http://gist-it.appspot.com/https://github.com/JTronLabs/Portfolio/tree/master/source/examples/GoogleGeocode.html"></script>
 
+##Using the Web API instead of the Places Library
 
-## Doing Things the Hard (Wrong) Way
+If you want to run this in a production environment, instead of a one-off query for a project, you might not want to load the Map's JS library.
+In that case, you can use the [Rest API](https://developers.google.com/places/web-service/intro) and ajax requests.
+This is not possible to do from a file on your machine (localhost/filesystem), as [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS) issues will block a simple JSON request, and the web API is not set up for [JSONP](https://en.wikipedia.org/wiki/JSONP).
+Thus, you need your own server that accepts CORS requests from the Google maps service.
 
-If you just
+If you didn't understand what that meant, then just use my example/the Maps library.
+
+The code would be pretty much the same, except no need to load the Maps library in the head.
+Then, we would change our search from `service.textSearch(query,callback)` to an ajax request:
+
+~~~ javascript
+//use jQuery's ajax command to hit Google's REST API. If you want to be even more spartan, use JS's XMLHttpRequest instead of ajax. You do you!
+const query = 'https://maps.googleapis.com/maps/api/place/textsearch/json?query=' + place + '&key=' + key;
+$.ajax({
+  url: query,
+  type: "GET",
+  crossDomain: true,
+  dataType: "json",
+  success: function(response) {
+    console.log(response)
+  },
+  error: function(xhr, status) {
+    alert("error");
+  }
+});
+~~~
+
+From there you can modify the success callback to use the response as you please.

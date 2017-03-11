@@ -5,21 +5,30 @@
     <title>Geocoding service</title>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
-    <!-- replace API key below -->
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAD0ItEHgyIPJ5yzJiC9bH8bnksY20JUeE&libraries=places"></script>
+
+    <!-- Include jQuery -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js">
+    </script>
+    <!-- Include Google Maps - replace API key below where it says key=... -->
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyAD0ItEHgyIPJ5yzJiC9bH8bnksY20JUeE">
+    </script>
+
     <style>
+        //ensure the output results are separated by newlines - keep formatting intact
         #results {
             white-space: pre-line
         }
     </style>
+
     <script>
         var service;
+        //initialize the Google Maps library and set the click event for our button
         $(document).ready(() => {
             service = new google.maps.places.PlacesService(document.getElementById('map'));
             $("#btn").click(processPlaces);
         })
 
+        //callback function when the button is clicked
         function processPlaces(text) {
             text = $("#places").val(); // get the input text
             places = text.split('\n'); //split input text into an array
@@ -34,8 +43,11 @@
                         if (status == google.maps.places.PlacesServiceStatus.OK) {
                             //if search is OK, then add best (first) address to addresses array
                             if (results.length > 1) {
+                                console.log('Query "' + place + '" returns "', results);
                                 let best_place = results[0];
-                                let address = best_place.formatted_address + '\n' + best_place.geometry.location.lat() + '\n' + best_place.geometry.location.lng();
+                                let address = best_place.formatted_address +
+                                    '\n' + best_place.geometry.location.lat() +
+                                    '\n' + best_place.geometry.location.lng();
                                 address += '\n';
                                 resolve(address);
                             }
@@ -55,8 +67,9 @@
             //wait for all of our promises/searches to finish, then print to screen
             Promise.all(addresses).then(values => {
                 $("#results").text(values.join('\n'));
-                console.log(values)
+                console.log('All addresses = ' + values)
             }).catch(reason => {
+                //something went wrong
                 $("#results").text('Error - check console (F12)');
                 console.log(reason)
             });
@@ -65,6 +78,7 @@
 </head>
 
 <body>
+    <!-- Setup the HTML DOM elements required in the JS code -->
     Places: <textarea type="text" id="places" name="places" cols="40" rows="5"></textarea>
     <button id="btn" type="button">Click Me!</button>
 
