@@ -42,7 +42,7 @@
                     }, (results, status) => { //create a callback for when the search finishes
                         if (status == google.maps.places.PlacesServiceStatus.OK) {
                             //if search is OK, then add best (first) address to addresses array
-                            if (results.length > 1) {
+                            if (results.length >= 1) {
                                 console.log('Query "' + place + '" returns "', results);
                                 let best_place = results[0];
                                 let address = best_place.formatted_address +
