@@ -21,11 +21,11 @@
     </style>
 
     <script>
-        var geocoder;
+        var service;
 
         //initialize the Google Maps library and set the click event for our button
         $(document).ready(() => {
-            geocoder = new google.maps.Geocoder();
+            service = new google.maps.places.PlacesService(document.getElementById('map'));
             $("#btn").click(processPlaces);
         })
 
@@ -38,9 +38,9 @@
             //loop over every place in the given text
             for (let place of places) {
                 addresses.push(new Promise((resolve, reject) => { //create a promise for each search - allow it to be asynchronous
-                    geocoder.geocode({
-                        'address': place
-                    }, function(results, status) { //results = https://developers.google.com/maps/documentation/javascript/geocoding#GeocodingResults
+                    service.textSearch({ //use the library to input our search query
+                        query: place
+                    }, (results, status) => { //create a callback for when the search finishes
                         if (status == google.maps.places.PlacesServiceStatus.OK) {
                             //if search is OK, then add best (first) address to addresses array
                             if (results.length > 0) {
@@ -48,8 +48,7 @@
                                 let best_place = results[0];
                                 let address = best_place.formatted_address +
                                     '\n' + best_place.geometry.location.lat() +
-                                    '\n' + best_place.geometry.location.lng() +
-                                    '\n' + getCounty(best_place.address_components);
+                                    '\n' + best_place.geometry.location.lng();
                                 address += '\n';
                                 resolve(address);
                             }
@@ -75,17 +74,6 @@
                 $("#results").text('Error - check console (F12)');
                 console.log(reason)
             });
-        }
-
-        function getCounty(address_components) {
-            for (let component of address_components) {
-                for (type of component.types) {
-                    if (type === "administrative_area_level_2") {
-                        return component.long_name;
-                    }
-                }
-            }
-            return null;
         }
     </script>
 </head>

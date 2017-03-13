@@ -11,16 +11,17 @@ We spent a few hours and eventually came up with a working solution using jQuery
 If it's not working the key is likely over its daily limit, open dev tools (hit F12) and check the console for errors.
 You can get a higher limit by using your own key and substituting it into the code.
 
-<iframe src="/examples/GoogleGeocode.html" width="100%"></iframe>
+<iframe src="/examples/GoogleTextSearch.html" width="100%"></iframe>
 
 <%= partial "partials/article_links.erb", locals: {
     resources: "
 - [Geocoding Intro](https://developers.google.com/maps/documentation/geocoding/intro)
+- [JS Geocoding Guide](https://developers.google.com/maps/documentation/javascript/geocoding)
 - [Google Places JS Library API](https://developers.google.com/maps/documentation/javascript/places)
 - [Google Places Web API](https://developers.google.com/places/web-service/intro)
 - [Google Maps API - Pricing and Plans](https://developers.google.com/maps/pricing-and-plans/#details)
 - [Google Maps API Key](https://developers.google.com/maps/documentation/javascript/get-api-key)
-- [Online Example, 1k Requests Per Day](/examples/GoogleGeocode.html)
+- [Online Example, 1k Requests Per Day](/examples/GoogleTextSearch.html)
 "
   } %>
 
@@ -49,7 +50,7 @@ To get one, log into your Google account, visit the [Get a Key](https://develope
 ##How to get those addresses
 
 Now that we have the key, let's check out the code.
-This is the HTML file that you can use/view by clicking [here](/examples/GoogleGeocode.html).
+This is the HTML file that you can use/view by clicking [here](/examples/GoogleTextSearch.html).
 Check the the code's comments for an explanation of how it works.
 
 To summarize, we load jQuery and the Google Maps JS library (be sure to replace my key with yours!).
@@ -61,9 +62,9 @@ Then the results are printed to the screen.
 
 One very important thing to note is that this code assumes the first returned result it the corrrect result.
 Each search may return 0 or more results, and you might not want the first one only.
-After you run your search on the [test page](/examples/GoogleGeocode.html), check the console for the full list of results of each query.
+After you run your search on the [test page](/examples/GoogleTextSearch.html), check the console for the full list of results of each query.
 
-<script src="http://gist-it.appspot.com/https://github.com/JTronLabs/Portfolio/tree/master/source/examples/GoogleGeocode.html"></script>
+<script src="http://gist-it.appspot.com/https://github.com/JTronLabs/Portfolio/tree/master/source/examples/GoogleTextSearch.html"></script>
 
 ##Using the Web API instead of the Places Library
 
