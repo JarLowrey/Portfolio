@@ -40,7 +40,7 @@
 
             for (place of places) {
                 requests.push({
-                    'address': place
+                    address: place
                 });
             }
 
@@ -53,7 +53,7 @@
 
             for (place of places) {
                 requests.push({
-                    'query': place
+                    query: place
                 });
             }
 
@@ -152,9 +152,10 @@
                 //reset the list of destinations if a blank line is reached
                 if (line === '') {
                     requests.push({
-                        'origins': [origin],
-                        'destinations': destinations,
-                        travelMode: 'DRIVING',
+                        origins: [origin],
+                        destinations: destinations,
+                        unitSystem: google.maps.UnitSystem.IMPERIAL,
+                        travelMode: 'DRIVING'
                     });
                     origin = null;
                     destinations = [];
@@ -167,8 +168,9 @@
             //add the final origin/dests if the input did not end with a newline
             if (lines[lines.length - 1] !== '') {
                 requests.push({
-                    'origins': [origin],
-                    'destinations': destinations,
+                    origins: [origin],
+                    destinations: destinations,
+                    unitSystem: google.maps.UnitSystem.IMPERIAL,
                     travelMode: 'DRIVING'
                 });
             }
@@ -194,8 +196,8 @@
                                 duration = element.duration.text;
                                 dist = element.distance.text;
                             }
-                            str += [origin, dest, dist, duration].join('--');
-                            str += '\n';
+                            str += [origin, dest, dist, duration].join(';');
+                            str += '\n\n';
                         }
                         console.log(str)
 
@@ -248,7 +250,7 @@
     <p>d2</p>
     <p>**empty line**</p>
     <p> ...</p>
-    <p>Distance Matrix Output is "origin--dest--dist--duration"</p>
+    <p>Distance Matrix Output is "origin;destination;distance;duration"</p>
     <textarea type="text" id="places" name="places" cols="40" rows="5"></textarea>
     <button id="geocoder" type="button">Geocoder</button>
     <button id="distMatrix" type="button">Distance Matrix</button>
