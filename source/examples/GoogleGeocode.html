@@ -15,65 +15,103 @@
 
     <!-- ensure the output results are separated by newlines - keep formatting intact -->
     <style>
-        #results {
+        .none {
             white-space: pre-line
         }
     </style>
 
     <script>
-        var geocoder;
+        var geocoder, distMatrixService, placesService;
 
         //initialize the Google Maps library and set the click event for our button
         $(document).ready(() => {
             geocoder = new google.maps.Geocoder();
-            $("#btn").click(processPlaces);
+            distMatrixService = new google.maps.DistanceMatrixService();
+            placesService = new google.maps.places.PlacesService(document.getElementById('map'));
+
+            $("#geocoder").click(() => processPlaces(getGeocodingRequests, getGeocodingSearch));
+            $("#textSearch").click(() => processPlaces(getTextSearchRequests, getTextSearch));
+            $("#distMatrix").click(() => processPlaces(getDistanceMatrixRequests, getDistanceMatrixSearch));
         })
 
-        //callback function when the button is clicked
-        function processPlaces(text) {
-            text = $("#places").val(); // get the input text
-            places = text.split('\n'); //split input text into an array
-            var addresses = [];
+        function getGeocodingRequests(text) {
+            let requests = [];
+            let places = text.split('\n');
 
-            //loop over every place in the given text
-            for (let place of places) {
-                addresses.push(new Promise((resolve, reject) => { //create a promise for each search - allow it to be asynchronous
-                    geocoder.geocode({
-                        'address': place
-                    }, function(results, status) { //results = https://developers.google.com/maps/documentation/javascript/geocoding#GeocodingResults
-                        if (status == google.maps.places.PlacesServiceStatus.OK) {
-                            //if search is OK, then add best (first) address to addresses array
-                            if (results.length > 0) {
-                                console.log('Query "' + place + '" returns "', results);
-                                let best_place = results[0];
-                                let address = best_place.formatted_address +
-                                    '\n' + best_place.geometry.location.lat() +
-                                    '\n' + best_place.geometry.location.lng() +
-                                    '\n' + getCounty(best_place.address_components);
-                                address += '\n';
-                                resolve(address);
-                            }
-                            //search is OK, but nothing was found!
-                            else {
-                                resolve("NONE FOUND")
-                            }
-                        }
-                        //something went wrong...
-                        else {
-                            resolve("SEARCH ERROR = " + status);
-                        }
-                    });
-                }));
+            for (place of places) {
+                requests.push({
+                    'address': place
+                });
             }
 
-            //wait for all of our promises/searches to finish, then print to screen
-            Promise.all(addresses).then(values => {
-                $("#results").text(values.join('\n'));
-                console.log('All addresses = ' + values)
-            }).catch(reason => {
-                //something went wrong
-                $("#results").text('Error - check console (F12)');
-                console.log(reason)
+            return requests;
+        }
+
+        function getTextSearchRequests(text) {
+            let requests = [];
+            let places = text.split('\n');
+
+            for (place of places) {
+                requests.push({
+                    'query': place
+                });
+            }
+
+            return requests;
+        }
+
+        function getTextSearch(request) {
+            return new Promise((resolve, reject) => {
+                placesService.textSearch(request, (results, status) => { //create a callback for when the search finishes
+                    if (status == google.maps.places.PlacesServiceStatus.OK) {
+                        //if search is OK, then add best (first) address to addresses array
+                        if (results.length > 0) {
+                            console.log('Query "' + place + '" returns "', results);
+                            let best_place = results[0];
+                            let address = best_place.formatted_address +
+                                '\n' + best_place.geometry.location.lat() +
+                                '\n' + best_place.geometry.location.lng();
+                            address += '\n';
+                            resolve(address);
+                        }
+                        //search is OK, but nothing was found!
+                        else {
+                            resolve("NONE FOUND")
+                        }
+                    }
+                    //something went wrong...
+                    else {
+                        resolve("SEARCH ERROR = " + status);
+                    }
+                });
+            });
+        }
+
+        function getGeocodingSearch(request) {
+            return new Promise((resolve, reject) => {
+                geocoder.geocode(request, function(results, status) { //results = https://developers.google.com/maps/documentation/javascript/geocoding#GeocodingResults
+                    if (status == google.maps.places.PlacesServiceStatus.OK) {
+                        //if search is OK, then add best (first) address to addresses array
+                        if (results.length > 0) {
+                            console.log('Query "' + place + '" returns "', results);
+                            let best_place = results[0];
+                            let address = best_place.formatted_address +
+                                '\n' + best_place.geometry.location.lat() +
+                                '\n' + best_place.geometry.location.lng() +
+                                '\n' + getCounty(best_place.address_components);
+                            address += '\n';
+                            resolve(address);
+                        }
+                        //search is OK, but nothing was found!
+                        else {
+                            resolve("NONE FOUND")
+                        }
+                    }
+                    //something went wrong...
+                    else {
+                        resolve("SEARCH ERROR = " + status);
+                    }
+                });
             });
         }
 
@@ -87,17 +125,137 @@
             }
             return null;
         }
+
+        /*
+        Extract origin and destinations from given text. Expected format is:
+        origin1
+        dest1
+        dest2
+        dest3
+
+        o2
+        d1
+        d2
+        d5
+
+        o3
+        d1
+        ...
+        */
+        function getDistanceMatrixRequests(text) {
+            let lines = text.split('\n'); //split input text into an array
+            let requests = [];
+
+            let origin = null;
+            let destinations = [];
+            for (line of lines) {
+                //reset the list of destinations if a blank line is reached
+                if (line === '') {
+                    requests.push({
+                        'origins': [origin],
+                        'destinations': destinations,
+                        travelMode: 'DRIVING',
+                    });
+                    origin = null;
+                    destinations = [];
+                } else if (origin) { //if origin is already defined, add this line to the destinations
+                    destinations.push(line);
+                } else { //origin is not defined, thus this is the origin
+                    origin = line;
+                }
+            }
+            //add the final origin/dests if the input did not end with a newline
+            if (lines[lines.length - 1] !== '') {
+                requests.push({
+                    'origins': [origin],
+                    'destinations': destinations,
+                    travelMode: 'DRIVING'
+                });
+            }
+            return requests;
+        }
+
+        function getDistanceMatrixSearch(request) {
+            return new Promise((resolve, reject) => {
+                distMatrixService.getDistanceMatrix(req, function(results, status) { //results = https://developers.google.com/maps/documentation/javascript/distancematrix#distance_matrix_requests
+                    if (status == google.maps.places.PlacesServiceStatus.OK) {
+                        console.log('Query "', req, '" returns "', results);
+                        let origin = req.origins[0];
+
+                        //format the dist matrix results
+                        let str = '';
+                        for (let i = 0; i < results.destinationAddresses.length; i++) {
+                            let dest = results.destinationAddresses[i];
+                            let element = results.rows[0].elements[i]; //only 1 origin used
+                            let status = element.status;
+                            let duration = null;
+                            let dist = null;
+                            if (status == google.maps.places.PlacesServiceStatus.OK) {
+                                duration = element.duration.text;
+                                dist = element.distance.text;
+                            }
+                            str += [origin, dest, dist, duration].join('--');
+                            str += '\n';
+                        }
+                        console.log(str)
+
+                        resolve(str);
+                    }
+                    //something went wrong...
+                    else {
+                        resolve("SEARCH ERROR = " + status);
+                    }
+                });
+            });
+        }
+
+        //callback function when the button is clicked
+        function processPlaces(getRequestsFunction, startSearchFunction) {
+            let inputText = $("#places").val(); // get the input text
+            const requests = getRequestsFunction(inputText);
+            let results = [];
+
+            for (req of requests) {
+                results.push(startSearchFunction(req));
+            }
+
+            //wait for all of our promises/searches to finish, then print to screen
+            Promise.all(results).then(values => {
+                $("#results").text(values.join('\n'));
+                console.log('All = ' + values)
+            }).catch(reason => {
+                //something went wrong
+                $("#results").text('Error - check console (F12)');
+                console.log(reason)
+            });
+        }
     </script>
 </head>
 
 <body>
     <!-- Setup the HTML DOM elements required in the JS code -->
-    <p>Write your queries in the text box (one per line) and click the button. Results are shown below, and full result data is available in the console.</p>
-    Places: <textarea type="text" id="places" name="places" cols="40" rows="5"></textarea>
-    <button id="btn" type="button">Click Me!</button>
+    <p>Write your queries in the text box and click the button. Results are shown below, and full result data is available in the console.</p>
+    <p>Geocoder and Places Text Search expect one address per line. They return similar results.</p>
+
+    <p>Distance Matrix finds distances between a list of origins and destinations. Demo is setup for 1 origin only. Text input should be in the format:</p>
+    <p>origin1</p>
+    <p>dest1</p>
+    <p>dest2</p>
+    <p>dest3</p>
+    <p>**empty line**</p>
+    <p>o2</p>
+    <p>d1</p>
+    <p>d2</p>
+    <p>**empty line**</p>
+    <p> ...</p>
+    <p>Distance Matrix Output is "origin--dest--dist--duration"</p>
+    <textarea type="text" id="places" name="places" cols="40" rows="5"></textarea>
+    <button id="geocoder" type="button">Geocoder</button>
+    <button id="distMatrix" type="button">Distance Matrix</button>
+    <button id="textSearch" type="button">Places Text Search</button>
 
     <h2>Results</h2>
-    <div id="results"> </div>
+    <div id="results" class="none"> </div>
 
     <div id="map"></div>
 
