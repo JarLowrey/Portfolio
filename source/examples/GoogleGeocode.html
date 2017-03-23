@@ -23,7 +23,7 @@
     <script>
         var geocoder, distMatrixService, placesService;
 
-        //initialize the Google Maps library and set the click event for our button
+        //initialize the Google Maps library and set the click callbacks for our buttons
         $(document).ready(() => {
             geocoder = new google.maps.Geocoder();
             distMatrixService = new google.maps.DistanceMatrixService();
@@ -34,6 +34,9 @@
             $("#distMatrix").click(() => processPlaces(getDistanceMatrixRequests, getDistanceMatrixSearch));
         })
 
+        /*
+          REQUESTS SECTION - each function parses text to return an array of request objects
+        */
         function getGeocodingRequests(text) {
             let requests = [];
             let places = text.split('\n');
@@ -60,6 +63,61 @@
             return requests;
         }
 
+        /*
+        Extract origin and destinations from given text. Expected format is:
+        origin1
+        dest1
+        dest2
+        dest3
+
+        o2
+        d1
+        d2
+        d5
+
+        o3
+        d1
+        ...
+        */
+        function getDistanceMatrixRequests(text) {
+            let lines = text.split('\n'); //split input text into an array
+            let requests = [];
+
+            let origin = null;
+            let destinations = [];
+            for (line of lines) {
+                //reset the list of destinations if a blank line is reached
+                if (line === '') {
+                    requests.push({
+                        origins: [origin],
+                        destinations: destinations,
+                        unitSystem: google.maps.UnitSystem.IMPERIAL,
+                        travelMode: 'DRIVING'
+                    });
+                    origin = null;
+                    destinations = [];
+                } else if (origin) { //if origin is already defined, add this line to the destinations
+                    destinations.push(line);
+                } else { //origin is not defined, thus this is the origin
+                    origin = line;
+                }
+            }
+            //add the final origin/dests if the input did not end with a newline
+            if (lines[lines.length - 1] !== '') {
+                requests.push({
+                    origins: [origin],
+                    destinations: destinations,
+                    unitSystem: google.maps.UnitSystem.IMPERIAL,
+                    travelMode: 'DRIVING'
+                });
+            }
+            return requests;
+        }
+
+
+        /*
+          SEARCH SECTION - given a request, return a promise that resolves on the relevant Google Maps Service's API search result
+        */
         function getTextSearch(request) {
             return new Promise((resolve, reject) => {
                 placesService.textSearch(request, (results, status) => { //create a callback for when the search finishes
@@ -115,68 +173,6 @@
             });
         }
 
-        function getCounty(address_components) {
-            for (let component of address_components) {
-                for (type of component.types) {
-                    if (type === "administrative_area_level_2") {
-                        return component.long_name;
-                    }
-                }
-            }
-            return null;
-        }
-
-        /*
-        Extract origin and destinations from given text. Expected format is:
-        origin1
-        dest1
-        dest2
-        dest3
-
-        o2
-        d1
-        d2
-        d5
-
-        o3
-        d1
-        ...
-        */
-        function getDistanceMatrixRequests(text) {
-            let lines = text.split('\n'); //split input text into an array
-            let requests = [];
-
-            let origin = null;
-            let destinations = [];
-            for (line of lines) {
-                //reset the list of destinations if a blank line is reached
-                if (line === '') {
-                    requests.push({
-                        origins: [origin],
-                        destinations: destinations,
-                        unitSystem: google.maps.UnitSystem.IMPERIAL,
-                        travelMode: 'DRIVING'
-                    });
-                    origin = null;
-                    destinations = [];
-                } else if (origin) { //if origin is already defined, add this line to the destinations
-                    destinations.push(line);
-                } else { //origin is not defined, thus this is the origin
-                    origin = line;
-                }
-            }
-            //add the final origin/dests if the input did not end with a newline
-            if (lines[lines.length - 1] !== '') {
-                requests.push({
-                    origins: [origin],
-                    destinations: destinations,
-                    unitSystem: google.maps.UnitSystem.IMPERIAL,
-                    travelMode: 'DRIVING'
-                });
-            }
-            return requests;
-        }
-
         function getDistanceMatrixSearch(request) {
             return new Promise((resolve, reject) => {
                 distMatrixService.getDistanceMatrix(req, function(results, status) { //results = https://developers.google.com/maps/documentation/javascript/distancematrix#distance_matrix_requests
@@ -211,9 +207,28 @@
             });
         }
 
+        /*
+          HELPERS SECTION - convenience methods
+        */
+        function getCounty(address_components) {
+            for (let component of address_components) {
+                for (type of component.types) {
+                    if (type === "administrative_area_level_2") {
+                        return component.long_name;
+                    }
+                }
+            }
+            return null;
+        }
+
+        /*
+          Main function - uses the textbox, a request and a search function
+          to create an array of promises of the searches. Waits for the promises
+          to finish and prints results to screen
+        */
         //callback function when the button is clicked
         function processPlaces(getRequestsFunction, startSearchFunction) {
-            let inputText = $("#places").val(); // get the input text
+            let inputText = $("#user_query_text").val(); // get the input text
             const requests = getRequestsFunction(inputText);
             let results = [];
 
@@ -251,7 +266,7 @@
     <p>**empty line**</p>
     <p> ...</p>
     <p>Distance Matrix Output is "origin;destination;distance;duration"</p>
-    <textarea type="text" id="places" name="places" cols="40" rows="5"></textarea>
+    <textarea type="text" id="user_query_text" name="places" cols="40" rows="5"></textarea>
     <button id="geocoder" type="button">Geocoder</button>
     <button id="distMatrix" type="button">Distance Matrix</button>
     <button id="textSearch" type="button">Places Text Search</button>
