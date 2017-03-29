@@ -1,0 +1,163 @@
+---
+title:  "Architecture and Design of Games"
+blurb: ""
+author: James Lowrey
+tags: Games, Software Architecture, Design Patterns
+---
+
+[<span class="caps">G</span>ame Programming Patterns](http://gameprogrammingpatterns.com/architecture-performance-and-games.html) states the 3 goals of game architecture:
+
+> 1. We want nice architecture so the code is easier to understand over the lifetime of the project.
+> 2. We want fast runtime performance.
+> 3. We want to get today’s features done quickly.
+>
+> These goals are at least partially in opposition...
+
+Let's take a look at some of the ways to make this possible.
+
+<%= partial "partials/article_links.erb", locals: {
+    resources: "
+- [Game Programming Patterns - Architecture](http://gameprogrammingpatterns.com/architecture-performance-and-games.html)
+- [Design Patterns in Game Programming](http://www.gamasutra.com/blogs/MichaelHaney/20110920/90250/Design_Patterns_in_Game_Programming.php)
+- [Game Engine Architecture](http://www.gameenginebook.com/)
+- [Principles of Software Development](http://wiki.c2.com/?SevenPrinciplesOfSoftwareDevelopment)
+- [Key Principles of Software Architecture](https://msdn.microsoft.com/en-us/library/ee658124.aspx)
+"
+  } %>
+
+##What is Architecture And Why is it Hard?
+
+[Software Architecture](https://en.wikipedia.org/wiki/Software_architecture) consists of the fundamental structural choices that make up a program, and thus are very costly to change.
+Its designs aim to model a world/problem in a performant manner in software and in our minds.
+Thus the architecture is the backbone upon which the rest of implementation lies, and can ease [cognitive load](https://en.wikipedia.org/wiki/Cognitive_load) when designing features or fixing bugs.
+
+In other words...software is complex.
+Games are especially complex.
+Thinking and remembering is hard.
+Organization makes things easier, and getting it right early can make life a lot easier.
+
+Design patterns and paradigms help by breaking architecture into more understandable chunks.
+They exist because at some point, some dude encountered a problem modelling or abstracting an issue, came up with some ideas about how to fix it, and shared.
+Other people had similar problems and followed suite.
+You will not encounter every design problem that ever existed, and don't need perfect knowledge nor application of every pattern.
+
+As a developer the goal is to ship your product.
+Architecture should only intervene to make that task easier.
+Don't get stuck on the minutiae, don't ignore it, and remember, the important thing is to keep iterating.
+
+<%= partial "partials/image.erb", locals: {
+    src: "/images/memes/you_got_this.jpg",
+    alt: "you got this"
+     } %>
+
+So stay tuned, take this info with a grain of salt, and let's examine some ways to make software & games easier to model.
+
+##Some Basic Software Principles
+
+###Keep it Simple Stupid (KISS)
+
+[KISS](https://en.wikipedia.org/wiki/KISS_principle) - simple is better.
+
+###Don't Repeat Yourself (DRY)
+
+> "Every piece of knowledge must have a single, unambiguous, authoritative representation within a system". - [DRY](https://en.wikipedia.org/wiki/Don't_repeat_yourself)
+
+[DRY principles](http://programmer.97things.oreilly.com/wiki/index.php/Don't_Repeat_Yourself) are violated all the time, but that doesn't make it OK.
+Web programming often requires modifications on HTML, CSS, and JS when updating sites - some libraries attempt to improve this by inlining HTML and CSS in JS components.
+[Magic Numbers](https://en.wikipedia.org/wiki/Magic_number_(programming)) are numerical values littered throughout code with no explanation or variabilization.
+Modifying an uncommented, non-variable number in code is a dangerous process, why was that number used?
+What other places use this number and also must be changed?
+
+Global variables, databases, and external data files are better at storing data as we can use a single point of control.
+[Modularity](https://en.wikipedia.org/wiki/Modular_programming) via self-contained components is better than re-implementation.
+[Abstractions](https://en.wikipedia.org/wiki/Abstraction_principle_(computer_programming)) filter out low-level details and keeps focus on goals.
+These methods save the pain of having to make many updates throughout a code base due to one simple change.
+Be sure to comment or write [self-documenting code](https://en.wikipedia.org/wiki/Self-documenting_code) to ensure that this point of control is not ambiguous
+
+Inevitably, if your code isn't DRY it's WET - Waste Everyone's Time.
+
+###You Aint Gonna Need It (YAGNI)
+
+[YAGNI](https://en.wikipedia.org/wiki/You_aren%27t_gonna_need_it) minimizes upfront design to keep focus on implementation that will actually be used.
+How can you be sure that the hours/days/weeks of design/implementation are going to be utilized if they are not yet needed?
+Software needs can change over time, and are often [difficult to know](https://www.quora.com/Is-it-true-that-customers-dont-know-what-they-want-until-weve-shown-them-as-Steve-Jobs-said) in the first place.
+Keep your audience, goals, and vision in mind, and iterate over one module at a time to a high level of polish.
+Remember, keep it simple.
+
+###Beyond
+
+And there are [more](http://wiki.c2.com/?SevenPrinciplesOfSoftwareDevelopment).
+They all work to remind you of the importance of simplicity, reusability, focusing on your goals and focusing on your audience.
+
+##Typical Game Architectures
+
+Common software architectures like [MVC, MVP, or MVVM](http://www.infoworld.com/article/2926003/microsoft-net/exploring-the-mvc-mvp-and-mvvm-design-patterns.html) are [not used commonly used in games](http://gamedev.stackexchange.com/questions/3426/why-are-mvc-tdd-not-employed-more-in-game-architecture), likely due to the tighter coupling between these concerns than a GUI app.
+Instead, games typically use one of the three following systems, with ECS's being most popular:
+
+###Object Oriented Programming
+
+[OOP](https://en.wikipedia.org/wiki/Object-oriented_programming) is a paragidm where classes composed of data/fields/attributes and procedures/methods/functions interact with one another.
+There are 3 main pillars of OOP design - [Encapsulation, Inheritance, and Polymorphism](https://www.reddit.com/r/learnprogramming/comments/2l1zrs/eli5_the_3_pillars_of_objectoriented_programming/clqs43b/) (Abstraction too depending who you ask), and a variety of [design patterns](https://en.wikipedia.org/wiki/Object-oriented_programming#Design_patterns).
+
+Usually OOP is not recommended for game programming, as can lead to tightly [coupled](https://en.wikipedia.org/wiki/Coupling_(computer_programming)), difficult to extend systems.
+
+<%= partial "partials/image.erb", locals: {
+    src: "oop_game_architecture.png",
+    alt: "oop_game_architecture",
+    caption: "<a href=\"https://www.gamedev.net/resources/_/technical/game-programming/understanding-component-entity-systems-r3013\">Source</a>"
+  } %>
+
+###Entity Component Systems
+
+[ECS](https://en.wikipedia.org/wiki/Entity%E2%80%93component%E2%80%93system) aims to create game entities by following the [Composition over Inheritance](https://en.wikipedia.org/wiki/Composition_over_inheritance) principle.
+In this paradigm, an entity is little more than a list of components.
+Components are data that can be added to any entity, for example velocity, position or health.
+Finally Systems bring it all together and apply logic to these entities that changes dependent upon which components exist.
+
+<%= partial "partials/image.erb", locals: {
+    src: "ecs_game_architecture.png",
+    alt: "ecs_game_architecture",
+    caption: "<a href=\"https://www.gamedev.net/resources/_/technical/game-programming/understanding-component-entity-systems-r3013\">Source</a>"
+     } %>
+
+
+For example, a Weapon entity may have components for it Sprites, bullet entity factory, bullets container, position, health, and more.
+Outside of Weapon there would exist systems for movement, drawing, spawning, etc that would iterate over entities and utilize their component values.
+
+Nothing is perfect, ECS has [drawbacks](https://en.wikipedia.org/wiki/Entity%E2%80%93component%E2%80%93system#Drawbacks) too.
+The more components you have the more special cases exist, making it difficult to communicate between components.
+Implementing the [observable pattern](https://en.wikipedia.org/wiki/Observer_pattern) enables removing this special handling and instead keeping a list of dependents and notifying them of state changes via [events/signals](https://en.wikipedia.org/wiki/Event_(computing)).
+Naively implemented, ECS can also cause a performance hit when systems iterate over a global list of all objects.
+However, enabling separate lists for smarter iteration can actually cause performance boosts (your engine should take care of this for you).
+
+More sources:
+
+- [Understanding ECS](https://www.gamedev.net/resources/_/technical/game-programming/understanding-component-entity-systems-r3013)
+- [Role of systems in ECS](http://gamedev.stackexchange.com/questions/31473/what-is-the-role-of-systems-in-a-component-based-entity-architecture/31491#31491)
+- [Game Programming Patterns - Components](http://gameprogrammingpatterns.com/component.html)
+- [Component Based Game Engine Design](http://stackoverflow.com/questions/1901251/component-based-game-engine-design)
+- [ECS Critique](https://www.gamedev.net/resources/_/technical/game-programming/a-critique-of-the-entity-component-model-r3621)
+
+###Data Driven Design
+
+ECS can be used in conjunction with [data-driven design](http://gamedev.stackexchange.com/questions/17331/game-engine-and-data-driven-design).
+Using the existing ECS paradigm, data is factored out to external files (JSON, XML, DB, etc) and new behaviors are defined through data modification.
+This utilizes a [Data Driven Game Object System](http://scottbilas.com/files/2002/gdc_san_jose/game_objects_slides_with_notes.pdf) that can build "new objects" with quick tweaks to those data files.
+For example, you can have a ship class that accepts JSON in its initialization.
+Its image, animations, movement patterns, guns, and abilities are all defined in that JSON.
+In initialization the JSON is queried and components created on the found elements.
+The components' behavior is defined by the existing ECS systems, and the ship is ready to go.
+Just like that you have a extremely extensible, and fast, ship object.
+
+###Functional Reactive Programming
+
+[FRP](https://en.wikipedia.org/wiki/Functional_reactive_programming) combines [functional programming](https://en.wikipedia.org/wiki/Functional_programming) (use declarative functions that do not change state) with [reactive programming](https://en.wikipedia.org/wiki/Reactive_programming) (organize around data streams and change propagation).
+Here's some more info on [FP](https://medium.com/javascript-scene/master-the-javascript-interview-what-is-functional-programming-7f218c68b3a0) and [RP](https://gist.github.com/staltz/868e7e9bc2a7b8c1f754).
+Its steadily [growing in popularity](http://www.chrismaraffi.com/CMPS203_FRPSurvey_MaraffiSeagal.pdf), and is at least partially endorsed by [John Carmack](https://en.wikipedia.org/wiki/John_Carmack).
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/1PhArSujR_A?start=125" frameborder="0" allowfullscreen></iframe>
+
+For example, the [Helm](http://helm-engine.org/) engine follows this approach.
+Many others do not.
+At this point in time there aren't many widespread engines, tutorials, and academic teachings that prep developers for this, so learning it fresh presents a challenge and a time sink.
+Keep your eyes open, and in the meantime try to integrate some of the [benefits of FP](http://stackoverflow.com/questions/128057/what-are-the-benefits-of-functional-programming) in your normal routine.

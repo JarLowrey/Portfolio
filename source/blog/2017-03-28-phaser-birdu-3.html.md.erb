@@ -6,6 +6,8 @@ author: James Lowrey
 tags: Birdu,Phaser,HTML5,Javascript
 ---
 
+#Implementation
+
 <span class="caps">S</span>o far we've covered the tech stack behind Birdu and how to get a new Phaser project started using an automatic generator.
 Now, we'll jump into the weeds of creating a new game.
 
@@ -16,6 +18,8 @@ If you weren't here [last time](/blog/phaser-birdu-2.html), we covered how to ge
 
 ##The Final Product:
 
+[And here's the code on GitHub](https://github.com/JTronLabs/Birdu-Tutorial)
+
 <iframe src="https://jtronlabs.github.io/Birdu-Tutorial/dist" height="500" width="100%"></iframe>
 
 <%= partial "partials/article_links.erb", locals: {
@@ -25,10 +29,7 @@ If you weren't here [last time](/blog/phaser-birdu-2.html), we covered how to ge
 - [Birdu Tutorial Game Repo](https://github.com/JTronLabs/Birdu-Tutorial)
 - [Birdu on Google Play](https://play.google.com/store/apps/details?id=com.jtronlabs.birdu)
 - [Phaser-CE Repo](https://github.com/photonstorm/phaser-ce)
-- [Phaser Docs](https://phaser.io/docs/)
-- [Leshy SpriteSheet Tool](https://www.leshylabs.com/apps/sstool/)
-- [TexturePacker](https://www.codeandweb.com/texturepacker)
-- [Phaser SHMUP Tutorial (2014)](http://codeperfectionist.com/articles/phaser-js-tutorial-building-a-polished-space-shooter-game-part-1/)
+- [Phaser-CE Docs](https://photonstorm.github.io/phaser-ce/)
 ",
     software_versions: "
 - [Ubuntu 16.04 LTS](http://www.ubuntu.com/download)
@@ -45,6 +46,11 @@ Go ahead and download the assets [from the repository](https://github.com/JTronL
 Also update the "src/assets.js" file in your generator with the assets you downloaded.
 Copy and paste that file [from here](https://github.com/JTronLabs/Birdu/blob/master/src/assets.js).
 
+These assets contain a [Texture Atlas](https://en.wikipedia.org/wiki/Texture_atlas) instead of individual images.
+A Texture Atlas combines all your images and spritesheets into a single image, and uses JSON to define where the outlines are.
+You can use the free [Leshy SpriteSheet Tool](https://www.leshylabs.com/apps/sstool/) or the more advanced [TexturePacker](https://www.codeandweb.com/texturepacker) to create your own.
+This will greatly [improve game performance](game-optimizations.html) by reducing draw calls.
+
 ##Getting Started with States
 
 As mentioned previously, a state is a 'screen' of the game.
@@ -56,11 +62,6 @@ Boot and Preload both take the resources outlined in [asset packs](https://phase
 These states also complete some initial game configuration.
 If you want to create a loading screen, do so in the Preloader state and only use assets that are loaded in the 'boot' asset pack.
 Boot's main job is to load assets for the Preloader state, and the Preloader state loads assets for the rest of the game.
-
-As a side note, you do not want to make all of your assets individual images - use a [Texture Atlas](https://en.wikipedia.org/wiki/Texture_atlas) instead.
-A Texture Atlas combines all your images and spritesheets into a single image, and uses JSON to define where the images start/end.
-You can use the free [Leshy SpriteSheet Tool](https://www.leshylabs.com/apps/sstool/) or the more advanced [TexturePacker](https://www.codeandweb.com/texturepacker)
-This will greatly [improve game performance](game-optimizations.html) by reducing draw call.
 
 ##Making a State
 
@@ -515,15 +516,16 @@ export default class GameOver extends Phaser.State {
     src: "gameplay",
     webm: true } %>
 
-
 ##Next Steps
 
-That's about it for this article, the [tutorial's final code is on GitHub](https://github.com/JTronLabs/Birdu-Tutorial).
 Here, you've learned Phaser's basics for creating states, sprites, emitters, and more in JavaScript's easy-to-read ES6 syntax.
-However, the app store Birdu is noticeably different in many ways: the player can grow in size, there's a level system with increasing difficulty, little text graphics [tween](https://photonstorm.github.io/phaser-ce/Phaser.Tween.html) across the screen when an enemy is eaten, there are combos, invincibility, and poop splatters, and much more.
-Not everything is covered in order to keep the tutorial lean, if you're interested in how it works check out the [real code on GitHub](https://github.com/JTronLabs/Birdu).
-Just realize Birdu was a learning process for me too, so don't expect all the code to be pretty.
+Again, the code we've written is all [online at GitHub](https://github.com/JTronLabs/Birdu-Tutorial).
+However, the app store Birdu is noticeably different in many ways: the player can grow in size, there's a level system with increasing difficulty, little text graphics [tween](https://photonstorm.github.io/phaser-ce/Phaser.Tween.html) across the screen when an enemy is eaten, there are combos, invincibility, poop splatters, and much more.
+If you want to learn how it all works, dive into the code on [GitHub](https://github.com/JTronLabs/Birdu) or peruse the [Phaser-CE documentation](https://photonstorm.github.io/phaser-ce/).
 
-Speaking of messy code, next time we'll cover better ways to structure your code.
-Just because this tutorial works doesn't mean it is easy to conceptualize nor maintain.
-At a high level it will discuss how some common ways games are organized and how that can fit into the Phaser framework.
+We're not quite done yet.
+These three tutorials covered the tech stack, setup, and implementation of a simple Phaser-CE game.
+Next we need to know what to do when things go wrong, how do you debug Phaser applications (coming soon)?
+
+As your game becomes more complex, you may also be interested in [game architecture](game-architecture.html) and [performance optimizations](game-optimizations.html).
+Thanks for stopping by!
