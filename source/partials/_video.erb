@@ -1,32 +1,39 @@
 <%
 #initialize local variables in case they were not included
 caption ||= ""
-alt ||= ""
 classes ||= ""
+ogg ||= false
+mp4 ||= false
+webm ||= false
 
 #strip '.html' extension off article link to get name of folder
 url = current_article.url
 url_without_ext = url[0..url.length-6]
 
-#determine if image has an exact link or belongs to "/images/blog/CURRENT_ARTICLE_NAME/"
+#determine if video has an exact link or belongs to "/images/blog/CURRENT_ARTICLE_NAME/"
 prefix = src[0..6]
 if prefix != "http://" and prefix != "https:/" and src[0] !="/" then
   #image belongs to "/images/blog/CURRENT_ARTICLE_NAME/" - add prefix to src
   src = "/images#{url_without_ext}/#{src}"
 end
+
 %>
 
-<!-- Use Kramdown's 'nomarkdown' tag so that this figure is not wrapped in a 'p' tag in the blog pages that use this partial -->
-{::nomarkdown}
 <figure class="<%= classes %>">
-  <!-- Show the image and link to the full resolution on click-->
-  <a target="_blank" href="<%= src %>" >
-    <img src="<%= src %>" alt="<%= alt %>">
-  </a>
-
+  <video autoplay controls loop>
+    <% if mp4 %>
+      <source src="<%=src%>.mp4" type="video/mp4">
+    <% end %>
+    <% if ogg %>
+      <source src="<%=src%>.ogg" type="video/ogg">
+    <% end %>
+    <% if webm %>
+      <source src="<%=src%>.webm" type="video/webm">
+    <% end %>
+  Your browser does not support the video tag.
+  </video>
 
   <figcaption>
   <%= caption %>
   </figcaption>
 </figure>
-{:/}

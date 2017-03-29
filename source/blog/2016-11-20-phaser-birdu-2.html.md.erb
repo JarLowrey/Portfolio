@@ -1,18 +1,20 @@
 ---
-title:  "Creating Birdu Part 2: Using the Generator"
+title:  "Phaser-CE Tutorial: Birdu Part Two"
 blurb: "Utilize the generator to bootstrap a new project."
 header: { img_url: "/images/icons/tech/phaser-logo.svg" }
 author: James Lowrey
 tags: Birdu,Phaser,HTML5,Javascript
 ---
 
+#Using the Generator
+
 <span class="caps">H</span>ow can you create a modular, maintainable, and standardized code project (especially in messy JS land)?
 One great way is to use a generator to make an outline for you.
 In this article we will cover the project's generator and how its pieces interact with one another.
 Check out the [official generator documentation](https://github.com/rblopes/generator-phaser-plus/blob/master/docs/index.md) for an alternate, up-to-date explanation.
 
-Phaser-Generator-Plus masters can move on to the [next article](/blog/Creating-Birdu-Part-3.html), starting the game.
-If you weren't here [last time](/blog/Creating-Birdu-Part-1.html), we covered Birdu's tech stack.
+Phaser-Generator-Plus masters can move on to the [next article](/blog/phaser-birdu-3.html), starting the game.
+If you weren't here [last time](/blog/phaser-birdu-1.html), we covered Birdu's tech stack.
 
 <%= partial "partials/article_links.erb", locals: {
     resources: "
@@ -45,6 +47,7 @@ export NVM_DIR="/home/james/.nvm"               # This loads nvm in current term
 command -v nvm                                  # if installation worked, "nvm" will be printed
 nvm install node                                # Install Node & NPM
 nvm use default                                 # use NVM's node - just in case a system installation already exists
+nvm alias default node                          # make a reference to this node version in the ~/.bashrc
 nvm which current                               # location of the current version of node - should have ".nvm" in the name
 # Install global NPM packages - these will not need to go into the local node_modules folder of your project
 npm -g install yo                               # Framework for generators, helps devs quickly build high quality web apps

@@ -1,0 +1,16 @@
+---
+title:  "Managing Android Permissions in Cordova"
+header: { img_url: "/images/icons/tech/cordova.svg" }
+author: James Lowrey
+tags: Cordova,Android,HTML5,hybrid
+---
+
+Sometimes Cordova can be difficult to work with.
+[I recently had some trouble with undesirable permissions being added to Android apps after building](https://github.com/dpa99c/cordova-custom-config/issues/107#issuecomment-289116008), and wanted to share how it was resolved.
+If you're not familiar with Cordova, it is a framework that provides native plugins to HTML5/JS code, enabling low level access for HTML5 applications published on mobile (hybrid apps) which run in an embedded browser (but are downloaded from the stores like normal Apps).
+There is a better overview of their architecture on its [website](https://cordova.apache.org/docs/en/latest/guide/overview/index.html).
+
+##Cordova Lifecycle
+
+Cordova applications are mostly managed by the [config.xml](https://cordova.apache.org/docs/en/latest/config_ref/index.html) file, which is responsible for defining plugins, engine versioning, preferences and more.
+While the config helps manage the application, the [CLI](https://cordova.apache.org/docs/en/latest/reference/cordova-cli/index.html) API is used to actually run, build, etc your application.

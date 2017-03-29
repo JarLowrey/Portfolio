@@ -1,0 +1,529 @@
+---
+title:  "Phaser-CE Tutorial: Birdu Part Three"
+blurb: "Create a simple game with Phaser."
+header: { img_url: "/images/icons/tech/phaser-logo.svg" }
+author: James Lowrey
+tags: Birdu,Phaser,HTML5,Javascript
+---
+
+<span class="caps">S</span>o far we've covered the tech stack behind Birdu and how to get a new Phaser project started using an automatic generator.
+Now, we'll jump into the weeds of creating a new game.
+
+Please note, this tutorial aims to outline the main development processes involved, but not every nitty-gritty detail.
+The final product will be different from the full game, if you want to know how to implement it exactly you should checkout its [code](https://github.com/JTronLabs/Birdu).
+
+If you weren't here [last time](/blog/phaser-birdu-2.html), we covered how to generate a Phaser project with a yeoman generator.
+
+##The Final Product:
+
+<iframe src="https://jtronlabs.github.io/Birdu-Tutorial/dist" height="500" width="1000"></iframe>
+
+
+<%= partial "partials/article_links.erb", locals: {
+    resources: "
+- [Birdu Repo](https://github.com/JTronLabs/Birdu)
+- [Birdu on Google Play](https://play.google.com/store/apps/details?id=com.jtronlabs.birdu)
+- [Phaser-CE Repo](https://github.com/photonstorm/phaser-ce)
+- [Phaser Docs](https://phaser.io/docs/)
+- [Leshy SpriteSheet Tool](https://www.leshylabs.com/apps/sstool/)
+- [TexturePacker](https://www.codeandweb.com/texturepacker)
+- [Phaser SHMUP Tutorial (2014)](http://codeperfectionist.com/articles/phaser-js-tutorial-building-a-polished-space-shooter-game-part-1/)
+",
+    software_versions: "
+- [Ubuntu 16.04 LTS](http://www.ubuntu.com/download)
+- [Phaser.js 2.6.2](http://phaser.io/docs/2.6.2/index)
+- [Cordova 6.4.0](https://cordova.apache.org/docs/en/latest/)
+- [Node 4.2.6](https://nodejs.org/en/)
+- [NPM 3.5.2](https://www.npmjs.com/)
+- [Generator Phaser Plus 1.1.0](https://github.com/rblopes/generator-phaser-plus)
+"
+  } %>
+
+##Assets
+
+Go ahead and download the assets [from the repository](https://github.com/JTronLabs/Birdu/tree/master/static/assets) and place them into your "static/assets" directory.
+Also update the "src/assets.js" file in your generator with the assets you downloaded.
+Copy and paste that file [from here](https://github.com/JTronLabs/Birdu/blob/master/src/assets.js).
+
+##Getting Started with States
+
+As mentioned previously, a state is a 'screen' of the game.
+For example: Settings, Menu, Game, Gameover, etc.
+A state has a variety of [public methods](http://phaser.io/docs/2.6.2/Phaser.State.html#create), the most important of which are `preload`, `create`, and `update`.
+After you run the generator, a couple of states will already be created for you: Boot, Preloader, and Game.
+
+Boot and Preload both take the resources outlined in [asset packs](https://phaser.io/docs/2.6.2/Phaser.Loader.html#pack) created in `assets.js` and load them into the game's cache.
+These states also complete some initial game configuration.
+If you want to create a loading screen, do so in the Preloader state and only use assets that are loaded in the 'boot' asset pack.
+Boot's main job is to load assets for the Preloader state, and the Preloader state loads assets for the rest of the game.
+
+As a side note, you do not want to make all of your assets individual images - use a [Texture Atlas](https://en.wikipedia.org/wiki/Texture_atlas) instead.
+A Texture Atlas combines all your images and spritesheets into a single image, and uses JSON to define where the images start/end.
+You can use the free [Leshy SpriteSheet Tool](https://www.leshylabs.com/apps/sstool/) or the more advanced [TexturePacker](https://www.codeandweb.com/texturepacker)
+This will greatly [improve game performance](game-optimizations.html) by reducing draw call.
+
+##Making a State
+
+To make a new state use the generator: `yo phaser-plus:state`, this will create the file and add a reference to states.js for loading into the game.
+We are just going to focus on the Game state for now (which comes premade), but try it out by creating a Menu state on your own.
+
+Let's take a look at our game state.
+
+~~~ javascript
+/*
+ * Game state
+ *
+ * Here's where the magic happens
+ */
+
+export default class Game extends Phaser.State {
+
+  create() {}
+  update() {}
+
+}
+~~~
+
+###TileSprite
+
+It's pretty boring, just a black background so far.
+Let's make this a bit more exciting by adding a colorful moving background.
+A [TileSprite](https://photonstorm.github.io/phaser-ce/Phaser.TileSprite.html) has a repeating texture that can give the appearance of moving.
+Combine a couple of these and you can create a [parallax scrolling background](https://gamedevelopment.tutsplus.com/tutorials/parallax-scrolling-a-simple-effective-way-to-add-depth-to-a-2d-game--cms-21510).
+
+The below example uses the [GameObjectFactory](https://photonstorm.github.io/phaser-ce/Phaser.GameObjectFactory.html) to instantiate some TileSprites without much code.
+The key and frame values are passed in, and the correct image is grabbed from the Texture Atlas in the game cache.
+Then, the update function runs every FPS update and seemlessly scrolls the sprite.
+
+~~~ javascript
+//in game state
+create(){
+  this.bg = this.game.add.tileSprite(0, 0, this.game.width, this.game.height, 'spritesheet', 'bg');
+  this.bg1 = this.game.add.tileSprite(0, 0, this.game.width, this.game.height, 'spritesheet', 'bg1');
+}
+update(){
+  this.bg.tilePosition.x += 4;
+  this.bg1.tilePosition.x += 8;
+}
+~~~
+
+<%= partial "partials/video.erb", locals: {
+    src: "tiled_sky",
+    caption:"Two layer parallax scrolling effect",
+    mp4: true } %>
+
+Looks good!
+But it is still empty, we should add some action.
+
+##Creating a player
+
+Create a new object name 'Player' and make it extend from Phaser.Sprite - `yo phaser-plus:object`.
+In this player we will set its image key in the super() call, add an idling animation using frames from that image, and then set the width, height, and [anchor](https://photonstorm.github.io/phaser-ce/Phaser.Sprite.html#anchor).
+
+~~~ javascript
+/*
+ * Player
+ * ======
+ */
+
+export default class Player extends Phaser.Sprite {
+
+  constructor(game) {
+    super(game, game.world.centerX, game.world.centerY, 'spritesheet');
+
+    this.animations.add('idling', ['b17-1', 'b17-2', 'b17-3', 'b17-4'], 20, true);
+    this.animations.play('idling');
+
+    this.width = 60;
+    this.scale.y = this.scale.x; // set height by changing Y scale to preserve image's aspect ratio
+    this.anchor.setTo(0.5, 0.5);
+  }
+  update() {
+    // TODO: Stub.
+  }
+}
+~~~
+
+and now import and use this player in the Game state.
+
+~~~ javascript
+import Player from '../objects/Player';
+export default class Game extends Phaser.State {
+  create() {
+    //create background...
+
+    this.player = new Player(this.game);
+    this.game.add.existing(this.player);
+  }
+}
+~~~
+
+Notice the background is created before the player.
+This ensures the player appears on top of the background on the game [stage](https://photonstorm.github.io/phaser-ce/Phaser.Stage.html) (otherwise it will be hidden behind it).
+
+###Physics Body
+
+This player is pretty boring, as it just hangs in space.
+We want our user to be able to control their sprite and have it interact with other sprites.
+First, lets enable collisions and ensure the player can't exit the sides of the game.
+
+~~~ javascript
+constructor(game) {
+  //...include previous stuff
+
+  this.game.physics.arcade.enableBody(this);
+  this.body.collideWorldBounds = true;
+  this.body.bounce.set(0.4); //bounces when it hits the bottom
+  this.body.drag.setTo(70, 70); //bounce eventually fades away
+}
+update() {
+  //create a red box on the physics body over the player
+  //Note that in Arcade Physics, the body does not rotate with Sprite, this is fast good enough for Birdu
+  this.game.debug.body(this, 'rgba(255,0,0,0.8)');
+}
+~~~
+
+###Movement
+
+Now, we want the player to have some sophisticated movement.
+When the user taps/clicks the screen, the bird should fly to that position.
+As it gets close it slows down, stops, and has gravity applied to it.
+When flying, the flying/idling animation should be sped up, and it should return to normal when stopped.
+Finally, we want the bird to look in the direction it flies, and return to horizontal when it stops.
+Whew!
+That's a lot to implement, let's take a look at the final product:
+
+~~~ javascript
+update(){
+  this.move();
+}
+
+move() {
+  this.animations.getAnimation('idling').speed = 25;
+  let playerSpd = 300;
+  let minDistToGoal = this.width / 5;
+
+  if (!this.goal_point) { //define if undefined
+    this.goal_point = new Phaser.Point(0, 0);
+  }
+  const distToPointer = Phaser.Point.distance(this, this.goal_point);
+
+  //detect mouse/tap clicks, and update player's desired destination
+  if (this.game.input.activePointer.isDown) {
+    this.goal_point.x = this.game.input.activePointer.x;
+    this.goal_point.y = this.game.input.activePointer.y;
+
+    this.goTowardsLastActivePointer = true;
+  }
+
+  //move player towards his desired destination and turn it off when he reaches it
+  if (this.goTowardsLastActivePointer) {
+    const radians = Phaser.Math.angleBetweenPoints(this, this.goal_point);
+    const angle = Phaser.Math.radToDeg(radians);
+    this.angle = angle;
+    this.scale.y = (Math.abs(angle) > 90) ? -Math.abs(this.scale.y) : Math.abs(this.scale.y);
+
+    if (distToPointer < minDistToGoal) {
+      this.goTowardsLastActivePointer = false; //don't move towards last click's position anymore, you've reached it!
+    }
+
+    const slowDownDist = this.width / 2;
+    playerSpd = Phaser.Math.linear(0, playerSpd, Math.min(slowDownDist, distToPointer) / slowDownDist);
+    this.game.physics.arcade.velocityFromAngle(angle, playerSpd, this.body.velocity);
+  }
+  //NOT MOVING
+  else {
+    this.animations.getAnimation('idling').speed = 10; //slow down wing flaps
+    this.body.gravity.y = 100; //restart gravity
+
+    this.stabilizeRotation();
+  }
+}
+
+stabilizeRotation() {
+  const absRot = Math.abs(this.body.rotation);
+  const rotationDir = (absRot > 90) ? 1 : -1;
+  const rotationDelta = (absRot < 180 && absRot > 0) ? rotationDir * Phaser.Math.sign(this.body.rotation) : 0;
+  this.body.rotation += rotationDelta;
+}
+~~~
+
+There's a lot going on here, so take your time absorbing it.
+Note that the player's speed is being set via its body's velocity, the engine takes care of actually moving the Sprite once this is set.
+Here's what it all looks like now:
+
+<%= partial "partials/video.erb", locals: {
+    src: "player_movement",
+    caption:"Cool player movement",
+    webm: true } %>
+
+##Pooling Sprites
+
+Now that our player can move about, we need to create some enemies to hunt down/avoid - `yo phaser-plus:object`, extend Sprite, and name it "Enemy".
+We are also going to need a Pool to efficiently allocate these enemies - `yo phaser-plus:object` and name it "Pools" (do not give it a parent, choose "None").
+[Pooling](game-optimizations.html#heroes-never-die) allows efficient reuse of game objects and is integral for performance.
+
+First, we are going to setup our Pools class.
+This will handle preallocation and revival for all the [Phaser Groups](https://photonstorm.github.io/phaser-ce/Phaser.Group.html) that we use in the game.
+A Phaser.Group is container for [display objects](https://photonstorm.github.io/phaser-ce/global.html#DisplayObject) such as Sprites, Images, Text, and much more.
+They are useful for sprite recycling, batch transformations (all children can be rotated/moved/scaled if that action is done on a group), nested hierarchies and more.
+This Pools class is pretty simple: essentially just a JS object/hash that references these powerful Group Objects by a given key, and can be setup using JSON from our Game's create() method.
+
+~~~ javascript
+export default class Pools {
+
+  constructor(game, spritesInfo) {
+    this.game = game;
+
+    this.pools = {};
+
+    //this can handle the pooling of multiple sprite classes,
+    //all indexed by the given key from 'spritesInfo'
+    for (let className in spritesInfo) {
+      const newPool = this.game.add.group();
+      const poolInfo = spritesInfo[className];
+
+      newPool.classType = poolInfo['class']; //set the class to use when expanding
+      newPool.createMultiple(poolInfo['count']); //preallocate
+
+      this.pools[className] = newPool;
+    }
+  }
+
+  getPool(className) {
+    return this.pools[className];
+  }
+}
+~~~
+
+And add it to the global game object so that it can be accessed everywhere:
+
+~~~ javascript
+import Enemy from '../objects/Enemy';
+import Pools from '../objects/Pools';
+//...
+
+export default class Game extends Phaser.State {
+  create() {
+    //...
+    this.game.spritePools = new Pools(this.game, {
+      'Enemy': {
+        'class': Enemy,
+        'count': 25
+      }
+    });
+  }
+}
+~~~
+
+Now, when we need a new enemy we can quickly recycle from the global `spritePools` object using the 'Enemy' key, and can do so anywhere that has a reference to the `game` object.
+
+~~~ javascript
+const sprite = this.game.spritePools.getPool(key).getFirstDead(true); //autoExpand if all alive
+sprite.reset();
+~~~
+
+##Enemy
+
+The Pools class is working fine, but the enemies it is recycling are pretty boring.
+At this point it's just a normal sprite, time to fix that.
+We want our enemies to random choose a random bird sprite, random speed, start at the edges of the world, and die when they leave the scene (thus freed up for recycling).
+
+~~~ javascript
+export default class Enemy extends Phaser.Sprite {
+
+  get player() {
+    return this.game.state.states.Game.player;
+  }
+  static get maxBirdFrame() {
+    return 27;
+  }
+  static get twoFrameAnimations() {
+    return [6, 8, 14, 15, 19, 22, 24];
+  }
+  static get flapFPS() {
+    return 20;
+  }
+
+  constructor(game) {
+    super(game, 0, 0, 'spritesheet');
+
+    this.anchor.setTo(0.5, 0.5);
+
+    //create all animations at construction (when preallocated in the Pools) to avoid perf hit at run time
+    for (var i = 0; i < Enemy.maxBirdFrame; i++) {
+      const animationFrames = Enemy.getFlyingFrames(i);
+      this.animations.add(Enemy.birdFrameName(i), animationFrames, Enemy.flapFPS * (animationFrames.length / 4), true);
+    }
+
+    //enable physics body, kill sprite if it moves out of bounds
+    this.game.physics.arcade.enableBody(this);
+    this.checkWorldBounds = true;
+    this.outOfBoundsKill = true;
+  }
+
+  reset() {
+    super.reset();
+
+    this.speed = null;
+
+    //play one of the random animations that were created in the constructor
+    const randomEnemyFrame = Phaser.Math.between(0, Enemy.maxBirdFrame);
+    this.animations.play(Enemy.birdFrameName(randomEnemyFrame));
+
+    this.setSpriteSize();
+    this.setAtSidesOfScreen();
+  }
+
+  setAtSidesOfScreen() {
+    if (Math.random() < 0.5) {
+      this.width = Math.abs(this.width); //face right
+      this.x = 0;
+      this.body.velocity.x = 300;
+    } else {
+      this.width = -Math.abs(this.width); //face left
+      this.x = this.game.world.width;
+      this.body.velocity.x = -300;
+    }
+    this.body.velocity.y = 0;
+    this.y = Math.random() * this.game.world.height;
+  }
+
+  setSpriteSize() {
+    const playerArea = Math.abs(this.player.width * this.player.height);
+    const newArea = Phaser.Math.random(playerArea * 0.5, playerArea * 1.2);
+
+    // Find the new width from the given newArea
+    const aspectRatio = Math.abs(this.width / this.height);
+    const newWidth = Math.sqrt(newArea * aspectRatio);
+
+    this.width = newWidth;
+    this.scale.y = this.scale.x;
+  }
+
+  //turn a sprite number and frame animation number into the image's frame name in cache
+  //example: Enemy.birdFrameName(10,2) returns "b10-1"
+  static birdFrameName(spriteNum, frameNum) {
+    if (frameNum != undefined) {
+      return 'b' + spriteNum + '-' + frameNum;
+    } else {
+      return 'b' + spriteNum;
+    }
+  }
+
+  //given a bird's sprite number, create an array with all its frame names.
+  //Some bird animations have 2 frames, the rest have 4
+  //example: Enemy.getFlyingFrames(10) returns ["b10-1","b10-2","b10-3","b10-4"]
+  static getFlyingFrames(spriteNum) {
+    const numFrames = (Enemy.twoFrameAnimations.includes(spriteNum)) ? 2 : 4;
+
+    var frameNames = [];
+    for (var i = 1; i <= numFrames; i++) {
+      frameNames.push(Enemy.birdFrameName(spriteNum, i));
+    }
+
+    return frameNames;
+  }
+}
+~~~
+
+And here's what it looks like!
+
+<%= partial "partials/video.erb", locals: {
+    src: "lone_enemy",
+    caption:"A lone Enemy",
+    webm: true } %>
+
+##Making it a Game
+
+So now we have a player and some performant enemies, but no goals or [juice](https://www.youtube.com/watch?v=Fy0aCDmgnxg).
+To fix this we'll add a spawning timer, collision handling for the enemies/Player, some particle effects, a Gameover state, and a score tally.
+To create the GameOver state run `yo phaser-plus:state` and name it `GameOver`.
+Next, we will perform all of our needed setup in the Game State, and add a simple text to the GameOver State
+
+~~~ javascript
+//The Game State
+
+create() {
+  //...other stuff
+
+  //add an emitter to show little meat crumbs when this player eats something
+  this.emitter = this.game.add.emitter(0, 0, 50);
+  this.emitter.makeParticles('spritesheet', 'meat');
+  this.emitter.setRotation(-720, 720);
+  this.emitter.setXSpeed(-100, 100);
+  this.emitter.setAlpha(1, 0.1);
+  this.emitter.setYSpeed(-100, 0);
+  this.emitter.minParticleScale = .5;
+  this.emitter.maxParticleScale = 1;
+}
+
+showCrumbs(x, y, width, height) {
+  this.emitter.width = Math.abs(width);
+  this.emitter.height = Math.abs(height);
+  this.emitter.y = y;
+  this.emitter.x = x;
+
+  this.emitter.start(true, 2000, null, Phaser.Math.between(4, 8));
+}
+
+_incrementScore(amt) {
+  this.score += Math.round(amt);
+  this.scoreLabel.setText(this.score);
+}
+
+static enemyCollision(player, enemy) { //groups are second
+  this.showCrumbs(player.x, player.y, player.width, player.height);
+  const enemyArea = Math.abs(enemy.width * enemy.height);
+  const playerArea = Math.abs(player.width * player.height);
+
+  if (playerArea > enemyArea) {
+    const enemyScore = Math.sqrt(enemyArea);
+    this._incrementScore(enemyScore);
+    enemy.kill();
+  } else {
+    player.kill();
+    this.state.start('GameOver');
+  }
+}
+
+update() {
+  //background tiling...
+  const enemies = this.game.spritePools.getPool('Enemy');
+  this.game.physics.arcade.collide(this.player, enemies, Game.enemyCollision, null, this);
+}
+~~~
+
+And don't forget about the GameOver state too:
+
+~~~ javascript
+export default class GameOver extends Phaser.State {
+  create() {
+    const txt = this.add.text(this.game.world.centerX, this.game.world.centerY, 'Game Over!',
+      this.game.cache.getJSON('font_styles').score);
+    txt.anchor.setTo(0.5, 0.5);
+
+    //start over the game
+    this.game.time.events.add(Phaser.Timer.SECOND, () => {
+      this.state.start('Game');
+    }, this);
+  }
+}
+~~~
+
+<%= partial "partials/video.erb", locals: {
+    src: "gameplay",
+    webm: true } %>
+
+
+##Next Steps
+
+That's about it for this article, the [tutorial's final code is on GitHub](https://github.com/JTronLabs/Birdu-Tutorial).
+Here, you've learned Phaser's basics for creating states, sprites, emitters, and more in JavaScript's easy-to-read ES6 syntax.
+However, the app store Birdu is noticeably different in many ways: the player can grow in size, there's a level system with increasing difficulty, little text graphics [tween](https://photonstorm.github.io/phaser-ce/Phaser.Tween.html) across the screen when an enemy is eaten, there are combos, invincibility, and poop splatters, and much more.
+Not everything is covered in order to keep the tutorial lean, if you're interested in how it works check out the [real code on GitHub](https://github.com/JTronLabs/Birdu).
+Just realize Birdu was a learning process for me too, so don't expect all the code to be pretty.
+
+Speaking of messy code, next time we'll cover better ways to structure your code.
+Just because this tutorial works doesn't mean it is easy to conceptualize nor maintain.
+At a high level it will discuss how some common ways games are organized and how that can fit into the Phaser framework.

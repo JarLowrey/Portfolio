@@ -26,7 +26,8 @@ article {
     figure {
         margin: 0;
         //markdown usually forces images to be nested in a 'p' element, but I get around this by using my _image.erb partial
-        img {
+        img,
+        video {
             @extend .article-img;
         }
 

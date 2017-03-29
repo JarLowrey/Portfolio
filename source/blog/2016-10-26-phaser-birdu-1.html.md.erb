@@ -1,10 +1,12 @@
 ---
-title:  "Creating Birdu Part 1: The Tech Stack"
+title:  "Phaser-CE Tutorial: Birdu Part One"
 blurb: "In preparation for creating Birdu, an HTML5 game, we will examine our tech stack and give background on the project."
 header: { img_url: "/images/icons/tech/phaser-logo.svg" }
 author: James Lowrey
 tags: Birdu,Phaser,Cordova,HTML5,Javascript
 ---
+
+#The Tech Stack
 
 <span class="caps">H</span>TML5 games have come [a long way](http://js-kongress.de/current-state-html5-game-development-2016/) in the past few years.
 As the tech continues to progress it becomes possible to make gameplay more complex, but first you have to learn the basics!
@@ -12,15 +14,17 @@ In this tutorial series, I'll cover how to make a 2-D game, [Birdu](https://gith
 The objective of Birdu is to eat small birds, and avoid being eaten by large ones.
 This post examines the tech stack behind Birdu and how the pieces all fit together.
 
-This tutorial is great for people interested in Phaser, gamedev, webdev and front-end tools.
-It's made for all experience levels, but may be a bit biased towards beginners.
+This tutorial is great for all skill levels and people interested in Phaser, gamedev, webdev and front-end tools.
+At the end we'll have a browser based game published to mobile with [Cordova](https://cordova.apache.org/) and [Crosswalk](https://crosswalk-project.org/), enabling you to also publish to desktop with [Electron](https://electron.atom.io/).
+These publishing tools [add a layer](https://www.smashingmagazine.com/2016/12/app-development-showdown-native-hybrid-debate/) (an embedded browser) between your game code and native performance, and thus there is a performance hit (except in web, which will likely run better than the compiled output from other engines).
+If you're working in 3D or intend to have many thousands of elements on screen, it likely won't run smoothly on mobile.
+However, performance keeps improving in these framworks and its more than enough for most simple games.
+By building your game with HTML5 technologies you'll be double dipping in game and web development experience and have access to many great NPM packages (like [D3](https://d3js.org/)) that would be very difficult to reproduce in other game engines.
+And with that, let's get started!
 
-If you don't care about your stack, and just want to jump into creating (bad idea!) you can view the [next article](/blog/Creating-Birdu-Part-2.html) to learn about the generator.
-
-<%= partial "partials/image.erb", locals: {
-    src: "birdu-preview.gif",
-    alt: "Birdu Preview",
-    caption: "Birdu 2.0" } %>
+<%= partial "partials/video.erb", locals: {
+    src: "birdu-preview",
+    mp4: true } %>
 
 <%= partial "partials/article_links.erb", locals: {
     resources: "
@@ -306,5 +310,5 @@ I would guess that Atom's performance continues to improve, and their plug-ins s
 
 ##That's all folks
 
-[Next time](/blog/Creating-Birdu-Part-2.html) I'll be covering the set up and execution of a basic Phaser game.
+[Next time](/blog/phaser-birdu-2.html) I'll be covering the set up and execution of a basic Phaser game.
 Thanks for stopping by!
