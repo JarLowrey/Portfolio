@@ -12,6 +12,7 @@ page '/*.txt', layout: false
 set :markdown_engine, :kramdown
 set :markdown, parse_block_html: true
 activate :syntax, :line_numbers => true
+activate :emojifire
 
 #Setup Config vars
 

@@ -21,10 +21,8 @@ ul {
 
 .wrap {
     margin: 0 auto;
-    width: $wrap-width-mobile;
-    @include media-query($on-laptop) {
-        width: $wrap-width-desktop;
-    }
+    max-width: $width-max;
+    padding: 0 $margin;
 }
 
 blockquote {
