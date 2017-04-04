@@ -4,13 +4,22 @@ subtext =  current_article.data.dig(:header,:subtext)                   ? header
 color_background =  current_article.data.dig(:header,:color_background) ? header.color_background : data.defaults.article.header.color.bg
 color_text =        current_article.data.dig(:header,:color_text)       ? header.color_text : data.defaults.article.header.color.text
 header_img =        current_article.data.dig(:header,:img_url)          ? app.image_tag(header.img_url, alt: "Article Header Image", class:"article-img") : ""
+date_format = "%B %e, %Y"
+update_date = File.mtime(current_page.source_file).to_date
 %>
 
 
 <header class="article-header" style="background-color:<%= color_background %>;color:<%= color_text %>;">
   <h1>  <%= current_article.title %>                </h1>
   <h3>  <%=  if subtext != "" then subtext end %>   </h3>
-  <p id="author">   <!-- By <%= link_to "James Lowrey", "/about.html", :class => "dotted_link" %> | --> <%= current_article.date.strftime("%B %e, %Y") %> </p>
+  <!-- By <%= link_to "James Lowrey", "/about.html", :class => "dotted_link" %> | -->
+  <p class="dates">
+    <%= current_article.date.strftime(date_format) %>
+    <%  if current_article.date != update_date  %>
+      <br/>
+      Updated: <%= update_date.strftime(date_format) %>
+    <% end %>
+  </p>
 
   <%= partial "partials/share.erb" %>
 

@@ -7,16 +7,12 @@
 
       <!-- Middle -->
       <span class="">
-        <% if current_article %>
-          Article updated <%=  File.mtime(current_page.source_file).strftime("%b %e, %Y") %> <!-- Right way? -->
-        <% end %>
       </span>
 
       <!-- Right -->
       <span class="sides" style="text-align:right;">
         <%= link_to "Source", data.projects.blog.repo_url, :target => "_blank" %>
         </br>
-        <a class="open-mailchimp-subscribe-popup">Subscribe!</a>
       </span>
     </div>
 </footer>
