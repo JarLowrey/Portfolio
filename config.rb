@@ -75,6 +75,18 @@ end
       img = app.image_tag img_url, alt: img_alt
       link = app.link_to img, url, title: title,target: target, class: css_class, id: id
     end
+
+    def capitalize(article_txt)
+      first_letter_idx = 3 #<p>SOME TEXT = pattern to follow
+      first_letter = article_txt[first_letter_idx]
+      if first_letter === "<" # a link may be the first thing, find the links text
+        first_letter_idx = article_txt.index(">",first_letter_idx) + 1
+        first_letter = article_txt[first_letter_idx]
+      end
+
+      article_txt[first_letter_idx]="" #delete the first letter from the links text
+      return "<span class=\"caps\">#{first_letter}</span>#{article_txt}"
+    end
  end
 
  activate :blog do |blog|

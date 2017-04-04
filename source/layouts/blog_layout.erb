@@ -10,7 +10,9 @@ end %>
     <div class="wrap">
       <article>
 
-        <%= yield %>
+        <%= capitalize(yield) %>
+
+        <%= current_article %>
 
         <%= partial "partials/comments.erb" %>
       </article>
