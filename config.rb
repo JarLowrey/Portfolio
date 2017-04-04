@@ -85,6 +85,7 @@ end
       end
 
       article_txt[first_letter_idx]="" #delete the first letter from the links text
+      article_txt.chop!().chop!()#IDK why,  but there is a bunch of spacing and a '#' at the end of articles
       return "<span class=\"caps\">#{first_letter}</span>#{article_txt}"
     end
  end
