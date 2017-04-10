@@ -133,6 +133,9 @@ configure :build do
   activate :minify_css
   activate :minify_javascript
 
-  activate :relative_assets
-  set :relative_links, true
+  #TODO
+  #What are these supposed to do (they broke /blog/404 pages when deployed by turning stylesheets relative)
+  #why were they enabled by default?
+  #activate :relative_assets
+  #set :relative_links, true
 end
