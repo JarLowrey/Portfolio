@@ -1,0 +1,79 @@
+---
+published: false
+title:  "Simple Shape Recognition Using Pillow and Python2"
+blurb: ""
+author: James Lowrey
+tags: OMSCS
+---
+
+I am currently enrolled in Georgia Tech's [OMSCS](https://www.omscs.gatech.edu/) program and am taking CS 7637 - Knowledge Based AI (KBAI).
+The semester-long project aims to automatically solve [Raven's Progressive Matrices](https://en.wikipedia.org/wiki/Raven%27s_Progressive_Matrices) (RPM) with Python + Pillow.
+
+Currently, I am in Part 3 of the project.
+So far I've built an AI agent that solves RPM problems using the given verbal/structured data (instead of raw image data) and examines the changes that occur across frames.
+It's a bit more complicated than that, but that's the basic idea.
+However, in part 3 verbal data can no longer be used, and the [Pillow](https://github.com/python-pillow/Pillow) library's bare-bones image processing functions must be used to determine shape recognition.
+In this article, I will discuss how I utilized Pillow to recognize shapes in RPMs.
+
+There are [visual-only](https://mindmodeling.org/cogsci2012/papers/0321/paper0321.pdf) methods that get around this tricky problem of shape recognition.
+Instead of recognizing shapes, mining features (position, fill, size, etc), and comparing across frames, you could add, intersect, or otherwise perform some image-level computations to find the RPM solution.
+I wanted to re-use my previous work, so I opted to continue on with the shape detection.
+
+<%= partial "partials/image.erb", locals: {
+    src: "E-08.PNG",
+    alt: "Sample RPM problem",
+    caption: "Sample RPM problem, correct answer is #1"
+     } %>
+
+
+<%= partial "partials/article_links.erb", locals: {
+    resources: "
+- [Pillow 4.1.x Docs](http://pillow.readthedocs.io/en/4.1.x/)
+- [NumPy Docs](https://docs.scipy.org/doc/numpy/reference/)
+",
+software_versions: "
+- [Ubuntu (Linux) 16.04.1](http://www.ubuntu.com/download)
+- [Pillow 4.1.0](https://github.com/python-pillow/Pillow)
+- [NumPy 1.12.1](https://github.com/numpy/numpy)
+- [Python 2.7.12](https://www.python.org/)
+"
+  } %>
+
+##Get Started
+
+First, make sure you have pillow and [numpy](http://www.numpy.org/) installed, I used `pip install Pillow && pip install numpy`.
+NumPy speeds up array computation in Python, and is the only other Python package KBAI allows.
+Next load the black and white image into memory:
+
+~~~python
+from PIL import Image
+import numpy
+#...
+pic = Image.open(filepath).convert('1') #open RGB image, convert to Black/White image
+arr = numpy.asarray(pic, dtype=numpy.bool)
+
+#debugging statements - check that it works
+pic.show()
+#convert array back to an image to see if it's OK ('1' is broken here - http://stackoverflow.com/questions/7597525/how-to-convert-image-which-mode-is-1-between-pil-and-numpy)
+Image.fromarray(arr, 'L').show()
+numpy.set_printoptions(threshold=numpy.nan) #print out entire numpy array
+print(arr)
+~~~
+
+Loading in Pillow's '1' mode and numpy's `bool` data type takes advantage of the black/white property of our images and will lead to faster processing
+
+##Next steps
+
+edge detection
+
+fill detection
+
+?
+
+##Issues
+
+touching images
+
+nested images
+
+negative-space images
