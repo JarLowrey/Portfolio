@@ -94,6 +94,7 @@ end
    # Matcher for blog source files
    # blog.taglink = "tags/{tag}.html"
    blog.layout = "layouts/blog_layout"
+   blog.generate_day_pages = false
    # blog.summary_separator = /(READMORE)/
    # blog.summary_length = 150
    # blog.year_link = "{year}.html"
