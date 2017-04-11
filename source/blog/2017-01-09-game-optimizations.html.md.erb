@@ -5,7 +5,7 @@ author: James Lowrey
 tags: Games,Optimization,Research
 ---
 
-Recently I made a [simple game](/blog/Creating-Birdu-Part-1.html) and was surprised to run into performance issues.
+Recently I made a [simple game](/blog/phaser-birdu-1.html) and was surprised to run into performance issues.
 How to fix it?
 I could invest my time in micro optimizations ([JS](https://medium.com/@xilefmai/efficient-javascript-14a11651d563?imm_mid=0eb24a#.v4qkvtyf3)), intensive graphical analysis ([GTAV](http://www.adriancourreges.com/blog/2015/11/02/gta-v-graphics-study/) and [DOOM](http://www.adriancourreges.com/blog/2016/09/09/doom-2016-graphics-study/)), or conflicting forum advice.
 Eventually I discovered the issue, and also collected some juicy optimization tips.
@@ -73,7 +73,7 @@ Ensure that the **assets are optimized**.
 Using a texture atlas or spritesheet over individual images will dramatically lower GPU draw calls and improve 2D performance.
 Using 3D objects with less vertices or polygons will make collision detection and rendering many times faster.
 Watch out for **asset decompression**.
-For example, in my game [Birdu](/blog/Creating-Birdu-Part-1.html), mp3's induced a noticeable lag when starting while wav's did not.
+For example, in my game [Birdu](/blog/phaser-birdu-1.html), mp3's induced a noticeable lag when starting while wav's did not.
 There was less decompression required.
 Next, **reduce game world size** to lower the amount that needs rendered and loaded at once.
 Only render what the user can see and load more of the game as needed.

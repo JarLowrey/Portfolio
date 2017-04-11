@@ -20,3 +20,5 @@ gem 'middleman-emojifire'
 gem 'nokogiri' #for summaries
 gem 'redcarpet', '~> 3.3', '>= 3.3.3'#for markdown
 gem "builder", "~> 3.0"# For feed.xml.builder
+
+gem 'html-proofer' # https://github.com/gjtorikian/html-proofer

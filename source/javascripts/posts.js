@@ -6,10 +6,17 @@ document.addEventListener("DOMContentLoaded", function(event) {
     document.getElementById('collapse-p-btn').addEventListener('click', collapseParagraphHandler, false);
 });
 
-function changeTagDisplay(tagName, display) {
+function setTagDisplay(tagName, display_type) {
     var tags = document.getElementsByTagName(tagName);
     for (var i = 0; i < tags.length; i++) {
-        tags[i].style.display = display;
+        tags[i].style.display = display_type;
+    }
+}
+
+function setClassDisplay(classNames, display_type) {
+    const classes = document.getElementsByClassName(classNames)
+    for (var i = 0; i < classes.length; i++) {
+        classes[i].style.display = display_type;
     }
 }
 
@@ -26,24 +33,27 @@ function showParagraphsWithImagesInThem() {
     }
 }
 
-function changeAllDisplay(display) {
-    changeTagDisplay('p', display);
-    changeTagDisplay('iframe', display);
-    changeTagDisplay('pre', display);
-    changeTagDisplay('ul', display);
-    changeTagDisplay('ol', display);
+function changeAllDisplay(display_type) {
+    setTagDisplay('p', display_type);
+    setTagDisplay('figure', display_type);
+    setTagDisplay('iframe', display_type);
+    setTagDisplay('pre', display_type);
+    setTagDisplay('ul', display_type);
+    setTagDisplay('ol', display_type);
+    setClassDisplay('caps', display_type);
 }
 
-function changeCodeDisplay(display) {
-    changeTagDisplay('p', display);
+function changeCodeDisplay(display_type) {
+    setTagDisplay('p', display_type);
     showParagraphsWithImagesInThem();
+    setClassDisplay('caps', display_type);
 }
 
 function collapseAllHandler(event) {
     event.preventDefault(); //prevent click event from refreshing the browser
 
-    var display = all_collapsed ? 'block' : 'none';
-    changeAllDisplay(display);
+    var display_type = all_collapsed ? 'block' : 'none';
+    changeAllDisplay(display_type);
     showContentConstantlyPresent();
 
     p_collapsed = false;
@@ -53,9 +63,9 @@ function collapseAllHandler(event) {
 function collapseParagraphHandler(event) {
     event.preventDefault(); //prevent click event from refreshing the browser
 
-    var display = p_collapsed ? 'block' : 'none';
+    var display_type = p_collapsed ? 'block' : 'none';
     changeAllDisplay('block');
-    changeCodeDisplay(display);
+    changeCodeDisplay(display_type);
     showContentConstantlyPresent();
 
     all_collapsed = false;
@@ -63,5 +73,5 @@ function collapseParagraphHandler(event) {
 }
 
 function showContentConstantlyPresent() {
-    document.getElementById('author').style.display = 'block';
+    setClassDisplay('dates', 'block');
 }

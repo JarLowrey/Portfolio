@@ -25,8 +25,8 @@ update_date = File.mtime(current_page.source_file).to_date
 
   <!-- UI Buttons-->
   <div class="quick-actions">
-    <%= img_link "icons/collapse.png","Collapse",  "", "", "", "_self", "collapse-all-btn" %>
-    <%= img_link "icons/code.png","Code",          "", "", "", "_self","collapse-p-btn" %>
+    <input type="image" src="/images/icons/collapse.png" id="collapse-all-btn"/>
+    <input type="image" src="/images/icons/code.png" id="collapse-p-btn"/>
   </div>
 
   <%=  if header_img != "" then header_img end %>

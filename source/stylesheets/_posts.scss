@@ -42,7 +42,8 @@ article {
 }
 
 .quick-actions {
-    a {
+    a,
+    input {
         height: $small-icon-len;
         width: $small-icon-len;
         display: inline-block;

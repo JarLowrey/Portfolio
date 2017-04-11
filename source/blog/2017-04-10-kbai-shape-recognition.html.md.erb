@@ -1,23 +1,14 @@
 ---
 published: false
-title:  "Simple Shape Recognition Using Pillow and Python2"
+title:  "Simple Shape Extraction for OMSCS KBAI"
 blurb: ""
 author: James Lowrey
-tags: OMSCS
+tags: OMSCS,KBAI,Vision
 ---
 
-I am currently enrolled in Georgia Tech's [OMSCS](https://www.omscs.gatech.edu/) program and am taking CS 7637 - Knowledge Based AI (KBAI).
-The semester-long project aims to automatically solve [Raven's Progressive Matrices](https://en.wikipedia.org/wiki/Raven%27s_Progressive_Matrices) (RPM) with Python + Pillow.
-
-Currently, I am in Part 3 of the project.
-So far I've built an AI agent that solves RPM problems using the given verbal/structured data (instead of raw image data) and examines the changes that occur across frames.
-It's a bit more complicated than that, but that's the basic idea.
-However, in part 3 verbal data can no longer be used, and the [Pillow](https://github.com/python-pillow/Pillow) library's bare-bones image processing functions must be used to determine shape recognition.
-In this article, I will discuss how I utilized Pillow to recognize shapes in RPMs.
-
-There are [visual-only](https://mindmodeling.org/cogsci2012/papers/0321/paper0321.pdf) methods that get around this tricky problem of shape recognition.
-Instead of recognizing shapes, mining features (position, fill, size, etc), and comparing across frames, you could add, intersect, or otherwise perform some image-level computations to find the RPM solution.
-I wanted to re-use my previous work, so I opted to continue on with the shape detection.
+I am currently enrolled in Georgia Tech's [OMSCS](https://www.omscs.gatech.edu/) program and am taking [CS 7637 - Knowledge Based AI (KBAI)](https://www.omscs.gatech.edu/cs-7637-knowledge-based-artificial-intelligence-cognitive-systems).
+It has a semester-long project that aims to automatically solve [Raven's Progressive Matrices](https://en.wikipedia.org/wiki/Raven%27s_Progressive_Matrices) (RPMs).
+Students may use Java or Python + [Pillow](https://github.com/python-pillow/Pillow) + [NumPy](http://www.numpy.org/).
 
 <%= partial "partials/image.erb", locals: {
     src: "E-08.PNG",
@@ -25,11 +16,22 @@ I wanted to re-use my previous work, so I opted to continue on with the shape de
     caption: "Sample RPM problem, correct answer is #1"
      } %>
 
+Currently, I am in Part 3 of the project.
+So far I've built an AI agent that solves RPM problems using the given verbal (structured) data, instead of raw image data.
+The agent essentially examines the changes that occur across frames and assigns a score to each multiple choice answer.
+However, in part 3 verbal data can no longer be used.
+In order to reuse my previous work, I used Pillow to process the images: find pixel blobs, extract features, and classify into shapes.
+Pillow is pretty bare-bones, so these techniques were implemented by directly accessing the 2D pixel arrays (via NumPy) instead of a fancy high-level API.
+
+As a side note, there are [visual-only](https://mindmodeling.org/cogsci2012/papers/0321/paper0321.pdf) methods that get around this tricky problem of shape recognition.
+They add, intersect, XOR, and perform other image-level computations to find the RPM solution.
+That's not what this article is about, but it's an alternative approach for solving RPMs.
 
 <%= partial "partials/article_links.erb", locals: {
     resources: "
 - [Pillow 4.1.x Docs](http://pillow.readthedocs.io/en/4.1.x/)
 - [NumPy Docs](https://docs.scipy.org/doc/numpy/reference/)
+- [OpenCV Feature Detection](https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_feature2d/py_table_of_contents_feature2d/py_table_of_contents_feature2d.html)
 ",
 software_versions: "
 - [Ubuntu (Linux) 16.04.1](http://www.ubuntu.com/download)
@@ -39,11 +41,45 @@ software_versions: "
 "
   } %>
 
+##Problem Constraints
+
+RPM images consist of black/white frames containing a variety of simple polygons and convex shapes.
+Shapes can be touching, contained inside of one another, or created from negative space.
+Shapes can be outlined, filled in, or partially filled in (typically in 25% multiples).
+Commonly, shapes are rotated or translated, and should be recognized as equivalent.
+Sometimes, unique-appearing shapes will turn out to be composed of smaller shapes.
+These issues must be tackeled by the image parser, as the Agent functions upon the given shapes themselves.
+If the image parser is bad at finding shapes and features, the Agent can only follow [GIGO](https://en.wikipedia.org/wiki/Garbage_in,_garbage_out).
+
+<%= partial "partials/image.erb", locals: {
+    src: "troublesome_rpm_frames.png",
+    alt: "Troublesome RPM Frames",
+    caption: "Troublesome RPM Frames"
+     } %>
+
+
+##Research
+
+I have no background in any type of [Computer Vision](https://en.wikipedia.org/wiki/Computer_vision), and it is not covered in the class.
+It was pretty surprising to be tasked with something like this, so I got started by Googling.
+What I came up with is probably not optimal (if you're more experienced feel free to weigh in via the comments), but it was sufficient.
+
+<%= partial "partials/image.erb", locals: {
+    src: "/images/memes/omscs_trap.jpeg",
+    alt: "OMSCS CompVis in KBAI - It's a Trap Meme",
+    caption: "A classmate shared his feelings in Piazza"
+     } %>
+
+###Corner Detection
+
+Aims to find sharp changes in intesity in an image, AKA corners.
+[Wikipedia](https://en.wikipedia.org/wiki/Corner_detection) has a bunch of algorithms for detecting corners, one of the most popular being [Harris Corner Detection](https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_feature2d/py_features_harris/py_features_harris.html#harris-corners).
+
 ##Get Started
 
 First, make sure you have pillow and [numpy](http://www.numpy.org/) installed, I used `pip install Pillow && pip install numpy`.
 NumPy speeds up array computation in Python, and is the only other Python package KBAI allows.
-Next load the black and white image into memory:
+Next load the [black and white](http://pillow.readthedocs.io/en/4.1.x/handbook/concepts.html#concept-modes) image into memory:
 
 ~~~python
 from PIL import Image
@@ -60,7 +96,7 @@ numpy.set_printoptions(threshold=numpy.nan) #print out entire numpy array
 print(arr)
 ~~~
 
-Loading in Pillow's '1' mode and numpy's `bool` data type takes advantage of the black/white property of our images and will lead to faster processing
+Loading in Pillow's '1' mode and numpy's `bool` data type takes advantage of the black/white property of our images, speeding up computation.
 
 ##Next steps
 
