@@ -142,5 +142,9 @@ configure :build do
 end
 
 after_build do |builder|
-  HTMLProofer.check_directory(config[:build_dir], { :assume_extension => true }).run
+  begin
+    HTMLProofer.check_directory(config[:build_dir], { :assume_extension => true }).run
+  rescue RuntimeError => e
+    puts e
+  end
 end
