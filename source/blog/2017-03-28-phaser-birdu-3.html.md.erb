@@ -12,21 +12,21 @@ So far we've covered the tech stack behind Birdu and how to get a new Phaser pro
 Now, we'll jump into the weeds of creating a new game.
 
 Please note, this tutorial aims to outline the main development processes involved, but not every nitty-gritty detail.
-The final product will be different from the full game, if you want to know how to implement it exactly you should checkout its [code](https://github.com/JTronLabs/Birdu).
+The final product will be different from the full game, if you want to know how to implement it exactly you should checkout its [code](https://github.com/jamesrlowrey/Birdu).
 
 If you weren't here [last time](/blog/phaser-birdu-2.html), we covered how to generate a Phaser project with a yeoman generator.
 
 ##The Final Product:
 
-[And here's the code on GitHub](https://github.com/JTronLabs/Birdu-Tutorial)
+[And here's the code on GitHub](https://github.com/jamesrlowrey/Birdu-Tutorial)
 
-<iframe src="https://jtronlabs.github.io/Birdu-Tutorial/dist" height="500" width="100%"></iframe>
+<iframe src="https://jamesrlowrey.github.io/Birdu-Tutorial/dist" height="500" width="100%"></iframe>
 
 <%= partial "partials/article_links.erb", locals: {
     resources: "
-- [Full Birdu Game Online](http://jtronlabs.com/Birdu/dist/)
-- [Birdu Repo](https://github.com/JTronLabs/Birdu)
-- [Birdu Tutorial Game Repo](https://github.com/JTronLabs/Birdu-Tutorial)
+- [Full Birdu Game Online](http://jamesrlowrey.com/Birdu/dist/)
+- [Birdu Repo](https://github.com/jamesrlowrey/Birdu)
+- [Birdu Tutorial Game Repo](https://github.com/jamesrlowrey/Birdu-Tutorial)
 - [Birdu on Google Play](https://play.google.com/store/apps/details?id=com.jtronlabs.birdu)
 - [Phaser-CE Repo](https://github.com/photonstorm/phaser-ce)
 - [Phaser-CE Docs](https://photonstorm.github.io/phaser-ce/)
@@ -42,9 +42,9 @@ If you weren't here [last time](/blog/phaser-birdu-2.html), we covered how to ge
 
 ##Assets
 
-Go ahead and download the assets [from the repository](https://github.com/JTronLabs/Birdu/tree/master/static/assets) and place them into your "static/assets" directory.
+Go ahead and download the assets [from the repository](https://github.com/jamesrlowrey/Birdu/tree/master/static/assets) and place them into your "static/assets" directory.
 Also update the "src/assets.js" file in your generator with the assets you downloaded.
-Copy and paste that file [from here](https://github.com/JTronLabs/Birdu/blob/master/src/assets.js).
+Copy and paste that file [from here](https://github.com/jamesrlowrey/Birdu/blob/master/src/assets.js).
 
 These assets contain a [Texture Atlas](https://en.wikipedia.org/wiki/Texture_atlas) instead of individual images.
 A Texture Atlas combines all your images and spritesheets into a single image, and uses JSON to define where the outlines are.
@@ -519,9 +519,9 @@ export default class GameOver extends Phaser.State {
 ##Next Steps
 
 Here, you've learned Phaser's basics for creating states, sprites, emitters, and more in JavaScript's easy-to-read ES6 syntax.
-Again, the code we've written is all [online at GitHub](https://github.com/JTronLabs/Birdu-Tutorial).
+Again, the code we've written is all [online at GitHub](https://github.com/jamesrlowrey/Birdu-Tutorial).
 However, the app store Birdu is noticeably different in many ways: the player can grow in size, there's a level system with increasing difficulty, little text graphics [tween](https://photonstorm.github.io/phaser-ce/Phaser.Tween.html) across the screen when an enemy is eaten, there are combos, invincibility, poop splatters, and much more.
-If you want to learn how it all works, dive into the code on [GitHub](https://github.com/JTronLabs/Birdu) or peruse the [Phaser-CE documentation](https://photonstorm.github.io/phaser-ce/).
+If you want to learn how it all works, dive into the code on [GitHub](https://github.com/jamesrlowrey/Birdu) or peruse the [Phaser-CE documentation](https://photonstorm.github.io/phaser-ce/).
 
 We're not quite done yet.
 These three tutorials covered the tech stack, setup, and implementation of a simple Phaser-CE game.

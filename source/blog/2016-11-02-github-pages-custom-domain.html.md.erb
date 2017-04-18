@@ -50,7 +50,7 @@ These days, most people use generators to publish their static sites.
 Adding templates & other tools to basic HTML sites allows content to be more readable and extendible.
 Choosing between them (like any hot software tool) is subject to a lot of debate, and deserving of its own post.
 The quick of it is: Jekyll is GitHub's choice, and they will compile it for you.
-Middleman uses more standard Ruby APIs and is [my choice](https://github.com/JTronLabs/Portfolio), but requires a dev & production repository.
+Middleman uses more standard Ruby APIs and is [my choice](https://github.com/jamesrlowrey/Portfolio), but requires a dev & production repository.
 
 Let's setup a custom domain.
 By default, a user page will be found at "username.github.io" and projects at "username.github.io/repository".
@@ -85,7 +85,7 @@ Adding "A" records with a value of `192.30.252.153` and `192.30.252.154` is mand
 Alias/ANAME records are equivalent to the "A" record, but take a URL instead of an IP address.
 If using Alias or ANAME, enter `username.github.io` as the value.
 An "A" record determines the content server's IP address, while [CNAME](https://en.wikipedia.org/wiki/CNAME_record) identifies subdomains (for example, www) of your default/canonical domain.
-This CNAME record will redirect traffic to jtronlabs.com
+This CNAME record will redirect traffic to jamesrlowrey.com
 
 ##Connect Domain to GitHub Repository
 

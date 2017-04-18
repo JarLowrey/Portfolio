@@ -16,12 +16,12 @@ Check out the [official generator documentation](https://github.com/rblopes/gene
 Phaser-Generator-Plus masters can move on to the [next article](/blog/phaser-birdu-3.html), starting the game.
 If you weren't here [last time](/blog/phaser-birdu-1.html), we covered Birdu's tech stack.
 
-[Here is the full game available online (runs best in updated Chrome browsers).](http://jtronlabs.com/Birdu/dist/)
+[Here is the full game available online (runs best in updated Chrome browsers).](http://jamesrlowrey.com/Birdu/dist/)
 
 <%= partial "partials/article_links.erb", locals: {
     resources: "
-- [Full Birdu Game Online](http://jtronlabs.com/Birdu/dist/)
-- [Birdu Repo](https://github.com/JTronLabs/Birdu)
+- [Full Birdu Game Online](http://jamesrlowrey.com/Birdu/dist/)
+- [Birdu Repo](https://github.com/jamesrlowrey/Birdu)
 - [Birdu on Google Play](https://play.google.com/store/apps/details?id=com.jtronlabs.birdu)
 - [Phaser-CE Repo](https://github.com/photonstorm/phaser-ce)
 - [Phaser-CE Docs](https://photonstorm.github.io/phaser-ce/)
@@ -172,7 +172,6 @@ It was error-prone, difficult to maintain, and inefficent (compared to texture a
 "assets.js" solves this problem by using an [asset pack](https://phaser.io/docs/2.6.2/Phaser.Loader.html#pack), a JSON specification of your assets, to preload your components.
 This file is that JSON (wrapped in a JavaScript class), that allows simple specification of asset paths + keys to be used with the Loader.
 An earlier version of the generator had a near-complete description of how to use these features in the output of "assets.js", but the maintainer removed it to cut down on bloat and streamline the process.
-You can find that original template [here](https://github.com/rblopes/phaser-plus-template/blob/2ef97955f08d857eef7f218f78856d03016ec0f1/src/assets.js), it's full of extremely helpful examples.
 
 ###static
 
