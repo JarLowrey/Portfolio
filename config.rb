@@ -119,9 +119,9 @@ end
 
  # Documentation - https://github.com/middleman-contrib/middleman-deploy
  activate :deploy do |deploy|
-   deploy.user = 'JTronLabs'
+   deploy.user = 'JamesRLowrey'
    deploy.deploy_method = :git
-   deploy.remote   = 'https://github.com/JTronLabs/JTronLabs.github.io.git' #I recommend a URL over a 'remote' name, as those have broken on me
+   deploy.remote   = 'https://github.com/JamesRLowrey/JamesRLowrey.github.io.git' #I recommend a URL over a 'remote' name, as those have broken on me
    deploy.branch = 'master'
    deploy.build_before = true
  end
