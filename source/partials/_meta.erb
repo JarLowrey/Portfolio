@@ -4,7 +4,7 @@ if current_page.data.dig(:description) then
 elsif current_article then
   description = Nokogiri::HTML(current_article.summary(250)).text
 else
-  description = "Homepage of James Lowrey, JTronLabs. Read about game, AI, web development and more!"
+  description = "Homepage of James R Lowrey. Read about game, AI, web development and more!"
 end
 
 author = "James Lowrey"
@@ -12,7 +12,7 @@ author = "James Lowrey"
 if current_page.data.dig(:title) then
   title = current_page.data.title
 else
-  title = "JTronLabs"
+  title = "James R Lowrey"
 end
 
 if current_page.data.dig(:tags) then
