@@ -6,12 +6,12 @@
             "img_alt": "StackOverflow"
         },
         "github": {
-            "url": "https://github.com/jamesrlowrey/",
+            "url": "https://github.com/jarlowrey/",
             "img_url": "icons/social/github-icon.svg",
             "img_alt": "GitHub"
         },
         "gitlab": {
-            "url": "https://gitlab.com/u/jamesrlowrey/",
+            "url": "https://gitlab.com/u/jarlowrey/",
             "img_url": "icons/social/gitlab.svg",
             "img_alt": "GitLab"
         },
@@ -25,7 +25,7 @@
             "img_alt": "Facebook"
         },
         "reddit": {
-            "url": "https://www.reddit.com/user/jamesrlowrey/",
+            "url": "https://www.reddit.com/user/jarlowrey/",
             "img_url": "icons/social/reddit.svg",
             "img_alt": "Reddit"
         },
@@ -50,10 +50,10 @@
             "img_alt": "Google Play"
         },
         "twitter": {
-            "url": "https://twitter.com/jamesrlowrey/",
+            "url": "https://twitter.com/jarlowrey/",
             "img_url": "icons/social/twitter.svg",
             "img_alt": "Twitter",
-            "username": "jamesrlowrey"
+            "username": "jarlowrey"
         }
     },
     "learning": [{
