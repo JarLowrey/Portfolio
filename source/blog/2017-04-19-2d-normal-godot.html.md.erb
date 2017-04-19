@@ -1,0 +1,99 @@
+---
+title:  "2D Normal Mapping with Godot and Sprite Illuminator"
+blurb: ""
+author: James Lowrey
+tags: blog
+---
+
+Recently I've been getting into Godot, and want to implement normal mapping to give my sprites some extra juice.
+Here I'll cover the process of how to create a normal map for 2d sprites and import them into Godot.
+
+<%= partial "partials/video.erb", locals: {
+    src: "2d_normal_map",
+    mp4: true,
+    caption: "Right sprite is normal mapped and lit up by a point light" } %>
+
+<iframe src="https://www.youtube.com/embed/2QGVX1n_Xpg?ecver=2" width="720" height="480" frameborder="0" allowfullscreen></iframe>
+
+<%= partial "partials/article_links.erb", locals: {
+    resources: "
+- [Sprite Illuminator (SI)](https://www.codeandweb.com/spriteilluminator)
+- [SI Documentation](https://www.codeandweb.com/spriteilluminator/documentation)
+- [Godot](https://godotengine.org/)
+- [Godot Docs](http://docs.godotengine.org/en/stable/)
+- [Godot Normal 2D Mapping Demo](https://github.com/godotengine/godot-demo-projects/tree/master/2d/normalmaps)
+"
+  } %>
+
+##Creating a Normal Map
+
+[Normal Mapping](https://en.wikipedia.org/wiki/Normal_mapping) is a lighting technique commonly found in 3D games for creating the appearance of bumps and imperfections on a texture.
+They can turn dull, low-polygon models into vibrant textures, and thus help combine performance and beauty.
+Since normal mapping is more common for 3D, there aren't too many 2D tools available to create them, but one is [SpriteIlluminator](https://www.codeandweb.com/spriteilluminator).
+This paid tool is [$40](https://www.codeandweb.com/store), but if you go through the check out process and attempt to exit, a prompt will appear asking why.
+You can select "Too expensive" and email them, I got all 3 tools for $40 (you might be able to go lower).
+
+Anyways, drag your texture into SpriteIlluminator's editor.
+There are a [bunch of tools](https://www.codeandweb.com/spriteilluminator/documentation) to manually modify sprites, I used bevel (width 16, height 100%, smoothness 8%) + emboss (height 100, smoothness 1)
+
+<%= partial "partials/image.erb", locals: {
+    src: "SpriteIllum.png",
+    alt: "Sprite Illuminator program",
+    caption: "Spite after applying a Bevel + Emboss" } %>
+
+<%= partial "partials/image.erb", locals: {
+    src: "sprite.png",
+    alt: "Regular Sprite",
+    caption: "Sprite before normal mapping" } %>
+
+<%= partial "partials/image.erb", locals: {
+    src: "normal_map.png",
+    alt: "Sprite's normal map",
+    caption: "Sprite's normal map" } %>
+
+Once you have the sprite looking just how you want it, save the normals by clicking "Export Normals" in the top tool bar (paid version required).
+This tool also gives the option to directly save the lit textures as a static .png file.
+The lit textures would not dynamically interact with game lights, and thus would be more performant (ie [static baking](https://gamedev.stackexchange.com/questions/9993/what-does-it-mean-to-bake-lights)).
+
+##Integration with Godot
+
+I discovered how to do this through the [Godot example](https://github.com/godotengine/godot-demo-projects/tree/master/2d/normalmaps).
+Open up your Godot Editor and add a Node2D with Sprite and Light2D children.
+If you haven't done this before I highly recommend reading through all of [Godot's documentation](http://docs.godotengine.org/en/stable/tutorials/step_by_step/scenes_and_nodes.html).
+It will help you understand the best way to architect your game with Godot, and prevent you from having to wrestle with the editor in the future.
+
+Next, click on the sprite and the "Inspector" will appear in the bottom right - add your texture.
+Light2D also requires a texture, and note that it can impact the color of light emitted (so white's best).
+
+<%= partial "partials/image.erb", locals: {
+    src: "godot_scene.png",
+    alt: "Textured Sprite in Scene" } %>
+
+The Sprite's Inspector also has a [CanvasItem](http://docs.godotengine.org/en/stable/classes/class_canvasitem.html) section, scroll down to it and create a new [Material](http://docs.godotengine.org/en/stable/classes/class_canvasitemmaterial.html).
+Go into this Material by clicking on the ">" button next to it.
+Create a new shader named normal_material.tres and copy paste the following code:
+
+~~~glsl
+uniform texture normal;
+//normal maps expect Y-up, but 2D is Y-down, so must mirror this.
+NORMAL = tex(normal,UV).rgb * vec3(2.0,-2.0,1.0) - vec3(1.0,-1.0,0.0);
+~~~
+
+After doing so, a "Shader Param" section with a "Normal" variable will be added to the Shader.
+Use the dropdown to load your normal map's png file.
+
+<%= partial "partials/image.erb", locals: {
+    src: "canvas_item_material.png",
+    alt: "Canvas Item Material"} %>
+
+And **voila**!
+Normal mapping is done.
+Drag around the 2D light to watch it interact with your sprite.
+
+You can also change properties of the light to modify its effect on the normal map.
+Click on the 2D light and modify texture, scale, color, energy, and mode in the inspector.
+
+<%= partial "partials/video.erb", locals: {
+    src: "2d_normal_map",
+    mp4: true,
+    caption: "The final product" } %>
