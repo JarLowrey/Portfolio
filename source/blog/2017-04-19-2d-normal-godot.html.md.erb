@@ -34,11 +34,6 @@ And that's it!
 A few clicks and it's ready to go without any manual editing (though you can edit with the height, angle, structure, etc tools).
 
 <%= partial "partials/image.erb", locals: {
-    src: "SpriteIllum.png",
-    alt: "Sprite Illuminator program",
-    caption: "Spite after applying a Bevel + Emboss" } %>
-
-<%= partial "partials/image.erb", locals: {
     src: "sprite.png",
     alt: "Regular Sprite",
     caption: "Sprite before normal mapping" } %>
@@ -47,6 +42,11 @@ A few clicks and it's ready to go without any manual editing (though you can edi
     src: "normal_map.png",
     alt: "Sprite's normal map",
     caption: "Sprite's normal map" } %>
+
+<%= partial "partials/image.erb", locals: {
+    src: "SpriteIllum.png",
+    alt: "Sprite Illuminator program",
+    caption: "Spite after applying a Bevel + Emboss" } %>
 
 Once you have the sprite looking just how you want it, save the normals by clicking "Export Normals" in the top tool bar (paid version required).
 This tool also gives the option to directly save the lit textures as a static .png file.
@@ -93,4 +93,4 @@ Click on the 2D light and modify texture, scale, color, energy, and mode in the 
 <%= partial "partials/video.erb", locals: {
     src: "2d_normal_map",
     mp4: true,
-    caption: "The final product" } %>
+    caption: "Sprites illuminated with and without normal mappings" } %>
