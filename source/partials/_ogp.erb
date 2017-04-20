@@ -1,6 +1,20 @@
+<%
+#get the img, allow custom and default settings
+custom_img = current_page.data.dig(:ogp_img)
+if custom_img != nil and custom_img.length > 0
+  img = prefix_img(custom_img)
+else
+  img = "#{config[:host]}/images/favicon/favicon.ico"
+end
+img+="?nonsense" #makes crawlers think image is unique, and will force updates
+%>
+
 <!-- Implementing Open Graph Protocol - http://ogp.me/ -->
-<meta property="og:image" content="<%= config[:host] %>/images/favicon/favicon.ico" />
+<meta property="og:image" content="<%= img %>" />
 <meta property="og:title" content="<%= title %>" />
+<meta property="og:description" content="<%= description %>" />
+<meta property="og:url" content="<%= config[:host] %><%= current_page.url %>" />
+
 <% if current_article %>
   <meta property="og:type" content="article" />
   <meta property="article:published_time" content="<%= current_article.date.strftime("%Y-%m-%d") %>" />
@@ -12,4 +26,8 @@
 <% else %>
   <meta property="og:type" content="website" />
 <% end %>
-<meta property="og:url" content="<%= config[:host] %><%= current_page.url %>" />
+
+<!-- Twitter specs that use OGP like format -->
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="jamesrlowrey" />
+<meta name="twitter:image:alt" content="James R Lowrey's website" />

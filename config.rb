@@ -29,7 +29,7 @@ activate :emojifire
 
 # Reload the browser automatically whenever files change
 configure :development do
-  config[:host] = "localhost:4567"
+  config[:host] = "http://localhost:4567"
   activate :livereload
 end
 
@@ -39,6 +39,22 @@ end
 
 # Methods defined in the helpers block are available in templates
  helpers do
+  def prefix_img(img_name_or_url)
+    #strip '.html' extension off article link to get name of folder
+    url = current_page.url
+    url_without_ext = url[0..url.length-6]
+
+    #determine if video has an exact link or belongs to "/images/blog/CURRENT_ARTICLE_NAME/"
+    if img_name_or_url[0..6] != "http://" and img_name_or_url[0..6] != "https:/" and img_name_or_url[0] !="/" then
+      #image belongs to "/images/blog/CURRENT_ARTICLE_NAME/" - add prefix to src
+      src = "#{config[:host]}/images#{url_without_ext}/#{img_name_or_url}"
+    else
+      src = img_name_or_url
+    end
+
+    return src
+  end
+  
     def txt_links(array)
        return array.map{ |e|
          app.link_to e.txt, e.url, :target => "_blank"

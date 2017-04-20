@@ -4,7 +4,7 @@ if current_page.data.dig(:description) then
 elsif current_article then
   description = Nokogiri::HTML(current_article.summary(250)).text
 else
-  description = "Homepage of James R Lowrey. Read about game, AI, web development and more!"
+  description = "Homepage of James R Lowrey: game, AI, and web developer."
 end
 
 author = "James Lowrey"
@@ -38,4 +38,5 @@ end
 
 <%= partial "partials/ogp.erb", locals: {
     title: title,
+    description: description,
     author: author } %>
