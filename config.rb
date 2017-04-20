@@ -54,7 +54,7 @@ end
 
     return src
   end
-  
+
     def txt_links(array)
        return array.map{ |e|
          app.link_to e.txt, e.url, :target => "_blank"
@@ -135,9 +135,9 @@ end
 
  # Documentation - https://github.com/middleman-contrib/middleman-deploy
  activate :deploy do |deploy|
-   deploy.user = 'JamesRLowrey'
+   deploy.user = 'JarLowrey'
    deploy.deploy_method = :git
-   deploy.remote   = 'https://github.com/JamesRLowrey/JamesRLowrey.github.io.git' #I recommend a URL over a 'remote' name, as those have broken on me
+   deploy.remote   = 'https://github.com/JarLowrey/JarLowrey.github.io.git' #I recommend a URL over a 'remote' name, as those have broken on me
    deploy.branch = 'master'
    deploy.build_before = true
  end
