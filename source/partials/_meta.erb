@@ -2,7 +2,7 @@
 if current_page.data.dig(:description) then
   description = current_page.data.description
 elsif current_article then
-  description = Nokogiri::HTML(current_article.summary(250)).text
+  description = Nokogiri::HTML(current_article.summary(150)).text
 else
   description = "Homepage of James R Lowrey: game, AI, and web developer."
 end
