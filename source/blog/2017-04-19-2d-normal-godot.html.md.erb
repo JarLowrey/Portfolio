@@ -98,3 +98,20 @@ Click on the 2D light and modify texture, scale, color, energy, and mode in the 
     src: "pixel_perfect_normal_map",
     mp4: true,
     caption: "Pixel perfect (anti-aliasing turned off) sprites illuminated and normal mapped" } %>
+
+The second video displays what normal maps look like with [anti-aliasing](https://en.wikipedia.org/wiki/Anti-aliasing) off, for those who want a pixel art aesthetic.
+This can be done through Scene > Project Settings > Image Loader > turn off gen_mipmaps and filter as described in [this video](https://www.youtube.com/watch?v=dJdQKD-26xo).
+
+##Automation
+
+Great, we have one sprite with a normal map, what about the other 300?
+To solve this we will utilize Godot's system of [node instancing](http://docs.godotengine.org/en/stable/tutorials/step_by_step/instancing.html).
+
+<%= partial "partials/image.erb", locals: {
+    src: "canvas_item_material.png",
+    alt: "Canvas Item Material",
+    caption: "First, create a new scene"} %>
+
+<%= partial "partials/image.erb", locals: {
+    src: "create_sprite_node.png",
+    alt: "Create a Sprite node as the root node of the scene"} %>
