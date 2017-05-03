@@ -18,7 +18,12 @@ Here I'll cover the process of how to create a normal map for 2d sprites and imp
 - [Godot](https://godotengine.org/)
 - [Godot Docs](http://docs.godotengine.org/en/stable/)
 - [Godot Normal Mapping 2D Demo](https://github.com/godotengine/godot-demo-projects/tree/master/2d/normalmaps)
-"
+",
+    software_versions: "
+- [Ubuntu 16.04 LTS](http://www.ubuntu.com/download)
+- [Godot 2.1.3](https://godotengine.org/)
+- [Sprite Illuminator 1.4.0](https://www.codeandweb.com/spriteilluminator)"
+
   } %>
 
 ##Creating a Normal Map
@@ -106,12 +111,11 @@ This can be done through Scene > Project Settings > Image Loader > turn off gen_
 
 Great, we have one sprite with a normal map, what about the other 300?
 To solve this we will utilize Godot's system of [node instancing](http://docs.godotengine.org/en/stable/tutorials/step_by_step/instancing.html).
-
-<%= partial "partials/image.erb", locals: {
-    src: "canvas_item_material.png",
-    alt: "Canvas Item Material",
-    caption: "First, create a new scene"} %>
+First, create a new scene.
+In the top left of there is a menu with Scene, Import, Tools and Export options, click on Scene > New Scene.
+Next, create a Sprite node as root of the new scene.
 
 <%= partial "partials/image.erb", locals: {
     src: "create_sprite_node.png",
-    alt: "Create a Sprite node as the root node of the scene"} %>
+    alt: "Create a Sprite node as root of the new scene",
+    caption: "Create a Sprite node as root of the new scene" } %>
