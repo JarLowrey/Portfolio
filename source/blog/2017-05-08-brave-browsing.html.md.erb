@@ -1,0 +1,61 @@
+---
+title:  "Browsing with Brave"
+blurb: ""
+author: James Lowrey
+tags: web,privacy
+ogp_img: "SpriteIllum.png"
+---
+
+I was recently listening to [Software Engineering Daily](https://softwareengineeringdaily.com/), and caught [this interview](https://softwareengineeringdaily.com/2017/03/31/webassembly-with-brendan-eich/) with [Brendan Eich](https://en.wikipedia.org/wiki/Brendan_Eich), creator of JavaScript and co-founder of Mozilla.
+In it he discusses his vision for the future of the web, including his work on [WebAssembly](https://en.wikipedia.org/wiki/WebAssembly) (a faster web language) and [Brave](https://brave.com/) (a new browser).
+
+Brave sounded interesting: it automatically blocks all trackers, mediated ads, and cookies, and [replaces the ads](https://brave.com/about_ad_replacement.html) with its own.
+Sounds sketchy, but is actually kind of genius.
+Ads that are manually placed by publishers/content creators are left alone (e.g. a static image in the site, amazon affiliate link, shoutout in a podcast), only those that go through the slow loading and [fradulent](http://adage.com/article/digital/ana-report-7-2-billion-lost-ad-fraud-2015/302201/) digital ad mediation industry are replaced.
+Once a user has seen/clicked a Brave ad, the revenue is divided up in the following manner:
+
+<%= partial "partials/image.erb", locals: {
+    src: "https://brave.com/assets/img/contents/ad_money.png",
+    alt: "Brave rev share" } %>
+
+Notice that the user gets a cut!
+This is paid out via Bit Coin (they partner with [BitGo](https://www.bitgo.com/)), and users have the choice of withdrawing it or funneling it into their Brave Payments system.
+Over time it remembers what sites you visit and distributes your earned or deposited bit coin proportionally to your favorite sites.
+It does all this [without saving](https://brave.com/FAQ.html) your data to external servers.
+
+##Chrome Comparison
+
+To test it out, went to a [random Forbes article](https://www.forbes.com/sites/catescottcampbell/2017/05/08/the-limit-does-not-exist-creative-brainpower-and-badass-women-in-stem/#370283616e63) and watched the network impact (hit F12, go to Network tab) as the page loaded (on my wired 60mpbs connection).
+I did not scroll or click anything on the page, and had cache disabled (so subsequent views wouldn't be sped up).
+The longer and more frequent the bars, the more data is loaded into the page.
+The following images give a rough outline of the impact of ad blockers; be sure to note the time scales.
+
+<%= partial "partials/image.erb", locals: {
+    src: "forbes_chrome_unblocked.png",
+    alt: "Forbes Article Unblocked Chrome",
+    caption: "Chrome, Ads allowed (similar in Brave)" } %>
+
+<%= partial "partials/image.erb", locals: {
+    src: "forbes_chrome_ublock.png",
+    alt: "Forbes Article ublock Chrome",
+    caption: "Chrome, uBlock Origin" } %>
+
+<%= partial "partials/image.erb", locals: {
+    src: "forbes_brave_ads.png",
+    alt: "Forbes Article Brave ads",
+    caption: "Brave, Brave Ads" } %>
+
+<%= partial "partials/image.erb", locals: {
+    src: "forbes_brave_block.png",
+    alt: "Forbes Article Brave Block",
+    caption: "Brave, Ads blocked" } %>
+
+This data, while small, shows some interesting conclusions:
+
+1. Data wise, actual content is a small part of the page
+2. If you don't have a 60mpbs, wired connection, you could be waiting a long time for ads
+3. Brave seems to have an edge up on uBlock Origin. Makes sense, as Brave has lower level access (browser vs plugin)
+4. Brave Ads and Brave, No Ads seem to have nearly indistinguishable load times. This could be because all ads are still being blocked - Brave [doesn't replace every ad](https://brave.com/FAQ.html), or due to the faster ad selection process (described in the podcast).
+
+As for rendering, games, and that sort of thing, Brave uses the same engine as Chrome, [Chromium](https://en.wikipedia.org/wiki/Chromium_(web_browser)).
+Like Chrome and Firefox, [Brave is open source](https://github.com/brave).
