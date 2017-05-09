@@ -2,7 +2,6 @@
 # Page options, layouts, aliases and proxies
 ###
 require 'html-proofer'
-require 'builder'
 
 # Per-page layout changes:
 #
@@ -10,12 +9,14 @@ require 'builder'
 page '/*.xml', layout: false
 page '/*.json', layout: false
 page '/*.txt', layout: false
-page "/sitemap.xml", :layout => false
 
+config[:host] = "http://jarlowrey.com"
+set :url_root, config[:host]
 set :markdown_engine, :kramdown
 set :markdown, parse_block_html: true
 activate :syntax, :line_numbers => true
 activate :emojifire
+activate :search_engine_sitemap
 
 #Setup Config vars
 
@@ -146,8 +147,6 @@ end
 
 # Build-specific configuration
 configure :build do
-  config[:host] = "http://jarlowrey.com"
-
   # Minify CSS and JS on build
   activate :minify_css
   activate :minify_javascript

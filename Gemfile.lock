@@ -116,6 +116,9 @@ GEM
       em-websocket (~> 0.5.1)
       middleman-core (>= 3.3)
       rack-livereload (~> 0.3.15)
+    middleman-search_engine_sitemap (1.4.0)
+      builder
+      middleman-core (~> 4.0)
     middleman-syntax (3.0.0)
       middleman-core (>= 3.2)
       rouge (~> 2.0)
@@ -169,6 +172,7 @@ DEPENDENCIES
   middleman-deploy (~> 2.0.0.pre.alpha)
   middleman-emojifire
   middleman-livereload
+  middleman-search_engine_sitemap
   middleman-syntax
   nokogiri
   redcarpet (~> 3.3, >= 3.3.3)
