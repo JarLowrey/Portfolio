@@ -3,14 +3,14 @@ title:  "Browsing with Brave"
 blurb: ""
 author: James Lowrey
 tags: web,privacy
-ogp_img: "SpriteIllum.png"
+ogp_img: "brave.png"
 ---
 
 I was recently listening to [Software Engineering Daily](https://softwareengineeringdaily.com/), and caught [this interview](https://softwareengineeringdaily.com/2017/03/31/webassembly-with-brendan-eich/) with [Brendan Eich](https://en.wikipedia.org/wiki/Brendan_Eich), creator of JavaScript and co-founder of Mozilla.
 In it he discusses his vision for the future of the web, including his work on [WebAssembly](https://en.wikipedia.org/wiki/WebAssembly) (a faster web language) and [Brave](https://brave.com/) (a new browser).
 
 Brave sounded interesting: it automatically blocks all trackers, mediated ads, and cookies, and [replaces the ads](https://brave.com/about_ad_replacement.html) with its own.
-Sounds sketchy, but is actually kind of genius.
+Some people [don't like this model](https://brave.com/blogpost_4.html), but it sounds like it could be great for users and publishers.
 Ads that are manually placed by publishers/content creators are left alone (e.g. a static image in the site, amazon affiliate link, shoutout in a podcast), only those that go through the slow loading and [fradulent](http://adage.com/article/digital/ana-report-7-2-billion-lost-ad-fraud-2015/302201/) digital ad mediation industry are replaced.
 Once a user has seen/clicked a Brave ad, the revenue is divided up in the following manner:
 
@@ -20,8 +20,15 @@ Once a user has seen/clicked a Brave ad, the revenue is divided up in the follow
 
 Notice that the user gets a cut!
 This is paid out via Bit Coin (they partner with [BitGo](https://www.bitgo.com/)), and users have the choice of withdrawing it or funneling it into their Brave Payments system.
-Over time it remembers what sites you visit and distributes your earned or deposited bit coin proportionally to your favorite sites.
+Brave Payments takes your ad (or manual) contributions and distributes it to your favorite sites proportional to the time spent there.
+Sites are contacted and can [pick up their payments](https://publishers.brave.com/) by contacting Brave.
 It does all this [without saving](https://brave.com/FAQ.html) your data to external servers.
+Unfortunately this system is not quite ready for users to receive payments, brave is [working on it](https://github.com/brave/browser-laptop/wiki/Brave-Development-Timeline).
+
+<blockquote class="twitter-tweet" data-lang="en">
+  <p lang="en" dir="ltr"><a href="https://twitter.com/JaRLowrey">@JaRLowrey</a> Not yet, we will be working toward trials after <a href="https://twitter.com/AttentionToken">@attentiontoken</a> launches. Please see the <a href="https://t.co/TrJmmwws63">https://t.co/TrJmmwws63</a> white paper &amp; blog. Thanks.</p>&mdash; BrendanEich (@BrendanEich) <a href="https://twitter.com/BrendanEich/status/861688837696765952">May 8, 2017</a>
+</blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 ##Chrome Comparison
 
@@ -57,5 +64,34 @@ This data, while small, shows some interesting conclusions:
 3. Brave seems to have an edge up on uBlock Origin. Makes sense, as Brave has lower level access (browser vs plugin)
 4. Brave Ads and Brave, No Ads seem to have nearly indistinguishable load times. This could be because all ads are still being blocked - Brave [doesn't replace every ad](https://brave.com/FAQ.html), or due to the faster ad selection process (described in the podcast).
 
-As for rendering, games, and that sort of thing, Brave uses the same engine as Chrome, [Chromium](https://en.wikipedia.org/wiki/Chromium_(web_browser)).
+As for rendering, games, and that sort of thing, Brave uses the same engine as Chrome, [Chromium](https://en.wikipedia.org/wiki/Chromium_(web_browser)), so it's just as fast.
 Like Chrome and Firefox, [Brave is open source](https://github.com/brave).
+
+##Impressions
+
+On mobile Brave flies.
+I have found very little difference from Chrome when navigating with the browser, visually or otherwise, except the great speed benefits (Chrome disables ad blockers on mobile).
+It even performs faster than FireFox + Ad Blockers due to its better rendering engine.
+
+Speed is great, but there's more to performance than brute speed.
+On desktop Brave's visual design differs a bit Chrome, but the buttons and settings are all mostly in the same places and simplifies the process of getting started.
+In Chrome, incognito mode opens a new window, while in Brave it opens a new tab (which is not counted in Brave Payments).
+You can also open new session tabs, where all your logins are refreshed without having to go into private/incognito mode.
+Hovering your mouse over a tab gives a grayed out preview of its page, so you don't have to fully commit to a tiresome click when refreshing your memory.
+These style changes make the browser feel more "app-like": the tabbing focus makes it easier to have multiple activities going on in a single window, minimizing context switching.
+
+<%= partial "partials/image.erb", locals: {
+    src: "brave.png",
+    alt: "The Brave browser"} %>
+
+Unfortunately Brave is definitely still rough around the edges.
+While mostly compatible with Chrome add-ons, the plugin/extension devs must go [thru a process](https://blog.brave.com/loading-chrome-extensions-in-brave/) to port their program over.
+Thus the plugin availability is pretty limited right now, with some plugins acting poorly.
+For example, on desktop the PDF viewer does not show any text when PDFs open in the browser.
+Occasionally, but pretty rarely, I've had pages not load/submit data while browsing in Brave.
+Even after disabling the ad, trackers, and cookies shield the page didn't want to work (though this usually fixed the problem).
+A brief switch back to Chrome did the trick.
+
+Despite its current flaws, Brave is looking to be an innovative addition to the [browser wars](https://en.wikipedia.org/wiki/Browser_wars).
+With its philosophy of prioritizing user security, time, and agency it's become my go-to daily browser on mobile and desktop.
+While I haven't uninstalled Chrome or Firefox quite yet, I'm enjoying the change and hoping for the best as the Brave team continues to innovate.
