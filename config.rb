@@ -146,7 +146,7 @@ end
 
 # Build-specific configuration
 configure :build do
-  config[:host] = "http://jamesrlowrey.com"
+  config[:host] = "http://jarlowrey.com"
 
   # Minify CSS and JS on build
   activate :minify_css
