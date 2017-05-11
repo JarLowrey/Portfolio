@@ -1,18 +1,49 @@
 ---
 title:  "Browsing with Brave"
+header: { img_url: "https://brave.com/assets/img/press/brave_icon_shadow_300px.png" }
 blurb: ""
 author: James Lowrey
 tags: web,privacy
-ogp_img: "brave.png"
+ogp_img: "https://brave.com/assets/img/press/brave_icon_shadow_300px.png"
 ---
 
 I was recently listening to [Software Engineering Daily](https://softwareengineeringdaily.com/), and caught [this interview](https://softwareengineeringdaily.com/2017/03/31/webassembly-with-brendan-eich/) with [Brendan Eich](https://en.wikipedia.org/wiki/Brendan_Eich), creator of JavaScript and co-founder of Mozilla.
 In it he discusses his vision for the future of the web, including his work on [WebAssembly](https://en.wikipedia.org/wiki/WebAssembly) (a faster web language) and [Brave](https://brave.com/) (a new browser).
-
 Brave sounded interesting: it automatically blocks all trackers, mediated ads, and cookies, and [replaces the ads](https://brave.com/about_ad_replacement.html) with its own.
-Some people [don't like this model](https://brave.com/blogpost_4.html), but it sounds like it could be great for users and publishers.
+
+##Security
+
+Blocking ads prevents malware spread through [malvertising](https://en.wikipedia.org/wiki/Malvertising).
+Trackers and cookies log your activities and follow you across sites.
+Brave blocks these and prevents companies from gathering data about you.
+Brave also integrates [HTTPS everywhere](https://www.eff.org/https-everywhere), which attempts to encrypt your traffic over [https](https://en.wikipedia.org/wiki/HTTPS) if its supported on a given website.
+
+Brave monetizes through BitCoin to further [enhance security](http://spectrum.ieee.org/tech-talk/telecom/internet/can-braves-bitcoin-payment-platform-save-online-publishing).
+The Brave browser you download is the only application that keeps track of browsing history (unlike [Chrome](https://www.quora.com/Does-Google-Chrome-track-the-websites-users-visit-even-after-deleting-the-browser-history)).
+This makes it difficult to send money online, but Brave solves this through the use of BitCoin and [Anonize](https://anonize.org/) (a protocol used to shield BitCoin transactions).
+
+> “We don’t want to be a tracker. We don’t want that data. It’s better that we can’t have it than that we could have it and promise to be good,” [says Eich](http://spectrum.ieee.org/tech-talk/telecom/internet/can-braves-bitcoin-payment-platform-save-online-publishing).
+
+Brave ads are also more secure than normal ads, while using less of your personal information.
+
+> "The ad matching happens only on your device...we can have a catalog to download...[then Brave] can come up with keywords to match against. Again, if the user of Brave doesn’t opt
+into this, none of this happens...In the Brave philosophy, we keep your data local. It’s encrypted if it goes anywhere near servers
+that we control, and it’s encrypted with your key, not ours." [Brendan Eich](https://softwareengineeringdaily.com/2017/03/31/webassembly-with-brendan-eich/)
+
+Like Chrome and Firefox, [Brave is open source](https://github.com/brave).
+
+Brave doesn't make you completely anonymous on the web.
+If you want to hide your IP, you should look into a [VPN](https://en.wikipedia.org/wiki/Virtual_private_network) or [Tor](https://www.torproject.org/about/overview.html.en).
+Ensure you have never been [pwned](https://haveibeenpwned.com/), and be wary of the websites you give your info.
+Consider using [Signal](https://whispersystems.org/) (a secure MMS replacement) or other messaging services that utilize [end-to-end encryption](https://en.wikipedia.org/wiki/End-to-end_encryption).
+And of course, do not reuse passwords across sites.
+I use [KeePass](http://keepass.info/) to keep track of all my unique passwords, but [LastPass](https://www.lastpass.com/) and [1password](https://1password.com/) are good alternatives too.
+
+##Monetization
+
+Some people [don't like the ad replacement model](https://brave.com/blogpost_4.html), but it sounds like it could be great for users and publishers.
 Ads that are manually placed by publishers/content creators are left alone (e.g. a static image in the site, amazon affiliate link, shoutout in a podcast), only those that go through the slow loading and [fradulent](http://adage.com/article/digital/ana-report-7-2-billion-lost-ad-fraud-2015/302201/) digital ad mediation industry are replaced.
-Once a user has seen/clicked a Brave ad, the revenue is divided up in the following manner:
+Once a user has seen/clicked a Brave ad, the revenue is divided up in the following manner.
 
 <%= partial "partials/image.erb", locals: {
     src: "https://brave.com/assets/img/contents/ad_money.png",
@@ -21,9 +52,10 @@ Once a user has seen/clicked a Brave ad, the revenue is divided up in the follow
 Notice that the user gets a cut!
 This is paid out via Bit Coin (they partner with [BitGo](https://www.bitgo.com/)), and users have the choice of withdrawing it or funneling it into their Brave Payments system.
 Brave Payments takes your ad (or manual) contributions and distributes it to your favorite sites proportional to the time spent there.
+If you are donating money directly, Brave's share goes to 5%.
 Sites are contacted and can [pick up their payments](https://publishers.brave.com/) by contacting Brave.
 It does all this [without saving](https://brave.com/FAQ.html) your data to external servers.
-Unfortunately this system is not quite ready for users to receive payments, brave is [working on it](https://github.com/brave/browser-laptop/wiki/Brave-Development-Timeline).
+Unfortunately this system is not quite ready for users to receive payments, but brave is [working on it](https://github.com/brave/browser-laptop/wiki/Brave-Development-Timeline).
 
 <blockquote class="twitter-tweet" data-lang="en">
   <p lang="en" dir="ltr"><a href="https://twitter.com/JaRLowrey">@JaRLowrey</a> Not yet, we will be working toward trials after <a href="https://twitter.com/AttentionToken">@attentiontoken</a> launches. Please see the <a href="https://t.co/TrJmmwws63">https://t.co/TrJmmwws63</a> white paper &amp; blog. Thanks.</p>&mdash; BrendanEich (@BrendanEich) <a href="https://twitter.com/BrendanEich/status/861688837696765952">May 8, 2017</a>
@@ -32,7 +64,7 @@ Unfortunately this system is not quite ready for users to receive payments, brav
 
 ##Chrome Comparison
 
-To test it out, went to a [random Forbes article](https://www.forbes.com/sites/catescottcampbell/2017/05/08/the-limit-does-not-exist-creative-brainpower-and-badass-women-in-stem/#370283616e63) and watched the network impact (hit F12, go to Network tab) as the page loaded (on my wired 60mpbs connection).
+To test it out, I went to a [random Forbes article](https://www.forbes.com/sites/catescottcampbell/2017/05/08/the-limit-does-not-exist-creative-brainpower-and-badass-women-in-stem/#370283616e63) and watched the network impact (hit F12, go to Network tab) as the page loaded on my wired 60mpbs connection.
 I did not scroll or click anything on the page, and had cache disabled (so subsequent views wouldn't be sped up).
 The longer and more frequent the bars, the more data is loaded into the page.
 The following images give a rough outline of the impact of ad blockers; be sure to note the time scales.
@@ -60,12 +92,11 @@ The following images give a rough outline of the impact of ad blockers; be sure 
 This data, while small, shows some interesting conclusions:
 
 1. Data wise, actual content is a small part of the page
-2. If you don't have a 60mpbs, wired connection, you could be waiting a long time for ads
+2. If you don't have a 60mpbs, wired connection, you could be waiting a long time
 3. Brave seems to have an edge up on uBlock Origin. Makes sense, as Brave has lower level access (browser vs plugin)
-4. Brave Ads and Brave, No Ads seem to have nearly indistinguishable load times. This could be because all ads are still being blocked - Brave [doesn't replace every ad](https://brave.com/FAQ.html), or due to the faster ad selection process (described in the podcast).
+4. Brave Ads and Brave, No Ads seem to have nearly indistinguishable load times. This could be because all ads are still being blocked - Brave [doesn't replace every ad](https://brave.com/FAQ.html), or due to the faster ad selection process that is done locally on your device.
 
 As for rendering, games, and that sort of thing, Brave uses the same engine as Chrome, [Chromium](https://en.wikipedia.org/wiki/Chromium_(web_browser)), so it's just as fast.
-Like Chrome and Firefox, [Brave is open source](https://github.com/brave).
 
 ##Impressions
 
@@ -74,22 +105,22 @@ I have found very little difference from Chrome when navigating with the browser
 It even performs faster than FireFox + Ad Blockers due to its better rendering engine.
 
 Speed is great, but there's more to performance than brute speed.
-On desktop Brave's visual design differs a bit Chrome, but the buttons and settings are all mostly in the same places and simplifies the process of getting started.
+On desktop Brave's visual design differs a bit Chrome, but the buttons and settings are all mostly in the same places, which simplifies the process of getting started.
 In Chrome, incognito mode opens a new window, while in Brave it opens a new tab (which is not counted in Brave Payments).
 You can also open new session tabs, where all your logins are refreshed without having to go into private/incognito mode.
 Hovering your mouse over a tab gives a grayed out preview of its page, so you don't have to fully commit to a tiresome click when refreshing your memory.
 These style changes make the browser feel more "app-like": the tabbing focus makes it easier to have multiple activities going on in a single window, minimizing context switching.
 
 <%= partial "partials/image.erb", locals: {
-    src: "brave.png",
+    src: "brave_in_browser.png",
     alt: "The Brave browser"} %>
 
 Unfortunately Brave is definitely still rough around the edges.
-While mostly compatible with Chrome add-ons, the plugin/extension devs must go [thru a process](https://blog.brave.com/loading-chrome-extensions-in-brave/) to port their program over.
+While mostly compatible with Chrome add-ons, the plugin/extension developers must [manually port their program](https://blog.brave.com/loading-chrome-extensions-in-brave/).
 Thus the plugin availability is pretty limited right now, with some plugins acting poorly.
-For example, on desktop the PDF viewer does not show any text when PDFs open in the browser.
-Occasionally, but pretty rarely, I've had pages not load/submit data while browsing in Brave.
-Even after disabling the ad, trackers, and cookies shield the page didn't want to work (though this usually fixed the problem).
+For example, on my desktop the PDF viewer does not show any text when PDFs open in the browser.
+Occasionally, I've had pages not load at all when browsing.
+The ad shield can be disabled, and while that usually fixes the problem it didn't always work.
 A brief switch back to Chrome did the trick.
 
 Despite its current flaws, Brave is looking to be an innovative addition to the [browser wars](https://en.wikipedia.org/wiki/Browser_wars).
