@@ -98,8 +98,8 @@ module ShortIds
     @radix = ('0'..'9').to_a + ('a'..'z').to_a + ['$','-','_','+','!','*','(',')',','] #URL safe, lowercase characters
 
     #Load blacklisted words from CSV into an iterable data structure
-    require 'csv'
     @blacklist = File.read(Rails.root.join('lib', 'assets', 'blacklist_words.csv')).split('\n')
+    #require 'csv' #if you have a more complicated CSV setup
     #@blacklist = CSV.parse(@blacklist, :headers => true, :encoding => 'ISO-8859-1')
 
     # Source: https://stackoverflow.com/questions/9827498/why-does-the-fixnumto-s-method-in-in-ruby-only-accept-radixes-from-2-to-36
@@ -196,9 +196,9 @@ Let's get the same setup in Rails.
 Once we're done, we'll have multiple routes pointing to the same resource.
 Be sure to assign [canonical URLs](https://github.com/jumph4x/canonical-rails) else you might get an SEO hit.
 
-###Shorten Show Action
+###Shortenable Show Action
 
-First step is to **fix the resource's routing**.
+First step is to **fix some routing**.
 We want to accept garbage after the id in a resource's show action.
 This ensures `resource/id/anything-here` will not 404 and instead will be redirected to `resource/id`.
 
@@ -217,7 +217,7 @@ So `name` must be defined in the migration.
 ~~~ruby
 class CreateEvents < ActiveRecord::Migration[5.1]
   def change
-    create_table :events do |t|
+    create_table :events do |t| #works with string or integer ids
       t.string  :name, null: false
       #...other stuff...
     end
@@ -226,7 +226,7 @@ end
 ~~~
 
 Now we should **parse and modify URL requests**.
-Let's try to abstract some logic again in the `lib/` folder (so ensure the autoloader is on as described in previous section).
+Let's again place our logic in the `lib/` folder (so ensure the autoloader is on as described in previous section).
 Create `lib/shortenable_urls.rb` and paste in the following:
 
 ~~~ruby
@@ -251,7 +251,7 @@ module ShortenableUrls
 end
 ~~~
 
-This stateless function requires the request, object id  and object's parameterized readable text.
+This stateless function requires the request, the object id and the object's parameterized readable text.
 It parses out the text following the id and returns whether or not it matches the expected text.
 
 Finally, we should **redirect** in `Events#show` if an incorrect value was in the request.
@@ -270,7 +270,7 @@ end
 
 And you're done!
 
-Entering `/events/id/ANYTYHING` will always redirect to `/events/id/name`.
+Entering `/events/id/ANYTYHING` or `/events/id` will always redirect to `/events/id/name`.
 Note that this can also be accomplished [client side with JS](https://stackoverflow.com/a/45021521/4180797), and thus you could you use page `<title>` or any other text, but it would break on browsers with JS disabled.
 
 ###Resources Aliasing
@@ -296,10 +296,10 @@ end
 ~~~
 
 Now `/e` URLs will have the same actions as the Events resources.
-They will event redirect to readable text if you followed the previous section's instructions.
+They will even redirect to readable text if you followed the previous section's instructions.
 
 Be careful with aliases though.
-The worst thing you can do is break links, so you should be absolutely certain you want these aliases before you push to prod
+The worst thing you can do is break links, so you should be absolutely certain you want these aliases before you push to prod.
 
 
 Anything other URL rodeoing I've missed?
