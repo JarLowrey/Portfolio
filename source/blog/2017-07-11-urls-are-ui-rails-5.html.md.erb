@@ -123,7 +123,7 @@ module ShortIds
     end
 
     #Create an unused id for a given model
-    def self.new(model, max_len=7)
+    def self.new(model, max_len=8)
         id=0
         max = @radix.length**max_len #what is the highest value given a set number of characters? For base 10 and 3 characters, it's 10*10*10 = 10**3
         loop do
@@ -136,6 +136,7 @@ module ShortIds
                 id_bad = id.include? word
                 break if id_bad #choose a new id if this one has a blacklisted word
             end
+
             break if not id_bad and not model.exists?(id) #stop looking for ids if this id is unique and safe
         end
         return id
@@ -149,7 +150,7 @@ The `self.custom_radix_to_s` method was copied from a [stack overflow post](http
 Finally, the `self.new` method puts it all together.
 It creates a random ID in the given range, converts to proper radix, ensures it does not contain profanity, is unique, and returns the value.
 Note that the id is not a fixed length.
-For a base 46 ID of <=8 characters you can create 46^8+46^7+...+46^1 = 2.049311473×10¹³ unique IDs.
+For a base 46 ID of <=8 characters you can create 46^8+46^7+...+46^1 = 2.049×10¹³ unique IDs.
 
 To use our new lib file the module and filename must follow Rails naming conventions (which they do) and it **must be autoloaded** in `config/application.rb`:
 
@@ -180,7 +181,7 @@ end
 There you have it!
 An alphanumeric short ID for an Events model.
 Note that what Youtube and the [recommended method](https://stackoverflow.com/questions/9600816/ror-generate-an-alpha-numeric-string-for-a-db-id) does is create a table, populate it with available+random IDs, and periodically recreates IDs as the table runs low.
-This preallocation saves some processing time as the user is waiting.
+We create IDs dynamically when the user asks for one, preallocating IDs allows us to offset generation processing to off-peak times.
 I leave that as an exercise to the reader.
 
 ##Shortenable
@@ -196,7 +197,7 @@ Let's get the same setup in Rails.
 Once we're done, we'll have multiple routes pointing to the same resource.
 Be sure to assign [canonical URLs](https://github.com/jumph4x/canonical-rails) else you might get an SEO hit.
 
-###Shortenable Show Action
+###Shortenable Show Action (Stack Overflow-esque)
 
 First step is to **fix some routing**.
 We want to accept garbage after the id in a resource's show action.
@@ -279,7 +280,7 @@ Let's say Event is your only resource that begins with the letter 'e'.
 Seems like it would be useful to provide `/e` as an alias to `/events` (this is common for sites to do with `/users` and `/u`).
 Thankfully this is much simpler than the other things we've encountered thus far.
 
-Open up your `config/routes.rb` and add an events alias.
+Open up your `config/routes.rb` and add an event alias.
 Be sure to accept garbage after the show action just like you did for Events, otherwise the route will break on URLs like `/e/id/ANYTHING-HERE`.
 
 ~~~ruby
