@@ -1,0 +1,306 @@
+---
+title:  "URLs are UI in Rails 5"
+header: { img_url: "http://rubyonrails.org/images/rails-logo.svg" }
+blurb: ""
+author: James Lowrey
+tags: rails,web
+ogp_img: "http://rubyonrails.org/images/rails-logo.svg"
+---
+
+I recently came across [this cool article](https://www.hanselman.com/blog/URLsAreUI.aspx) showing how to make URLs that don't suck.
+It cross references some other articles discussing the same topic - [Jakob Nielsen](https://www.nngroup.com/articles/url-as-ui/) and [Tim Berners Lee](https://www.w3.org/Provider/Style/URI).
+Essentially, URLs should be shareable, shortenable, and human readable+guessable.
+Lets discuss some methodologies to accomplish this in Rails 5.
+
+<%= partial "partials/article_links.erb", locals: {
+    resources: "
+- [URLs are UI (Hanselman)](https://www.hanselman.com/blog/URLsAreUI.aspx)
+- [URLs are UI (Nielsen)](https://www.nngroup.com/articles/url-as-ui/)
+- [URLs are UI (Lee)](https://www.w3.org/Provider/Style/URI)
+",
+    software_versions: "
+- [Rails 5.1.2](http://rubyonrails.org/)
+"
+  } %>
+
+##Shareable
+
+Rails by default uses a RESTful API, URLs contain parameters that are used to determine what to display on the page.
+So it's harder to create worthless links like `homesearch.com/homes/for_sale/search_results.asp`.
+Though it's definitely still possible through JS or reconfiguration, and should be avoided.
+
+It doesn't end there.
+Shareability isn't a sqitch, it's a spectrum, and it's affected by length and intuitiveness.
+An intuitive URL is something lacking arbitrary gotchas - a user can probably guess it.
+Rails does a good job with this, change the URL extension to `.json` and json will be sent.
+It also promotes creating simple resources, so you avoid seemingly random URL hierarchies (e.g. `site.com/user_name/_$!projects`).
+
+An area that rails falls flat is in long IDs.
+Imagine a site that creates a lot of DB tuples such as a popular social network.
+If you use an integer id, user 1,000,000 will have to type a lot of characters to share his page.
+You could try ID [slugs](https://en.wikipedia.org/wiki/Semantic_URL#Slug) using [FriendlyID](http://norman.github.io/friendly_id/file.Guide.html), but problems can arise with [duplicates](http://norman.github.io/friendly_id/file.Guide.html#Uniqueness) and [speed](https://gist.github.com/norman/1129745).
+A better solution is to create alphanumeric ids using a larger [radix](https://en.wikipedia.org/wiki/Radix).
+
+###String Ids
+
+URL safe, non-reserved characters are a-z, A-Z, 0-9, and `$-_.+!*'(),`.
+These 73 characters allow you to create a base 73 ID that is much shorter than a decimal number (1 billion = zfGya).
+However, we need to remove some characters from our lexicon.
+MiXeD cASe is possible but difficult to remember and describe, keep it all lower case.
+Including both periods and commas would create an easy mixup, so lets remove '.'.
+That leaves us with base 46 (1 billion=4+fv$k).
+
+For security, IDs should also be randomized to prevent [inference attacks](https://en.wikipedia.org/wiki/Inference_attack).
+This is all very similar to how Youtube creates video IDs.
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/gocwRvLhDf8" frameborder="0" allowfullscreen></iframe>
+
+First, let's **setup our model** to accept a String based ID.
+Let's use an "Event" model for example.
+In the migration set `id:false` to disable auto-incrementing integer ids.
+Then recreate the id column as a string.
+
+~~~ruby
+class CreateEvents < ActiveRecord::Migration[5.1]
+  def change
+    create_table :events, id:false do |t|
+      t.string :id, null: false, index: true
+      #...
+    end
+  end
+end
+~~~
+
+Run the migration.
+Inside the model, set the 'new' primary key.
+
+~~~ruby
+class Event < ApplicationRecord
+    self.primary_key = :id
+    #...
+end
+~~~
+
+Our model is ready to go!
+
+Next, let's **set up the word blacklist**.
+This will ensure the alphanumeric id does not contain offensive material.
+Create `lib/assets/blacklist_words.csv`, paste in [this (NSFW) filter](https://github.com/LDNOOBW/List-of-Dirty-Naughty-Obscene-and-Otherwise-Bad-Words/blob/master/en), and perform whatever data cleanup you need.
+For example, these words will be appearing in a URL with a max length, so you can remove all spaces and all phrases over your max length (8 characters for example).
+Keeping this blacklist concise will greatly speed up ID generation.
+
+Now we need to create the **id generation logic**.
+This is not application specific - it will work for multiple resources and multiple projects - and thus should go in the `lib/` folder as well.
+Create `lib/short_ids.rb` and paste in the following code.
+
+~~~ruby
+module ShortIds
+    @radix = ('0'..'9').to_a + ('a'..'z').to_a + ['$','-','_','+','!','*','(',')',','] #URL safe, lowercase characters
+
+    #Load blacklisted words from CSV into an iterable data structure
+    require 'csv'
+    @blacklist = File.read(Rails.root.join('lib', 'assets', 'blacklist_words.csv')).split('\n')
+    #@blacklist = CSV.parse(@blacklist, :headers => true, :encoding => 'ISO-8859-1')
+
+    # Source: https://stackoverflow.com/questions/9827498/why-does-the-fixnumto-s-method-in-in-ruby-only-accept-radixes-from-2-to-36
+    # generate string representation of integer, using digits from custom alphabet
+    # [val] a value which can be cast to integer
+    # [digits] a string or array of strings representing the custom digits
+    def self.custom_radix_to_s val, digits
+        digits = digits.to_a unless digits.respond_to? :[]
+        radix = digits.length
+        raise ArgumentError, "radix must have at least two digits" if radix < 2
+
+        i = val.to_i
+        out = []
+        begin
+        rem = i % radix
+        i /= radix
+        out << digits[rem..rem]
+        end until i == 0
+
+        out.reverse.join
+    end
+
+    #Create an unused id for a given model
+    def self.new(model, max_len=7)
+        id=0
+        max = @radix.length**max_len #what is the highest value given a set number of characters? For base 10 and 3 characters, it's 10*10*10 = 10**3
+        loop do
+            id = rand(1..max) #choose random ID in allowed range
+            id = ShortIds.custom_radix_to_s(id, @radix) #convert base 10 ID to custom base
+
+            #ensure no bad words in ID
+            id_bad=false
+            @blacklist.each do |word|
+                id_bad = id.include? word
+                break if id_bad #choose a new id if this one has a blacklisted word
+            end
+            break if not id_bad and not model.exists?(id) #stop looking for ids if this id is unique and safe
+        end
+        return id
+    end
+end
+~~~
+
+Notice `@radix`, this defines our id vocabulary.
+If you don't like my character choices, feel free to add uppercase and such back in.
+The `self.custom_radix_to_s` method was copied from a [stack overflow post](https://stackoverflow.com/questions/9827498/why-does-the-fixnumto-s-method-in-in-ruby-only-accept-radixes-from-2-to-36) and transforms a base 10 number to a new base using a custom radix vocabulary.
+Finally, the `self.new` method puts it all together.
+It creates a random ID in the given range, converts to proper radix, ensures it does not contain profanity, is unique, and returns the value.
+Note that the id is not a fixed length.
+For a base 46 ID of <=8 characters you can create 46^8+46^7+...+46^1 = 2.049311473×10¹³ unique IDs.
+
+To use our new lib file the module and filename must follow Rails naming conventions (which they do) and it **must be autoloaded** in `config/application.rb`:
+
+~~~ruby
+module MyApp
+  class Application < Rails::Application
+    config.autoload_paths << Rails.root.join('lib')
+    #...
+  end
+end
+~~~
+
+Finally, let's ensure the Event **model uses the new id**.
+Open `app/models/event.rb` and add a `before_create` function to auto-assign ID.
+
+~~~ruby
+class Event < ApplicationRecord
+    self.primary_key = :id #remember this from above?
+    before_create :set_id
+
+    private
+        def set_id
+            self.id = ShortIds.new(Event)
+        end
+end
+~~~
+
+There you have it!
+An alphanumeric short ID for an Events model.
+Note that what Youtube and the [recommended method](https://stackoverflow.com/questions/9600816/ror-generate-an-alpha-numeric-string-for-a-db-id) does is create a table, populate it with available+random IDs, and periodically recreates IDs as the table runs low.
+This preallocation saves some processing time as the user is waiting.
+I leave that as an exercise to the reader.
+
+##Shortenable
+
+As mentioned previously, pure slugged URLs are undesirable due to speed and duplication issues.
+But URLs should definitly be readable, otherwise the user doesn't know what they are clicking on.
+Stack overflow manages this well with user accounts, notice what happens to the URL when you navigate to <https://stackoverflow.com/users/4180797>.
+It auto-completes to <https://stackoverflow.com/users/4180797/james-lowrey>.
+Actually, you can put anything after the ID and it will always become "james-lowrey": <https://stackoverflow.com/users/4180797/bad-word-filters-are-fun>.
+
+Let's get the same setup in Rails.
+
+Once we're done, we'll have multiple routes pointing to the same resource.
+Be sure to assign [canonical URLs](https://github.com/jumph4x/canonical-rails) else you might get an SEO hit.
+
+###Shorten Show Action
+
+First step is to **fix the resource's routing**.
+We want to accept garbage after the id in a resource's show action.
+This ensures `resource/id/anything-here` will not 404 and instead will be redirected to `resource/id`.
+
+~~~ruby
+Rails.application.routes.draw do
+  resources :events
+  get "/events/:id/*other" => "events#show" #if any txt is trailing id, also send this route to events#show
+end
+~~~
+
+Next, let's **obtain readable text from the model**.
+If you want a resource to have readable text URLs, there should be some field to pull it from.
+Let's assume your Events model has a `name` field, and pull from that.
+So `name` must be defined in the migration.
+
+~~~ruby
+class CreateEvents < ActiveRecord::Migration[5.1]
+  def change
+    create_table :events do |t|
+      t.string  :name, null: false
+      #...other stuff...
+    end
+  end
+end
+~~~
+
+Now we should **parse and modify URL requests**.
+Let's try to abstract some logic again in the `lib/` folder (so ensure the autoloader is on as described in previous section).
+Create `lib/shortenable_urls.rb` and paste in the following:
+
+~~~ruby
+module ShortenableUrls
+    def self.redirect_for_readability?(request, id, readable_txt_parameterized)
+        #check if column_name is not seen in the URL of an HTML request
+        if request.format.html? #do not care how URL looks for json/data requests
+            id = id.to_s
+
+            #parse out the URL text following the id
+            url = request.original_url
+            id_end_indx = url.index(id) + (id).length + 1 #+1 for '/' character
+
+            #URL txt after id does not match readable_txt
+            if url[id_end_indx..-1] != readable_txt_parameterized
+                return true
+            end
+        end
+
+        return false
+    end
+end
+~~~
+
+This stateless function requires the request, object id  and object's parameterized readable text.
+It parses out the text following the id and returns whether or not it matches the expected text.
+
+Finally, we should **redirect** in `Events#show` if an incorrect value was in the request.
+
+~~~ruby
+class EventsController < ApplicationController
+  def show
+    readable_txt = @event.name.parameterize
+    if ShortenableUrls.redirect_for_readability?(request, @event.id, readable_txt)
+      redirect_to "/events/#{@event.id}/#{readable_txt}"
+    end
+  end
+  #...other stuff
+end
+~~~
+
+And you're done!
+
+Entering `/events/id/ANYTYHING` will always redirect to `/events/id/name`.
+Note that this can also be accomplished [client side with JS](https://stackoverflow.com/a/45021521/4180797), and thus you could you use page `<title>` or any other text, but it would break on browsers with JS disabled.
+
+###Resources Aliasing
+
+Let's say Event is your only resource that begins with the letter 'e'.
+Seems like it would be useful to provide `/e` as an alias to `/events` (this is common for sites to do with `/users` and `/u`).
+Thankfully this is much simpler than the other things we've encountered thus far.
+
+Open up your `config/routes.rb` and add an events alias.
+Be sure to accept garbage after the show action just like you did for Events, otherwise the route will break on URLs like `/e/id/ANYTHING-HERE`.
+
+~~~ruby
+Rails.application.routes.draw do
+  resources :events
+  get "/events/:id/*other" => "events#show" #if any txt is trailing id, also send this route to events#show
+
+  #alias the "events" routes
+  resources :e, controller: 'events'
+  get "/e/:id/*other" => "events#show" #if any txt is trailing id, also send this route to events#show
+
+  #...other stuff...
+end
+~~~
+
+Now `/e` URLs will have the same actions as the Events resources.
+They will event redirect to readable text if you followed the previous section's instructions.
+
+Be careful with aliases though.
+The worst thing you can do is break links, so you should be absolutely certain you want these aliases before you push to prod
+
+
+Anything other URL rodeoing I've missed?
+Let me know in the comments!
