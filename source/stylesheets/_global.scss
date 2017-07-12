@@ -20,7 +20,10 @@ ul {
 }
 
 p {
-    word-break: break-all;
+    a,
+    code {
+        word-break: break-all;
+    }
 }
 
 .wrap {
