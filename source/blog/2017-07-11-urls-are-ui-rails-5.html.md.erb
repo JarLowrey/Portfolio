@@ -299,7 +299,7 @@ end
 ~~~
 
 Usually you want to avoid [match](http://guides.rubyonrails.org/routing.html#http-verb-constraints) and stick to specific HTTP verbs, but we want this to be a catch-all pass-through for any given "/e" URLs.
-This routing will match "/e" URLs, substitute that first occurance of "/e" in the request, and redirect to the desired "/events" controller while passing along all trailing URL info.
+This routing will match "/e" URLs, substitute its first occurance, and redirect to the desired "/events" controller while passing along all trailing URL info.
 
 Be careful with aliases.
 The worst thing you can do is break links, so you should be absolutely certain you want these aliases before you push to prod.
