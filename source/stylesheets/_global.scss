@@ -19,10 +19,12 @@ ul {
     text-align: center;
 }
 
+//Word wrap for long, unbroken text
 p {
     a,
     code {
-        word-break: break-all;
+        white-space: pre-line;
+        word-wrap: break-word;
     }
 }
 
