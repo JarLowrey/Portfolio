@@ -199,6 +199,8 @@ Be sure to assign [canonical URLs](https://github.com/jumph4x/canonical-rails) e
 
 ###Shortenable Show Action (Stack Overflow-esque)
 
+Note that all of the following applies to the `edit` action as well.
+
 First step is to **fix some routing**.
 We want to accept garbage after the id in a resource's show action.
 This ensures `resource/id/anything-here` will not 404 and instead will be redirected to `resource/id`.
@@ -281,27 +283,44 @@ Seems like it would be useful to provide `/e` as an alias to `/events` (this is 
 Thankfully this is much simpler than the other things we've encountered thus far.
 
 Open up your `config/routes.rb` and add an event alias.
-Be sure to accept garbage after the show action just like you did for Events, otherwise the route will break on URLs like `/e/id/ANYTHING-HERE`.
 
 ~~~ruby
 Rails.application.routes.draw do
-  resources :events
-  get "/events/:id/*other" => "events#show" #if any txt is trailing id, also send this route to events#show
-
   #alias the "events" routes
-  resources :e, controller: 'events'
-  get "/e/:id/*other" => "events#show" #if any txt is trailing id, also send this route to events#show
+  match '/e/*other',
+    via: :all,
+    to: redirect { |path_params, req|
+      #We are matching /e from an absolute path. Thus, the first occurrence of '/e' is the one we want to substitute for '/events'. Sub the first and return
+      req.original_url.sub('/e','/events')
+    }
 
   #...other stuff...
 end
 ~~~
 
-Now `/e` URLs will have the same actions as the Events resources.
-They will even redirect to readable text if you followed the previous section's instructions.
+Usually you want to avoid [match](http://guides.rubyonrails.org/routing.html#http-verb-constraints) and stick to specific HTTP verbs, but we want this to be a catch-all pass-through for any given "/e" URLs.
+This routing will match "/e" URLs, substitute that first occurance of "/e" in the request, and redirect to the desired "/events" controller while passing along all trailing URL info.
 
-Be careful with aliases though.
+Be careful with aliases.
 The worst thing you can do is break links, so you should be absolutely certain you want these aliases before you push to prod.
 
+Originally I was using a different methodology for aliasing, but decided to go with this one due to its greater generalization and better handling of...
 
-Anything other URL rodeoing I've missed?
+##Canonical URLs
+
+Duplicated content can carry a strict [SEO penalty](https://webmasters.googleblog.com/2008/09/demystifying-duplicate-content-penalty.html), but the answer is easy - [canonical URLs](https://webmasters.googleblog.com/2009/02/specify-your-canonical.html).
+[Canonical tags](https://en.wikipedia.org/wiki/Canonical_link_element) allow you to specify the preferred URL location of your webpage and helps direct search engines to display the correct page.
+In Rails, this is a breeze to set up with [canonical-rails](https://github.com/jumph4x/canonical-rails).
+
+Add `gem 'canonical-rails', github: 'jumph4x/canonical-rails'` to your Gemfile and `bundle install`.
+Generate the configuration via `rails g canonical_rails:install` and modify it at `config/initializers/canonical_rails.rb`.
+I suggest setting protocol to HTTPS (you are using [HTTPS](https://letsencrypt.org/) right?) and `opengraph_url` to true for basic setup.
+
+Finally, paste `<%%= canonical_tag -%>` into your `app/views/layouts/application.html.erb`'s `<head>` tag.
+Run Rails, inspect a page, and behold the canonical glory - `<link href="https://localhost:3000/events/3k66ee-/event-name" rel="canonical">`.
+
+We've created aliasing for resources and readable show actions, but since we've accomplished this with redirects no further customization to canonical urls is required.
+You're all set out of the box.
+
+Any other URL rodeoing I've missed?
 Let me know in the comments!
