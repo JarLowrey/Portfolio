@@ -193,7 +193,7 @@ def create
 end
 ~~~
 
-If an error is occurred when saving an event (as we noticed when our transaction was rolled back), byebug will halt server execution and open the terminal up to that line.
+If an error occurred when saving an event (as we noticed when our transaction was rolled back), byebug will halt server execution and open the terminal to that line.
 Try to save an event again, and notice a prompt appears in the terminal:
 
 ~~~bash
@@ -222,7 +222,7 @@ It seems our address does not know to whom it belongs (address.addressable must 
 After a bit of googling, the issue seems to be that Rails 5 makes the belongs to association [required by default](http://blog.bigbinary.com/2016/02/15/rails-5-makes-belong-to-association-required-by-default.html).
 We seem to be having trouble because the addressable is not yet created when we're trying to save - it looks like a chicken or egg problem.
 
-To get around this, the Address model `app/models/address.rb` needs this validation check turned off.
+To get around this, the Address model `app/models/address.rb` needs the "requires" validation check turned off.
 
 ~~~ruby
 class Address < ApplicationRecord
@@ -230,7 +230,7 @@ class Address < ApplicationRecord
 end
 ~~~
 
-Let's check that it works!
+Let's check that it works.
 Insert a `byebug` into the event controller's show action.
 Now navigate to `/events/new` and submit a completed form.
 Byebug will halt execution as the form redirects to a 'show' page.
