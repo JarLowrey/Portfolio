@@ -1,0 +1,276 @@
+---
+title:  "Polymorphic Associations in Rails 5"
+header: { img_url: "http://rubyonrails.org/images/rails-logo.svg" }
+blurb: ""
+author: James Lowrey
+tags: rails,web
+ogp_img: "http://rubyonrails.org/images/rails-logo.svg"
+---
+
+[Polymorphic Associations](https://en.wikipedia.org/wiki/Polymorphic_association) help relate one database class to multiple other classes.
+In Rails this helps when one model can `belongs_to` multiple other models.
+A common example is an Address, without polymorphic behavior it would need to belong to every possible table, and would lead to a lot of wasted DB space and bad code.
+
+~~~ruby
+class Address < ApplicationRecord
+  belongs_to :person
+  belongs_to :company
+  belongs_to :event
+  #MORE and MORE belongs_to
+end
+~~~
+
+Polymorphic associations allow us to have much cleaner code and databases.
+
+~~~ruby
+class Address < ApplicationRecord
+  belongs_to :addressable
+end
+~~~
+
+In this article we'll show you how to set up migrations, models, and forms for a simple polymorphic association - a `has_one` address.
+
+<%= partial "partials/article_links.erb", locals: {
+    resources: "
+- [Rails Guide](http://guides.rubyonrails.org/association_basics.html#polymorphic-associations)
+- [Polymorphic Addresses](https://kconrails.com/2010/10/19/common-addresses-using-polymorphism-and-nested-attributes-in-rails/)
+- [Understanding Polymorphic Associations](https://launchschool.com/blog/understanding-polymorphic-associations-in-rails)
+- [Polymorphic Associations in Rails 5](https://rubyplus.com/articles/3901-Polymorphic-Association-in-Rails-5)
+- [Rails Cast - Polymorphic](http://railscasts.com/episodes/154-polymorphic-association-revised)
+- [What's the deal with Polymorphic Associations?](https://robots.thoughtbot.com/whats-the-deal-with-rails-polymorphic-associations)
+",
+    software_versions: "
+- [Rails 5.1.2](http://rubyonrails.org/)
+"
+  } %>
+
+People have a lot of issues with Polymorphic associations -
+[1](https://stackoverflow.com/questions/34552688/rails-4-polymorphic-associations),
+[2](https://stackoverflow.com/questions/41655645/ruby-on-rails-polymorphic-association-with-categories),
+[3](https://stackoverflow.com/questions/34225576/polymorphic-and-has-one-association),
+[4](https://stackoverflow.com/questions/42405660/polymorphic-association-creating-a-record).
+And many of those questions do not have an accepted answer, despite the seeming abundance of guides on the matter.
+
+So without further ado, let's begin:
+
+~~~ruby
+rails g scaffold Events name:string
+rails g model Address address:string addressable:references{polymorphic}
+~~~
+
+##Migrations
+
+Open the new `***_create_addresses.rb` migration and edit the 'references' line to add in an index.
+
+~~~ruby
+t.references :addressable, polymorphic: true, index: true
+~~~
+
+[References](http://guides.rubyonrails.org/association_basics.html#polymorphic-associations) is an alias to creating both a foreign key and type column, made specifically for polymorphic behavior.
+It is equivalent to:
+
+~~~ruby
+t.integer :addressable_id
+t.string  :addressable_type
+~~~
+
+Now our migrations are good.
+Time to migrate!
+
+~~~ruby
+rake db:migrate
+~~~
+
+##Models
+
+The Address model is already OK, and will contain a nice `belongs_to :addressable` line.
+The Event model must be edited to create the address association, and to [accept nested attributes](http://api.rubyonrails.org/classes/ActiveRecord/NestedAttributes/ClassMethods.html) for the address in its form
+
+~~~ruby
+class Event < ApplicationRecord
+    has_one :address, as: :addressable
+    accepts_nested_attributes_for :address
+end
+~~~
+
+##Views
+
+I really like [simple-forms](https://github.com/plataformatec/simple_form) so let's go ahead and install that before mucking around in Rails forms.
+Add `gem 'simple_form'` to the `Gemfile` and `bundle install`.
+Open `app/views/events/_form.html.erb` and replace the file with a simple_form.
+
+~~~ruby
+<%%= simple_form_for @event do |f| %>
+  <%%= f.input :name %>
+
+  <%%= f.simple_fields_for :address do |address| %>
+    <%%= render :partial => 'shared/address/form', :locals => {:f => address} %>
+  <%% end %>
+
+  <%%= f.button :submit %>
+<%% end %>
+~~~
+
+Notice the field for an address?
+Let's create that next.
+Make a new file and name it `app/views/shared/address/_form.html.erb`.
+This file is rather simple:
+
+~~~ruby
+<%%= f.input :address %>
+~~~
+
+What we've done is created a [nested form](http://guides.rubyonrails.org/form_helpers.html#nested-forms) for an Address inside the Event form.
+This nested form is rendered using [partials](http://guides.rubyonrails.org/layouts_and_rendering.html#using-partials), which allows us to reuse the address form in any associated view and maintain a single point of control.
+The Event form is rendering the nested address form with the `simple_fields_for` line, and the partial with `render :partial`.
+
+With the forms all taken care of, let's ensure the address will be displayed when we are inspecting a given Event.
+Open `app/views/show.html.erb` and add in the following display code somewhere in the file.
+
+~~~erb
+<p>
+  <strong>Address:</strong>
+  <%%= @event.address.address %>
+</p>
+~~~
+
+##Controllers
+
+Finally, let's string everything together in the event controller - `app/controllers/events_controller.rb`.
+First we must modify the [strong params](http://edgeguides.rubyonrails.org/action_controller_overview.html#strong-parameters) to accept the nested address fields, so the `event_params` function must be edited.
+
+~~~ruby
+# Never trust parameters from the scary internet, only allow the white list through.
+def event_params
+  params.require(:event).permit(:name, { address_attributes: [:address] } )
+end
+~~~
+
+Finally, an address must be created when the [new](https://stackoverflow.com/questions/2472393/rails-new-vs-create) action is called.
+This ensures the address's fields will by displayed when the address form is rendered in `site.com/events/new`.
+
+~~~ruby
+# GET /events/new
+  def new
+    @event = Event.new
+    @address = @event.build_address
+  end
+~~~
+
+Seems like we're done right?
+Not quite.
+
+##Troubleshooting
+
+If you run your project (`rails s`), navigate to `/events/new`, and attempt to create an event it won't work.
+On the the terminal running rails, you'll see something like this
+
+~~~bash
+Started POST "/events" for 127.0.0.1 at 2017-07-13 14:52:27 -0400
+Processing by EventsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"zo5fvibHtpivjqseJ+AL4ToTTg8fUzSuXxuyvYzdfj6fUZfq7Y0x584Y/fXRSnWffvCLdaJV2J0vkp273GbB6Q==", "event"=>{"name"=>"some name", "address_attributes"=>{"address"=>"some address"}}, "commit"=>"Create Event"}
+   (0.1ms)  begin transaction
+   (0.0ms)  rollback transaction
+~~~
+
+Why is this happening?
+To find out, let's go back to the event controller and insert a [byebug](https://github.com/deivid-rodriguez/byebug) statement after an event save fails
+
+~~~ruby
+def create
+  @event = Event.new(event_params)
+  respond_to do |format|
+    if @event.save
+      format.html { redirect_to @event, notice: 'Event was successfully created.' }
+      format.json { render :show, status: :created, location: @event }
+    else
+      byebug #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+      format.html { render :new }
+      format.json { render json: @event.errors, status: :unprocessable_entity }
+    end
+  end
+end
+~~~
+
+If an error is occurred when saving an event (as we noticed when our transaction was rolled back), byebug will halt server execution and open the terminal up to that line.
+Try to save an event again, and notice a prompt appears in the terminal:
+
+~~~bash
+[32, 41] in /~/polymorphic-rails/app/controllers/events_controller.rb
+   32:       if @event.save
+   33:         format.html { redirect_to @event, notice: 'Event was successfully created.' }
+   34:         format.json { render :show, status: :created, location: @event }
+   35:       else
+   36:         byebug
+=> 37:         format.html { render :new }
+   38:         format.json { render json: @event.errors, status: :unprocessable_entity }
+   39:       end
+   40:     end
+   41:   end
+(byebug)
+~~~
+
+We can use this prompt to find the issue.
+Typing in `@event.errors` yields
+
+~~~bash
+#<ActiveModel::Errors:0x007f54fa167258 @base=#<Event id: nil, name: "some name", created_at: nil, updated_at: nil>, @messages={:"address.addressable"=>["must exist"]}, @details={:"address.addressable"=>[{:error=>:blank}]}>
+~~~
+
+It seems our address does not know to whom it belongs (address.addressable must exist).
+After a bit of googling, the issue seems to be that Rails 5 makes the belongs to association [required by default](http://blog.bigbinary.com/2016/02/15/rails-5-makes-belong-to-association-required-by-default.html).
+We seem to be having trouble because the addressable is not yet created when we're trying to save - it looks like a chicken or egg problem.
+
+To get around this, the Address model `app/models/address.rb` needs this validation check turned off.
+
+~~~ruby
+class Address < ApplicationRecord
+  belongs_to :addressable, polymorphic: true, optional:true
+end
+~~~
+
+Let's check that it works!
+Insert a `byebug` into the event controller's show action.
+Now navigate to `/events/new` and submit a completed form.
+Byebug will halt execution as the form redirects to a 'show' page.
+Ensure that everything is playing together nicely:
+
+~~~bash
+Started GET "/events/12" for 127.0.0.1 at 2017-07-13 15:04:40 -0400
+Processing by EventsController#show as HTML
+  Parameters: {"id"=>"12"}
+  Event Load (0.2ms)  SELECT  "events".* FROM "events" WHERE "events"."id" = ? LIMIT ?  [["id", 12], ["LIMIT", 1]]
+Return value is: nil
+
+[9, 18] in /~/polymorphic-rails/app/controllers/events_controller.rb
+    9:
+   10:   # GET /events/1
+   11:   # GET /events/1.json
+   12:   def show
+   13:     byebug
+=> 14:   end
+   15:
+   16:   # GET /events/new
+   17:   def new
+   18:     @event = Event.new
+(byebug) @event
+#<Event id: 12, name: "asd", created_at: "2017-07-13 19:02:40", updated_at: "2017-07-13 19:02:40">
+(byebug) @event.address
+  Address Load (0.3ms)  SELECT  "addresses".* FROM "addresses" WHERE "addresses"."addressable_id" = ? AND "addresses"."addressable_type" = ? LIMIT ?  [["addressable_id", 12], ["addressable_type", "Event"], ["LIMIT", 1]]
+#<Address id: 8, address: "asd", addressable_type: "Event", addressable_id: 12, created_at: "2017-07-13 19:02:40", updated_at: "2017-07-13 19:02:40">
+(byebug) @event.address.addressable
+  Event Load (0.1ms)  SELECT  "events".* FROM "events" WHERE "events"."id" = ? LIMIT ?  [["id", 12], ["LIMIT", 1]]
+#<Event id: 12, name: "asd", created_at: "2017-07-13 19:02:40", updated_at: "2017-07-13 19:02:40">
+(byebug)
+~~~
+
+Looks good!
+
+So there you have it.
+You can check out the code for this project [here]().
+It's unfortunate that things break without making them `optional`, but it seems to be a current weakness of Rails.
+Thanks for checking out the guide and good luck!
+
+PS:
+
+If you want your address to geocode and do other fancy stuff check out [geocoder](https://github.com/alexreisner/geocoder).

@@ -265,13 +265,18 @@ class EventsController < ApplicationController
     readable_txt = @event.name.parameterize
     if ShortenableUrls.redirect_for_readability?(request, @event.id, readable_txt)
       redirect_to "/events/#{@event.id}/#{readable_txt}"
+      return #do not continue with controller processing in a redirect. Once redirect finishes, action called again with correct URL, and return will be skipped.
     end
+    #...other controller actions
   end
   #...other stuff
 end
 ~~~
 
 And you're done!
+It's important to notice that `return` function, and that this redirect logic is placed at the beginning of `show`.
+Assuming you have other logic in the `show` action, returning you from wasting processing power when the page will just redirect.
+After the redirect is complete, the URL will be correct, the return will be skipped, and your subsequent logic will be called!
 
 Entering `/events/id/ANYTYHING` or `/events/id` will always redirect to `/events/id/name`.
 Note that this can also be accomplished [client side with JS](https://stackoverflow.com/a/45021521/4180797), and thus you could you use page `<title>` or any other text, but it would break on browsers with JS disabled.
@@ -324,3 +329,7 @@ You're all set out of the box.
 
 Any other URL rodeoing I've missed?
 Let me know in the comments!
+
+
+<iframe style="width:120px;height:240px;" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="//ws-na.amazon-adsystem.com/widgets/q?ServiceVersion=20070822&OneJS=1&Operation=GetAdHtml&MarketPlace=US&source=ac&ref=tf_til&ad_type=product_link&tracking_id=rdshr-20&marketplace=amazon&region=US&placement=B001VD9R4A&asins=B001VD9R4A&linkId=411185af41a989ca5f9b0683989d3669&show_border=false&link_opens_in_new_window=false&price_color=333333&title_color=0066C0&bg_color=FFFFFF">
+    </iframe>
