@@ -75,7 +75,34 @@ t.integer :addressable_id
 t.string  :addressable_type
 ~~~
 
-Now our migrations are good.
+`addressable_id` references the "parent" association that `has_one`, `has_many`, etc of Addresses.
+For us, this will be an Event id.
+`addressable_type` saves the name of the parent, for us it'll be "event".
+The Rails docs demonstrate this relationship with the following image:
+
+<%= partial "partials/image.erb", locals: {
+    src: "polymorphic_tables.png",
+    alt: "Polymorphic Tables",
+    caption: "Polymorphic Imageable tables" } %>
+
+Notice something here?
+**YOU CANNOT HAVE MIXED ID TYPES!**
+Sorry for yelling, it's just I've just made this mistake.
+Inside the Pictures table you can see that `imageable_id` is an integer.
+This forces the employees and products tables to use integer IDs as well.
+However, there are [lots of good reasons to use string ids](/blog/urls-are-ui-rails-5.html#string-ids).
+
+If one parent/consuming table has a string ID and participates in a polymorphic association, all other parent tables in that association must also have string ids.
+For example, if we changed Employee's ID to a string, we would also need to change Product's ID and Picture's `imageable_id`.
+Furthermore, this would prevent us from being able to use `references` in the Imageable migration (since it aliases an integer).
+You would need to manually define the two columns:
+
+~~~ruby
+t.string :imageable_id, index: true
+t.string :imageable_type, index: true
+~~~
+
+Anyways, now that that's out of the way, our migrations are looking good.
 Time to migrate!
 
 ~~~ruby
@@ -148,7 +175,7 @@ end
 ~~~
 
 Finally, an address must be created when the [new](https://stackoverflow.com/questions/2472393/rails-new-vs-create) action is called.
-This ensures the address's fields will by displayed when the address form is rendered in `site.com/events/new`.
+This ensures the address's fields will be displayed when the address form is rendered in `site.com/events/new`.
 
 ~~~ruby
 # GET /events/new
@@ -185,7 +212,7 @@ def create
       format.html { redirect_to @event, notice: 'Event was successfully created.' }
       format.json { render :show, status: :created, location: @event }
     else
-      byebug #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+      byebug #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< ADD THIS
       format.html { render :new }
       format.json { render json: @event.errors, status: :unprocessable_entity }
     end
@@ -193,7 +220,7 @@ def create
 end
 ~~~
 
-If an error occurred when saving an event (as we noticed when our transaction was rolled back), byebug will halt server execution and open the terminal to that line.
+If an error occurred when saving an event (ie our transaction was rolled back), byebug will halt server execution and open the terminal to that line.
 Try to save an event again, and notice a prompt appears in the terminal:
 
 ~~~bash
@@ -218,15 +245,39 @@ Typing in `@event.errors` yields
 #<ActiveModel::Errors:0x007f54fa167258 @base=#<Event id: nil, name: "some name", created_at: nil, updated_at: nil>, @messages={:"address.addressable"=>["must exist"]}, @details={:"address.addressable"=>[{:error=>:blank}]}>
 ~~~
 
-It seems our address does not know to whom it belongs (address.addressable must exist).
-After a bit of googling, the issue seems to be that Rails 5 makes the belongs to association [required by default](http://blog.bigbinary.com/2016/02/15/rails-5-makes-belong-to-association-required-by-default.html).
-We seem to be having trouble because the addressable is not yet created when we're trying to save - it looks like a chicken or egg problem.
+It appears our address does not know to whom it belongs.
+Remember, addressable_id is a foreign key designating who the address belongs_to, in this case an Event.
+If it is missing, this belongs_to relationship will be parentless.
 
-To get around this, the Address model `app/models/address.rb` needs the "requires" validation check turned off.
+Rails 5 recently made the belongs_to association [require a parent by default](http://blog.bigbinary.com/2016/02/15/rails-5-makes-belong-to-association-required-by-default.html), but there seems to be an issue with assignment before saving.
+This seems to be a [bug](https://github.com/rails/rails/issues/29781) on Rails part.
+It looks like a chicken or egg problem, if you disable this validation it'll save, and if you check for addressable after save finishes you'll find it just fine.
+
+To get around this, you can turn off the Address model's (`app/models/address.rb`) validation check:
 
 ~~~ruby
 class Address < ApplicationRecord
   belongs_to :addressable, polymorphic: true, optional:true
+end
+~~~
+
+OR you can leave the validation check on and manually assign addressable in event#create (`app/controllers/events_controller.rb`).
+I would go with this option.
+
+~~~ruby
+def create
+  @event = Event.new(event_params)
+  @event.address.addressable = @event #<<<<<<<<<<< ADD THIS
+  respond_to do |format|
+    if @event.save
+      format.html { redirect_to @event, notice: 'Event was successfully created.' }
+      format.json { render :show, status: :created, location: @event }
+    else
+      #dont forget to remove the 'byebug' that was here
+      format.html { render :new }
+      format.json { render json: @event.errors, status: :unprocessable_entity }
+    end
+  end
 end
 ~~~
 
