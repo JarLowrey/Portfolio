@@ -269,7 +269,7 @@ def create
   @event = Event.new(event_params)
   @event.address.addressable = @event #<<<<<<<<<<< ADD THIS
   respond_to do |format|
-    if @event.save
+  if @event.save #Saves the event. Addressable has something to reference now, but validation does not know this in time, thus it has to be done manually above
       format.html { redirect_to @event, notice: 'Event was successfully created.' }
       format.json { render :show, status: :created, location: @event }
     else
