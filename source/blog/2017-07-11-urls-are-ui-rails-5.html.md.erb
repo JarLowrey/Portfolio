@@ -46,8 +46,12 @@ A better solution is to create alphanumeric ids using a larger [radix](https://e
 URL safe, non-reserved characters are a-z, A-Z, 0-9, and `$-_.+!*'(),`.
 These 73 characters allow you to create a base 73 ID that is much shorter than a decimal number (1 billion = zfGya).
 However, we need to remove some characters from our lexicon.
-MiXeD cASe is possible but difficult to remember and describe, keep it all lower case.
 Including both periods and commas would create an easy mixup, so lets remove '.'.
+
+MiXeD cASe is possible but can be difficult to remember and describe.
+You definitely should not use mixed case in resources (Events/eVENTS/EVENTS) but IDs are a bit more nuanced, Youtube uses mixed case IDs for example.
+Ultimately you should think about how users will share your links and decide if shorter IDs (due to including UpperCase in the radix) will be better than standardized case.
+
 That leaves us with base 46 (1 billion=4+fv$k).
 
 For security, IDs should also be randomized to prevent [inference attacks](https://en.wikipedia.org/wiki/Inference_attack).

@@ -7,9 +7,15 @@ tags: rails,web
 ogp_img: "http://rubyonrails.org/images/rails-logo.svg"
 ---
 
-[Polymorphic Associations](https://en.wikipedia.org/wiki/Polymorphic_association) help relate one database class to multiple other classes.
-In Rails this helps when one model can `belongs_to` multiple other models.
-A common example is an Address, without polymorphic behavior it would need to belong to every possible table, and would lead to a lot of wasted DB space and bad code.
+[Polymorphic Associations](https://en.wikipedia.org/wiki/Polymorphic_association) help when one table must `belongs_to` multiple other tables.
+The Rails docs demonstrate this relationship with an Imageable relationship:
+
+<%= partial "partials/image.erb", locals: {
+    src: "polymorphic_tables.png",
+    alt: "Polymorphic Tables",
+    caption: "Polymorphic Imageable tables" } %>
+    
+Another common example is an Address, without polymorphic behavior it would need to belong to every possible table, and would lead to a lot of wasted DB space and bad code.
 
 ~~~ruby
 class Address < ApplicationRecord
@@ -32,6 +38,7 @@ In this article we'll show you how to set up migrations, models, and forms for a
 
 <%= partial "partials/article_links.erb", locals: {
     resources: "
+- [Working Demo](https://github.com/JarLowrey/polymorphic-rails)
 - [Rails Guide](http://guides.rubyonrails.org/association_basics.html#polymorphic-associations)
 - [Polymorphic Addresses](https://kconrails.com/2010/10/19/common-addresses-using-polymorphism-and-nested-attributes-in-rails/)
 - [Understanding Polymorphic Associations](https://launchschool.com/blog/understanding-polymorphic-associations-in-rails)
@@ -49,8 +56,9 @@ People have a lot of issues with Polymorphic associations -
 [2](https://stackoverflow.com/questions/41655645/ruby-on-rails-polymorphic-association-with-categories),
 [3](https://stackoverflow.com/questions/34225576/polymorphic-and-has-one-association),
 [4](https://stackoverflow.com/questions/42405660/polymorphic-association-creating-a-record),
-and more.
-And many of those questions do not have an accepted answer, despite the seeming abundance of guides on the matter.
+etc.
+Many of those questions do not have an accepted answer, despite the seeming abundance of guides on the matter.
+There are a few gotchas in Rails 5, we will cover them in depth.
 
 So without further ado, let's begin:
 
@@ -61,38 +69,37 @@ rails g model Address address:string addressable:references{polymorphic}
 
 ##Migrations
 
-Open the new `***_create_addresses.rb` migration and edit the 'references' line to add in an index.
+Open the new `db/migrate/***_create_addresses.rb` migration and edit the 'references' line to add in an index.
 
 ~~~ruby
 t.references :addressable, polymorphic: true, index: true
 ~~~
 
-[References](http://guides.rubyonrails.org/association_basics.html#polymorphic-associations) is an alias to creating both a foreign key and type column, made specifically for polymorphic behavior.
+[References](http://guides.rubyonrails.org/association_basics.html#polymorphic-associations) is an alias to creating both a foreign key and a type column, made specifically for polymorphic behavior.
+The foreign key links to the 'parent' table that will create an Adress.
 It is equivalent to:
 
 ~~~ruby
-t.integer :addressable_id
-t.string  :addressable_type
+t.integer :addressable_id   #foreign key
+t.string  :addressable_type #type
 ~~~
 
 `addressable_id` references the "parent" association that `has_one`, `has_many`, etc of Addresses.
 For us, this will be an Event id.
 `addressable_type` saves the name of the parent, for us it'll be "event".
-The Rails docs demonstrate this relationship with the following image:
+
+With that our migration is done!
+However, before we move on, check out this picture again.
 
 <%= partial "partials/image.erb", locals: {
     src: "polymorphic_tables.png",
     alt: "Polymorphic Tables",
     caption: "Polymorphic Imageable tables" } %>
 
-Notice something here?
-**YOU CANNOT HAVE MIXED ID TYPES!**
-Sorry for yelling, it's just I've just made this mistake.
-Inside the Pictures table you can see that `imageable_id` is an integer.
-This forces the employees and products tables to use integer IDs as well.
-However, there are [lots of good reasons to use string ids](/blog/urls-are-ui-rails-5.html#string-ids).
+A subtle yet extremely important takeaway is that imageable_id, product's id, and employee's id are all integers.
+There are [lots of good reasons to use string ids](/blog/urls-are-ui-rails-5.html#string-ids), and you might want to use one too.
+If one parent table has a string ID, the polymorphic foreign key (imageable_id) and all other parent tables in that association must also have string ids.
 
-If one parent/consuming table has a string ID and participates in a polymorphic association, all other parent tables in that association must also have string ids.
 For example, if we changed Employee's ID to a string, we would also need to change Product's ID and Picture's `imageable_id`.
 Furthermore, this would prevent us from being able to use `references` in the Imageable migration (since it aliases an integer).
 You would need to manually define the two columns:
@@ -102,7 +109,7 @@ t.string :imageable_id, index: true
 t.string :imageable_type, index: true
 ~~~
 
-Anyways, now that that's out of the way, our migrations are looking good.
+Now our migrations are looking good.
 Time to migrate!
 
 ~~~ruby
@@ -112,7 +119,7 @@ rake db:migrate
 ##Models
 
 The Address model is already OK, and will contain a nice `belongs_to :addressable` line.
-The Event model must be edited to create the address association, and to [accept nested attributes](http://api.rubyonrails.org/classes/ActiveRecord/NestedAttributes/ClassMethods.html) for the address in its form
+The Event model must be edited to create the address association, and to [accept nested attributes](http://api.rubyonrails.org/classes/ActiveRecord/NestedAttributes/ClassMethods.html) for the address in its form:
 
 ~~~ruby
 class Event < ApplicationRecord
@@ -139,8 +146,10 @@ Open `app/views/events/_form.html.erb` and replace the file with a simple_form.
 <%% end %>
 ~~~
 
-Notice the field for an address?
-Let's create that next.
+This file contains a [nested form](http://guides.rubyonrails.org/form_helpers.html#nested-forms) (via `simple_fields_for`) which is rendered from a [partial](http://guides.rubyonrails.org/layouts_and_rendering.html#using-partials).
+Partials allow us to maintain a single point of control over address forms even though they might be used in multiple parent forms.
+
+Let's create the partial.
 Make a new file and name it `app/views/shared/address/_form.html.erb`.
 This file is rather simple:
 
@@ -148,18 +157,18 @@ This file is rather simple:
 <%%= f.input :address %>
 ~~~
 
-What we've done is created a [nested form](http://guides.rubyonrails.org/form_helpers.html#nested-forms) for an Address inside the Event form.
-This nested form is rendered using [partials](http://guides.rubyonrails.org/layouts_and_rendering.html#using-partials), which allows us to reuse the address form in any associated view and maintain a single point of control.
-The Event form is rendering the nested address form with the `simple_fields_for` line, and the partial with `render :partial`.
+The forms are all done!
 
-With the forms all taken care of, let's ensure the address will be displayed when we are inspecting a given Event.
-Open `app/views/show.html.erb` and add in the following display code somewhere in the file.
+Let's ensure the address will be displayed when we are inspecting a given Event.
+Open `app/views/events/show.html.erb` and add the following display code somewhere in the file.
 
 ~~~erb
+<!-- other stuff... -->
 <p>
   <strong>Address:</strong>
   <%%= @event.address.address %>
 </p>
+<!-- other stuff... -->
 ~~~
 
 ##Controllers
@@ -168,14 +177,14 @@ Finally, let's string everything together in the event controller - `app/control
 First we must modify the [strong params](http://edgeguides.rubyonrails.org/action_controller_overview.html#strong-parameters) to accept the nested address fields, so the `event_params` function must be edited.
 
 ~~~ruby
-# Never trust parameters from the scary internet, only allow the white list through.
+# other stuff...
 def event_params
   params.require(:event).permit(:name, { address_attributes: [:address] } )
 end
 ~~~
 
-Finally, an address must be created when the [new](https://stackoverflow.com/questions/2472393/rails-new-vs-create) action is called.
-This ensures the address's fields will be displayed when the address form is rendered in `site.com/events/new`.
+Finally, an address must be built when the [new](https://stackoverflow.com/questions/2472393/rails-new-vs-create) action is called.
+This ensures the address's fields will be displayed in our event form.
 
 ~~~ruby
 # GET /events/new
@@ -201,7 +210,7 @@ Processing by EventsController#create as HTML
    (0.0ms)  rollback transaction
 ~~~
 
-Why is this happening?
+Why can't our transaction complete?
 To find out, let's go back to the event controller and insert a [byebug](https://github.com/deivid-rodriguez/byebug) statement after an event save fails
 
 ~~~ruby
@@ -245,15 +254,15 @@ Typing in `@event.errors` yields
 #<ActiveModel::Errors:0x007f54fa167258 @base=#<Event id: nil, name: "some name", created_at: nil, updated_at: nil>, @messages={:"address.addressable"=>["must exist"]}, @details={:"address.addressable"=>[{:error=>:blank}]}>
 ~~~
 
-It appears our address does not know to whom it belongs.
-Remember, addressable_id is a foreign key designating who the address belongs_to, in this case an Event.
-If it is missing, this belongs_to relationship will be parentless.
+There's the issue - `address.addressable"=>["must exist"]`.
+Address.addressable is the reference to the parent table, an Event.
+Rails 5 recently made this association [required by default](http://blog.bigbinary.com/2016/02/15/rails-5-makes-belong-to-association-required-by-default.html), but that doesn't explain why the association is missing.
 
-Rails 5 recently made the belongs_to association [require a parent by default](http://blog.bigbinary.com/2016/02/15/rails-5-makes-belong-to-association-required-by-default.html), but there seems to be an issue with assignment before saving.
 This seems to be a [bug](https://github.com/rails/rails/issues/29781) on Rails part.
-It looks like a chicken or egg problem, if you disable this validation it'll save, and if you check for addressable after save finishes you'll find it just fine.
+It turns out that if you disable the new validation address.addressable will be filled in, so there's some sort of issue with the ordering of events.
 
-To get around this, you can turn off the Address model's (`app/models/address.rb`) validation check:
+Regardless, let's get it working.
+You can turn off the Address model's (`app/models/address.rb`) validation check:
 
 ~~~ruby
 class Address < ApplicationRecord
@@ -262,7 +271,7 @@ end
 ~~~
 
 OR you can leave the validation check on and manually assign addressable in event#create (`app/controllers/events_controller.rb`).
-I would go with this option.
+I went with this option.
 
 ~~~ruby
 def create
@@ -320,7 +329,7 @@ Looks good!
 
 So there you have it.
 You can check out the code for this project [here](https://github.com/JarLowrey/polymorphic-rails).
-It's unfortunate that things break without making them `optional`, but it seems to be a current weakness of Rails.
+It's always frustrating when butting heads with issues in underlying tech, so hopefully this post helps make things easier.
 Thanks for checking out the guide and good luck!
 
 PS:
