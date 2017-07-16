@@ -99,62 +99,61 @@ Create `lib/short_ids.rb` and paste in the following code.
 
 ~~~ruby
 module ShortIds
-    @radix = ('0'..'9').to_a + ('a'..'z').to_a + ['$','-','_','+','!','*','(',')',','] #URL safe, lowercase characters
+    #AKA @radix. URL safe, lowercase characters
+    @lexicon = ('0'..'9').to_a + ('a'..'z').to_a + ['$','-','_','+','!','*','(',')',',']
 
     #Load blacklisted words from CSV into an iterable data structure
     @blacklist = File.read(Rails.root.join('lib', 'assets', 'blacklist_words.csv')).split('\n')
     #require 'csv' #if you have a more complicated CSV setup
     #@blacklist = CSV.parse(@blacklist, :headers => true, :encoding => 'ISO-8859-1')
 
-    # Source: https://stackoverflow.com/questions/9827498/why-does-the-fixnumto-s-method-in-in-ruby-only-accept-radixes-from-2-to-36
-    # generate string representation of integer, using digits from custom alphabet
-    # [val] a value which can be cast to integer
-    # [digits] a string or array of strings representing the custom digits
-    def self.custom_radix_to_s val, digits
-        digits = digits.to_a unless digits.respond_to? :[]
-        radix = digits.length
-        raise ArgumentError, "radix must have at least two digits" if radix < 2
 
-        i = val.to_i
-        out = []
-        begin
-        rem = i % radix
-        i /= radix
-        out << digits[rem..rem]
-        end until i == 0
+    def self.create_id(max_len)
+        id = ""
+        #concat random letters from the lexicon together
+        (1..max_len).each do |i|
+            id.concat(@lexicon.sample)
+        end
+        return id
+    end
 
-        out.reverse.join
+    def self.id_is_acceptable?(id, model)
+        #ensure no bad words in ID
+        id_bad=false
+        @blacklist.each    do |word|
+            id_bad = id.include? word
+            break if id_bad #choose a new id if this one has a blacklisted word
+        end
+
+        #ensure no other tuple already has this id
+        id_bad = id_bad or model.exists?(id)
+
+        return (not id_bad)
     end
 
     #Create an unused id for a given model
-    def self.new(model, max_len=8)
-        id=0
-        max = @radix.length**max_len #what is the highest value given a set number of characters? For base 10 and 3 characters, it's 10*10*10 = 10**3
+    def self.new(model, max_len=7)
+        id = 0
         loop do
-            id = rand(1..max) #choose random ID in allowed range
-            id = ShortIds.custom_radix_to_s(id, @radix) #convert base 10 ID to custom base
-
-            #ensure no bad words in ID
-            id_bad=false
-            @blacklist.each do |word|
-                id_bad = id.include? word
-                break if id_bad #choose a new id if this one has a blacklisted word
-            end
-
-            break if not id_bad and not model.exists?(id) #stop looking for ids if this id is unique and safe
+            id = self.create_id(max_len)
+            break if self.id_is_acceptable?(id,model)
         end
         return id
     end
 end
 ~~~
 
-Notice `@radix`, this defines our id vocabulary.
+Notice `@lexicon`, this defines our id vocabulary.
 If you don't like my character choices, feel free to add uppercase and such back in.
-The `self.custom_radix_to_s` method was copied from a [stack overflow post](https://stackoverflow.com/questions/9827498/why-does-the-fixnumto-s-method-in-in-ruby-only-accept-radixes-from-2-to-36) and transforms a base 10 number to a new base using a custom radix vocabulary.
-Finally, the `self.new` method puts it all together.
-It creates a random ID in the given range, converts to proper radix, ensures it does not contain profanity, is unique, and returns the value.
-Note that the id is not a fixed length.
-For a base 46 ID of <=8 characters you can create 46^8+46^7+...+46^1 = 2.049×10¹³ unique IDs.
+
+`self.new` creates candidate ids until it finds an acceptable one, then returns it.
+
+Candidate ids are created by concatenating random characters together from the lexicon.
+I previously had another method of id creation here that was slower and more complex, you can see the [benchmark here](https://gist.github.com/JarLowrey/f77b651b90a00e9a202265e20f20c929).
+
+An id is acceptable if it does not contain profanity and is unique (doesn't yet exist in the model).
+
+For a base 46 ID of 8 characters you can create 46^8 = 2.005×10¹³ unique IDs.
 
 To use our new lib file the module and filename must follow Rails naming conventions (which they do) and it **must be autoloaded** in `config/application.rb`:
 
