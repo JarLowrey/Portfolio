@@ -1,0 +1,75 @@
+---
+title:  "Simple Forms Client Validation in Rails 5"
+header: { img_url: "http://rubyonrails.org/images/rails-logo.svg" }
+blurb: ""
+author: James Lowrey
+tags: rails,web
+ogp_img: "http://rubyonrails.org/images/rails-logo.svg"
+---
+
+Utilizing validation ensures good data integrity.
+You should validate on the server (in the model/controller) for security, and on the client to improve the user experience.
+It is very simple to set up in rails with the `client_side_validations` gem.
+
+Also, despite the rumors [the gem is actively maintained](https://github.com/DavyJonesLocker/client_side_validations/graphs/contributors).
+
+<%= partial "partials/article_links.erb", locals: {
+    software_versions: "
+- [Rails 5.1.2](http://rubyonrails.org/)
+- [simple_forms 3.5.0](https://github.com/plataformatec/simple_form)
+- [client_side_validations 9.3.4](https://github.com/DavyJonesLocker/client_side_validations)
+- [client_side_validations-simple_form 6.3.0](https://github.com/DavyJonesLocker/client_side_validations-simple_form)
+"
+  } %>
+
+
+##Basic Setup
+
+First, add the simple form, validation, and jquery gems to your Gemfile then `bundle install`.
+According to the README, order matters.
+
+~~~ruby
+gem 'jquery-rails'
+gem 'simple_form'
+gem 'client_side_validations'
+gem 'client_side_validations-simple_form'
+~~~
+
+Modfiy your `app/assets/javascripts/application.js` to import the JS logic.
+Order definitely matters.
+
+~~~js
+//= require jquery
+//= require jquery_ujs
+//= require rails.validations
+//= require rails.validations.simple_form
+~~~
+
+Generate the intializer logic via `rails g client_side_validations:copy_assets`.
+You can then view the [initializer](https://github.com/DavyJonesLocker/client_side_validations#initializer) config file at `config/initializers/client_side_validations.rb`.
+
+Open up your simple form and add `validate: true`:
+
+~~~ruby
+<%%= simple_form_for @event, validate: true do |f| %>
+  <%%= f.input :name %>
+  <%%= f.button :submit %>
+<%% end %>
+~~~
+
+Finally, add some validation to your model.
+The following code ensures `:name` cannot be an empty string.
+
+~~~ruby
+class Event < ApplicationRecord
+    validates :name, presence: true, allow_blank: false
+end
+~~~
+
+That's it!
+Now fields can be validated on the client instead of forcing the user to submit the form first.
+
+###jQuery
+
+Not everyone wants jQuery in their app, but the cost of re-writing your own verification logic is likely greater than the cost due to including jQuery.
+Modern minified jQuery is [84kb](https://mathiasbynens.be/demo/jquery-size), smaller than a small image, and is [virtually guaranteed](https://trends.builtwith.com/javascript/jQuery) to already be cached on a given client's device.

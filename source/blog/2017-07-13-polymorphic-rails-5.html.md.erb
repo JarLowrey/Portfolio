@@ -14,7 +14,7 @@ The Rails docs demonstrate this relationship with an Imageable relationship:
     src: "polymorphic_tables.png",
     alt: "Polymorphic Tables",
     caption: "Polymorphic Imageable tables" } %>
-    
+
 Another common example is an Address, without polymorphic behavior it would need to belong to every possible table, and would lead to a lot of wasted DB space and bad code.
 
 ~~~ruby
@@ -48,6 +48,7 @@ In this article we'll show you how to set up migrations, models, and forms for a
 ",
     software_versions: "
 - [Rails 5.1.2](http://rubyonrails.org/)
+- [simple_forms 3.5.0](https://github.com/plataformatec/simple_form)
 "
   } %>
 
@@ -139,7 +140,7 @@ Open `app/views/events/_form.html.erb` and replace the file with a simple_form.
   <%%= f.input :name %>
 
   <%%= f.simple_fields_for :address do |address| %>
-    <%%= render :partial => 'shared/address/form', :locals => {:f => address} %>
+    <%%= render partial: 'shared/address/form', locals: {f: address} %>
   <%% end %>
 
   <%%= f.button :submit %>
