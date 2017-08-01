@@ -17,6 +17,7 @@ set :markdown, parse_block_html: true
 activate :syntax, :line_numbers => true
 activate :emojifire
 activate :search_engine_sitemap
+activate :autoprefixer
 
 #Setup Config vars
 
@@ -140,7 +141,7 @@ end
  activate :deploy do |deploy|
    deploy.user = 'JarLowrey'
    deploy.deploy_method = :git
-   deploy.remote   = 'https://github.com/JarLowrey/JarLowrey.github.io.git' #I recommend a URL over a 'remote' name, as those have broken on me
+   deploy.remote   = 'https://gitlab.com/JarLowrey/JarLowrey.gitlab.io.git' #I recommend a URL over a 'remote' name, as those have broken on me
    deploy.branch = 'master'
    deploy.build_before = true
  end

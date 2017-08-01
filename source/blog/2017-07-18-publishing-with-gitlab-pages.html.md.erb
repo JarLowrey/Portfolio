@@ -1,0 +1,30 @@
+---
+title:  "Publishing Static Sites with Gitlab Pages and HTTPS"
+header: { img_url: "/images/icons/tech/gitlab.svg" }
+blurb: ""
+author: James Lowrey
+tags: rails,web
+ogp_img: "/images/icons/tech/gitlab.svg"
+published: false
+---
+
+I've previously described how to [publish on GitHub](github-pages-custom-domain.html), but with GitLab's support of HTTPS and greater bandwidth ([GitHub](https://help.github.com/articles/what-is-github-pages/#usage-limits) vs [GitLab](http://disq.us/p/1gv55te)), I decided to make the switch.
+HTTPS is especially important, your [SEO will suffer](https://webmasters.googleblog.com/2014/08/https-as-ranking-signal.html) without it.
+
+Both platforms allow you to publish static content (such as a blog or landing page) for free.
+
+<%= partial "partials/article_links.erb", locals: {
+    resources: "
+- [GitLab Pages Overview](https://about.gitlab.com/features/pages/)
+- [GitLab Pages Docs](https://docs.gitlab.com/ee/user/project/pages)
+- [DNS record types](https://www.namecheap.com/support/knowledgebase/article.aspx/579/2237/which-record-type-option-should-i-choose-for-the-information-im-about-to-enter)
+"
+  } %>
+
+##Domain name
+
+If you want to use a custom domain name (Gitlab gives you `username.gitlab.io` for free) then you need to purchase one from a domain name registrar (DNR).
+I use [Namecheap](https://affiliate.namecheap.com/?affId=119129/) for their pricing, customer support, design, and their [support of an open web](https://blog.namecheap.com/namecheap-supports-net-neutrality/).
+When we set up DNS records later, screen shots will be from Namecheap but the steps should be similar at any other DNR.
+
+##Publishing to GitLab

@@ -272,7 +272,9 @@ end
 ~~~
 
 OR you can leave the validation check on and manually assign addressable in event#create (`app/controllers/events_controller.rb`).
-I went with this option.
+I originally went with this second option, but found it caused issues when seeding my database.
+Event cannot exist without an address, but address could not exist without an event (Addressable).
+Thus I ended up switching to the first option.
 
 ~~~ruby
 def create
