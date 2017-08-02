@@ -1,0 +1,272 @@
+---
+title:  "Namespacing in Rails 5"
+header: { img_url: "http://rubyonrails.org/images/rails-logo.svg" }
+blurb: ""
+author: James Lowrey
+tags: rails,web
+ogp_img: "http://rubyonrails.org/images/rails-logo.svg"
+published: false
+---
+
+If you've created a large Rails project, you may be encountering an organizational issue.
+Models, controllers, and other files live in the same folder, and can be difficult to tell apart.
+There may even exist multiple types of seemingly equivalent classes (e.g. an event participant vs a business participant) that require different logic and cannot live in the same namespace.
+Namespacing allows MVC files to be grouped into subfolders, greatly simplifying organizational complexity.
+
+<%= partial "partials/article_links.erb", locals: {
+    resources: "
+- [Rails Routing from the Outside In](http://guides.rubyonrails.org/routing.html)
+- [Organizing Large Rails Projects with Namespaces (blog))](https://blog.makandra.com/2014/12/organizing-large-rails-projects-with-namespaces/)
+- [Scope vs Namespace](https://devblast.com/b/rails-5-routes-scope-vs-namespace)
+",
+    software_versions: "
+- [Rails 5.1.2](http://rubyonrails.org/)
+"
+  } %>
+
+##What is Namespacing?
+
+Before we get into implementation details, we need to first differentiate some related routing concepts/keywords: namespacing, nesting, and scoping.
+
+|Route|Description|URI|Controller
+|---|
+|Namespace|Organize under a folder|/parent/child/*|parent/child#action
+|Nested|Logical children of resources|/parent/:parent_id/child/*|child#action
+|Scope|Customizable|/parent/child/*|child#action
+
+Scoped and Namespaced routes are very similar, `scope` allows [greater customization](https://devblast.com/b/rails-5-routes-scope-vs-namespace).
+The table shows default values, but scope can be customized to change URI pattern (`path`), controller (`module`), and path helper names (`as`).
+
+Nested routes are a bit different.
+A nested route can be a member, a collection, or another resource.
+Only a [collection](http://guides.rubyonrails.org/routing.html#adding-collection-routes) does not require a specific parent ID in the URI route.
+
+They are all closely related.
+Using these different routing keywords, you can create identical routes, helpers, and folder structure, they just provide different ways to get there.
+
+##Setup
+
+Assume we have Event and User resources, where Users can be Participants or Workers in these events.
+First off, we need to generate these resources: `rails g scaffold Event` and `rails g scaffold User`.
+The scaffold command will create model, migration, controller, and views for the resources.
+Next, create the namespaced participant controller: `rails g controller Events::Participants`.
+For convenience sake, it will be responsible for creating any event role and thus we will avoid creating a Worker controller.
+
+##Routing
+
+Let's define a custom, namespaced route in `config/routes.rb` to add or remove a participant from an event:
+
+~~~ruby
+Rails.application.routes.draw do
+  namespace :events do
+      put :add_or_rm_role, to: 'participants#add_or_rm_role'
+  end
+  resources :events
+  resources :users #Recommended to use Devise or another library instead of writing your own authentication system
+end
+~~~
+
+Running `rake routes` will show:
+
+~~~bash
+               Prefix Verb   URI Pattern                      Controller#Action
+events_add_or_rm_role PUT    /events/add_or_rm_role(.:format) events/participants#add_or_rm_role
+           edit_event GET    /events/:id/edit(.:format)       events#edit  #<<<< event resource route
+               #other event/user resource routes...
+~~~
+
+Notice the order of the routes.
+If event has a string ID, and the custom route 'add_or_rm_role' occurs after `resources :events`, `add_or_rm_role` will be interpreted as an event ID.
+
+
+##Migration
+
+Let's setup the back-end migrations.
+
+~~~ruby
+create_table :events do |t|
+  t.string  :name, null: false
+end
+create_table :users do |t|
+  t.string  :name, null: false
+end
+
+create_table :event_workers do |t|
+  t.belongs_to :user
+  t.belongs_to :event
+
+  t.string :job #add some custom attributes to this join table for fun
+end
+
+create_table :event_participants do |t|
+  t.belongs_to :user
+  t.belongs_to :event
+
+  t.boolean :user_showed_up, default: false
+end
+~~~
+
+##Model
+
+We want to specify the associations between these models.
+Since join tables have custom attributes, and there are multiple user-event associations, we will use has_many instead of has_many_through.
+
+~~~ruby
+class Event < ApplicationRecord #filename: event.rb
+  has_many :workers, dependent: :destroy
+  has_many :participants, dependent: :destroy
+end
+~~~
+
+~~~ruby
+class User < ApplicationRecord #filename: user.rb
+  has_many :workers, dependent: :destroy
+  has_many :participants, dependent: :destroy
+end
+~~~
+
+The following models are event namespaced, and thus should go into the `/models/event/*` folder.
+
+~~~ruby
+class Event::Worker < ApplicationRecord #filename: event/worker.rb
+  belongs_to :event
+  belongs_to :user
+end
+~~~
+
+~~~ruby
+class Event::Participant < ApplicationRecord #filename: event/participant.rb
+  belongs_to :event
+  belongs_to :user
+end
+~~~
+
+Notice the `Event::MODEL_NAME`?
+That indicates to rails that this model is namespaced, and is similar to what must be done in the controllers.
+
+##Controller
+
+Of course `events_controller.rb` and `user_controller.rb` will be created, but the participant controller is much more interesting.
+Create a new file, `/app/controllers/events/participants_controller.rb`.
+This controller will implement our custom route.
+
+The logic is a bit application-specific here.
+The important thing to note is that we are creating our own strong parameters, and that the route points to the correct action for this namespaced route.
+
+~~~ruby
+class Events::ParticipantsController < ApplicationController
+  def add_or_rm_role
+    #choose which model we want to add
+    model = nil
+    event = Event.find(event_participants_params[:event_id])
+    case event_participants_params[:role]
+      when "worker"
+        model = Event::Worker
+      when "participant"
+        model = Event::Participant
+    end
+
+    #add/remove the DB tuple
+    mod_role(model, event_participants_params[:is_add], event.id, current_user.id) #current_user must be defined via authentication application
+
+    #redirect user and refresh the page
+    redirect_to event, notice: 'Changes have been saved!'
+  end
+
+  private
+    # Never trust parameters from the scary internet, only allow the white list through.
+    def event_participants_params
+      params.permit(:role, :is_add, :event_id, :user_id)
+    end
+
+    def mod_role(model, is_add, evt_id, usr_id)
+      if ActiveModel::Type::Boolean.new.cast(is_add)
+        model.create(event_id: evt_id, user_id: usr_id)
+      else
+        model.find_by(event_id: evt_id, user_id: usr_id).destroy
+      end
+    end
+end
+~~~
+
+##Views
+
+We need a way for the user to call our new action.
+This is pretty simple using [link_to](http://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-link_to).
+Let's insert this link in our `views/events/show.html.erb` file.
+
+~~~erb
+<%%
+current_user_is_participating = @event.particpants.find_by(user_id: current_user.id) != nil
+if current_user_is_participating %%>
+  <%%= link_to "Remove myself from event",
+    events_add_or_rm_role_path(role: Event::Participant.event_role_types[:participant], is_add: false, event_id: @event.id),
+    method: :put %%>
+<%% else %%>
+  <%%= link_to "Sign Up For Event",
+    events_add_or_rm_role_path(role: Event::Participant.event_role_types[:participant], is_add: true, event_id: @event.id),
+    method: :put %%>
+<%% end %%>
+~~~
+
+`events_add_or_rm_role_path` is the helper from our Routing section.
+The custom params defined in the controller are arguments to this helper function.
+`@event` will be defined in the events#show action, and `user_signed_in` & `current_user` need to be defined in your authentication schema.
+If you want link_to to use an ajax command, remove the `redirect_to` in the controller action and add `remote: true` to the link_to's.
+
+We also need to display all of our participating users on the event#show page
+
+~~~erb
+<p>Participants:</p>
+<%% for participant in @event.participants %%>
+  <%%= participant.user.attributes %%>
+<%% end %%>
+~~~
+
+##Caveats
+
+Sometimes namespacing can cause issues.
+When setting this up, I kept running into the error: `NameError (uninitialized constant Participant)`.
+I tracked it down to the [CanCanCan](https://github.com/CanCanCommunity/cancancan) authorization gem's `load_and_authorize_resource` call.
+This call was not smart enough to see the model had been namespaced, and needed to know about it explicitly: `load_and_authorize_resource class: "Event::Participant"`, I imagine there are other gems/scenarios out there that act the same.
+
+##Alternatives
+
+There are other ways this specific scenario could have been setup.
+Scope is an alternative to the namespace routing, and is a bit cleaner:
+
+~~~ruby
+resources :events do
+  scope module: :events do
+    put :add_or_rm_role, to: 'participants#add_or_rm_role'
+  end
+end
+~~~
+
+Which `rake routes` would resolve to
+
+~~~
+              Prefix Verb   URI Pattern                                Controller#Action
+event_add_or_rm_role PUT    /events/:event_id/add_or_rm_role(.:format) events/participants#add_or_rm_role
+~~~
+
+Since this action is role agnostic, maybe a nested event route would be better.
+
+~~~ruby
+resources :events do 
+  member do
+    put :add_or_rm_role
+  end
+end
+~~~
+
+Notice that `rake routes` now points to the events controller instead of the namespaced participants controller.
+This prevents mucking around in namespaces, or even creating a new controller, but it can quickly cause the events controller to blow up.
+
+~~~
+              Prefix Verb   URI Pattern                          Controller#Action
+add_or_rm_role_event PUT    /events/:id/add_or_rm_role(.:format) events#add_or_rm_role
+~~~
+
+From there, you'd have to add the action to the events controller, modify the strong parameters, and change the path helper in the link_to functions.
+The last option is probably the easiest to read and understand, but then I wouldn't have been able to write about namespacing!
