@@ -1,5 +1,5 @@
 ---
-title:  "Publishing Static Sites with Gitlab Pages and HTTPS"
+title:  "Publishing Middleman with Gitlab Pages and HTTPS"
 header: { img_url: "/images/icons/tech/gitlab.svg" }
 blurb: ""
 author: James Lowrey
@@ -17,6 +17,8 @@ Both platforms allow you to publish static content (such as a blog or landing pa
     resources: "
 - [GitLab Pages Overview](https://about.gitlab.com/features/pages/)
 - [GitLab Pages Docs](https://docs.gitlab.com/ee/user/project/pages)
+- [Hosting on GitLab.com with GitLab Pages](https://about.gitlab.com/2016/04/07/gitlab-pages-setup)
+- [GitLab CI](https://docs.gitlab.com/ee/ci/README.html)
 - [DNS record types](https://www.namecheap.com/support/knowledgebase/article.aspx/579/2237/which-record-type-option-should-i-choose-for-the-information-im-about-to-enter)
 "
   } %>
@@ -27,4 +29,17 @@ If you want to use a custom domain name (Gitlab gives you `username.gitlab.io` f
 I use [Namecheap](https://affiliate.namecheap.com/?affId=119129/) for their pricing, customer support, design, and their [support of an open web](https://blog.namecheap.com/namecheap-supports-net-neutrality/).
 When we set up DNS records later, screen shots will be from Namecheap but the steps should be similar at any other DNR.
 
-##Publishing to GitLab
+##GitLab Continuous Integraction
+
+[GitLab CI](https://docs.gitlab.com/ee/ci/README.html), can automatically build your projects from static site generator source code.
+Running from a simple [YAML config file](https://docs.gitlab.com/ee/ci/yaml/README.html), it is a good way to [quick start](https://docs.gitlab.com/ee/ci/quick_start/README.html) your web site.
+
+Unfortunately when I tried it out I didn't like it much.
+Building a somewhat [big/complex blog](http://bonktothefinish.com/) takes much longer to process in GitLab's rate-limited cloud than it does on my local hardware.
+My local hardware also already has all of the site's external dependencies, and does not need to reinstall them for each build.
+Build errors & warnings are easier to see on a locally, and if something goes wrong they are easier & quicker to fix.
+
+So I'm not going to get into this, but I definitely respect what they're doing and can see how it would be very useful to a lot of people.
+Instead I directly upload the build/dist directly to the GitLab repo.
+
+##Publishing
