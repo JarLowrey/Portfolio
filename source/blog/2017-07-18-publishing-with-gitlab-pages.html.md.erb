@@ -180,16 +180,18 @@ Do not hit enter quite yet!
 We have to follow the given instructions to prove we own the site and get a TLS token.
 
 In middleman create a new html file and paste in the following text (substituting for your LE values).
-The permalink value allows you to name the file anything (no extension though) and place it in any folder, and a null layout prevents extra HTML from muddying up the request.
 
 ~~~erb
 ---
 layout: null
-permalink: /.well-known/acme-challenge/R4ea__G8oZanxQmNLam2y0P-9vp_ePfsSU-aWrx-XCo.html
 ---
 
 R4ea__G8oZanxQmNLam2y0P-9vp_ePfsSU-aWrx-XCo.-UX7ITS5Pu9aUD_jHc5KT2Ous_IWiVttF_JdoXBQ-WE
 ~~~
+
+The null layout prevents extra HTML from muddying up the requested file.
+If running [Jekyll](https://jekyllrb.com/) you can add a permalink argument next to the layout argument specifying what the final path should be.
+Unfortunately I couldn't get that working on Middleman, so I created a ".well-known" folder at build's root, an "acme-challenge" folder inside of it, and a "key" file (no extension) inside of that.
 
 Push your changes to the GitLab repo and wait for build to finish.
 Ensure the page loads when you navigate to the permalink.
