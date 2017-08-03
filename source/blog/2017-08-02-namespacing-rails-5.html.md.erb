@@ -5,7 +5,6 @@ blurb: ""
 author: James Lowrey
 tags: rails,web
 ogp_img: "http://rubyonrails.org/images/rails-logo.svg"
-published: false
 ---
 
 If you've created a large Rails project, you may be encountering an organizational issue.
@@ -33,6 +32,7 @@ Before we get into implementation details, we need to first differentiate some r
 |Namespace|Organize under a folder|/parent/child/*|parent/child#action
 |Nested|Logical children of resources|/parent/:parent_id/child/*|child#action
 |Scope|Customizable|/parent/child/*|child#action
+{:.table}
 
 Scoped and Namespaced routes are very similar, `scope` allows [greater customization](https://devblast.com/b/rails-5-routes-scope-vs-namespace).
 The table shows default values, but scope can be customized to change URI pattern (`path`), controller (`module`), and path helper names (`as`).
@@ -253,7 +253,7 @@ event_add_or_rm_role PUT    /events/:event_id/add_or_rm_role(.:format) events/pa
 Since this action is role agnostic, maybe a nested event route would be better.
 
 ~~~ruby
-resources :events do 
+resources :events do
   member do
     put :add_or_rm_role
   end

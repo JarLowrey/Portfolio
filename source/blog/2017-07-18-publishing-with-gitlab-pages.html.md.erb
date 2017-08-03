@@ -15,10 +15,11 @@ Both platforms allow you to publish static content (such as a blog or landing pa
 
 <%= partial "partials/article_links.erb", locals: {
     resources: "
-- [GitLab Pages Overview](https://about.gitlab.com/features/pages/)
-- [GitLab Pages Docs](https://docs.gitlab.com/ee/user/project/pages)
 - [Hosting on GitLab.com with GitLab Pages](https://about.gitlab.com/2016/04/07/gitlab-pages-setup)
 - [GitLab CI](https://docs.gitlab.com/ee/ci/README.html)
+- [GitLab Pages Overview](https://about.gitlab.com/features/pages/)
+- [GitLab Pages Docs](https://docs.gitlab.com/ee/user/project/pages)
+- [Securing your GitLab Pages with TLS and Let's Encrypt](https://about.gitlab.com/2016/04/11/tutorial-securing-your-gitlab-pages-with-tls-and-letsencrypt/)
 - [DNS record types](https://www.namecheap.com/support/knowledgebase/article.aspx/579/2237/which-record-type-option-should-i-choose-for-the-information-im-about-to-enter)
 "
   } %>
@@ -29,10 +30,20 @@ If you want to use a custom domain name (Gitlab gives you `username.gitlab.io` f
 I use [Namecheap](https://affiliate.namecheap.com/?affId=119129/) for their pricing, customer support, design, and their [support of an open web](https://blog.namecheap.com/namecheap-supports-net-neutrality/).
 When we set up DNS records later, screen shots will be from Namecheap but the steps should be similar at any other DNR.
 
-##GitLab Continuous Integraction
+##GitLab Project
+
+There are two types of sites GitLab can publish, [project sites and a user/group site](https://docs.gitlab.com/ee/user/project/pages/getting_started_part_one.html#practical-examples).
+Project sites appear at `https://user.gitlab.i/project/` and your user site at `https://user.gitlab.io` by default.
+Your account may only have 1 user/group site.
+
+The user site's repository must be named `username.gitlab.io`.
+Username must be all lowercase, my username is [JarLowrey](https://gitlab.com/JarLowrey) and using the original capitalization resulted in a 404.
+
+##GitLab Continuous Integration
 
 [GitLab CI](https://docs.gitlab.com/ee/ci/README.html), can automatically build your projects from static site generator source code.
 Running from a simple [YAML config file](https://docs.gitlab.com/ee/ci/yaml/README.html), it is a good way to [quick start](https://docs.gitlab.com/ee/ci/quick_start/README.html) your web site.
+You can see the progress of different jobs in the "Pipelines" section of your GitLab Project.
 
 Unfortunately when I tried it out I didn't like it much.
 Building a somewhat [big/complex blog](http://bonktothefinish.com/) takes much longer to process in GitLab's rate-limited cloud than it does on my local hardware.
@@ -41,6 +52,74 @@ Build errors & warnings are easier to see on a locally, and if something goes wr
 
 So I'm not going to get into this, but I definitely respect what they're doing and can see how it would be very useful to a lot of people.
 Instead I directly upload the build/dist directly to the GitLab repo.
-You still need to create the file at the root of the build directory, it is a [requirement](https://docs.gitlab.com/ee/user/project/pages/introduction.html#gitlab-pages-requirements), and it should look like this.
+You still need to create the `.gitlab-ci.yml` file at the root of the build directory, it is a [requirement](https://docs.gitlab.com/ee/user/project/pages/introduction.html#gitlab-pages-requirements), and it should look like this.
+
+~~~yml
+pages:
+  stage: deploy
+  script:
+  - mkdir .public
+  - cp -r * .public
+  - mv .public public
+  artifacts:
+    paths:
+    - public
+  only:
+  - master
+~~~
+
+A fancy way of saying "[Work damn it!](https://about.gitlab.com/2016/04/07/gitlab-pages-setup/#option-a-gitlab-ci-for-plain-html-websites)"
+
+If you want to have GitLab build your middleman site for you, try this configuration:
+
+~~~yml
+image: ruby:2.4
+
+cache:
+  paths:
+  - vendor
+
+test:
+  script:
+  - apt-get update -yqqq
+  - apt-get install -y nodejs
+  - bundle install --path vendor
+  - bundle exec middleman build
+  except:
+    - master
+
+pages:
+  script:
+  - apt-get update -yqqq
+  - apt-get install -y nodejs
+  - bundle install --path vendor
+  - bundle exec middleman build
+  artifacts:
+    paths:
+    - public
+  only:
+  - master
+~~~
 
 ##Publishing
+
+In your project click the "Settings" Tab and a sub-menu of tabs will appear below.
+In the sub menu select "Pages".
+Fill out your domain name and click "Create New Domain".
+
+<%= partial "partials/image.erb", locals: {
+    src: "new_pages_domain.png",
+    alt: "new gitlab pages domain page" } %>
+
+Next, go to your Namecheap (or other DNR) console and head to the "Advanced DNS Settings" for your domain.
+Add an A record to your DNS records and point it to [GitLab's servers](https://about.gitlab.com/2016/04/07/gitlab-pages-setup/#custom-domains): `52.167.214.135`.
+
+
+<%= partial "partials/image.erb", locals: {
+    src: "dns_records.png",
+    alt: "DNS records for site",
+    caption: "DNS records for site. Consider adding a 'www' subdomain via a CNAME records, and verifying your site on <a href=\"https://www.google.com/webmasters/#?modal_active=none\">Google Webmasters</a> with a TXT record" } %>
+
+#HTTPS
+
+Now let's [secure the site](https://about.gitlab.com/2016/04/11/tutorial-securing-your-gitlab-pages-with-tls-and-letsencrypt/), and earn ourselves a significant SEO boost.
