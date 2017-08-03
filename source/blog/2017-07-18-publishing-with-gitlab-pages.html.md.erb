@@ -19,7 +19,7 @@ Both platforms allow you to publish static content (such as a blog or landing pa
 - [GitLab CI](https://docs.gitlab.com/ee/ci/README.html)
 - [GitLab Pages Overview](https://about.gitlab.com/features/pages/)
 - [GitLab Pages Docs](https://docs.gitlab.com/ee/user/project/pages)
-- [Securing your GitLab Pages with TLS and Let's Encrypt](https://about.gitlab.com/2016/04/11/tutorial-securing-your-gitlab-pages-with-tls-and-letsencrypt/)
+- [Securing your GitLab Pages with TLS and Let's Encrypt](https://about.gitlab.com/2016/04/11/tutorial-securing-your-gitlab-pages-with-tls-and-letsencrypt/#configuring-the-tls-certificate-of-your-custom-domain)
 - [DNS record types](https://www.namecheap.com/support/knowledgebase/article.aspx/579/2237/which-record-type-option-should-i-choose-for-the-information-im-about-to-enter)
 "
   } %>
@@ -30,7 +30,7 @@ If you want to use a custom domain name (Gitlab gives you `username.gitlab.io` f
 I use [Namecheap](https://affiliate.namecheap.com/?affId=119129/) for their pricing, customer support, design, and their [support of an open web](https://blog.namecheap.com/namecheap-supports-net-neutrality/).
 When we set up DNS records later, screen shots will be from Namecheap but the steps should be similar at any other DNR.
 
-##GitLab Project
+##GitLab Project & DNS
 
 There are two types of sites GitLab can publish, [project sites and a user/group site](https://docs.gitlab.com/ee/user/project/pages/getting_started_part_one.html#practical-examples).
 Project sites appear at `https://user.gitlab.i/project/` and your user site at `https://user.gitlab.io` by default.
@@ -38,6 +38,17 @@ Your account may only have 1 user/group site.
 
 The user site's repository must be named `username.gitlab.io`.
 Username must be all lowercase, my username is [JarLowrey](https://gitlab.com/JarLowrey) and using the original capitalization resulted in a 404.
+
+At the root of your output/build directory, create a file named "CNAME" (no extension) and write "yoursite.whatever" inside it.
+
+Navigate to Namecheap (or other DNR) to modify the DNS settings
+Add an A record to your DNS records and point it to [GitLab's servers](https://about.gitlab.com/2016/04/07/gitlab-pages-setup/#custom-domains): `52.167.214.135`.
+
+
+<%= partial "partials/image.erb", locals: {
+    src: "dns_records.png",
+    alt: "DNS records for site",
+    caption: "DNS records for site. Consider verifying your site on <a href=\"https://www.google.com/webmasters/#?modal_active=none\">Google Webmasters</a> with a TXT record" } %>
 
 ##GitLab Continuous Integration
 
@@ -111,15 +122,71 @@ Fill out your domain name and click "Create New Domain".
     src: "new_pages_domain.png",
     alt: "new gitlab pages domain page" } %>
 
-Next, go to your Namecheap (or other DNR) console and head to the "Advanced DNS Settings" for your domain.
-Add an A record to your DNS records and point it to [GitLab's servers](https://about.gitlab.com/2016/04/07/gitlab-pages-setup/#custom-domains): `52.167.214.135`.
-
-
-<%= partial "partials/image.erb", locals: {
-    src: "dns_records.png",
-    alt: "DNS records for site",
-    caption: "DNS records for site. Consider adding a 'www' subdomain via a CNAME records, and verifying your site on <a href=\"https://www.google.com/webmasters/#?modal_active=none\">Google Webmasters</a> with a TXT record" } %>
+Now everything should work!
+Navigate to "http://yoursite.whatever" to view it online, or "https://yoursite.whatever" to view a secure version of the site.
+We don't have a valid certificate yet on the secure, https, version of the site so visiting that page will show a giant, scary warning.
 
 #HTTPS
 
-Now let's [secure the site](https://about.gitlab.com/2016/04/11/tutorial-securing-your-gitlab-pages-with-tls-and-letsencrypt/), and earn ourselves a significant SEO boost.
+To get rid of the warning, properly [secure the site](https://about.gitlab.com/2016/04/11/tutorial-securing-your-gitlab-pages-with-tls-and-letsencrypt/#configuring-the-tls-certificate-of-your-custom-domain), and earn a significant SEO boost, we need to setup a free TLS record with Let's Encrypt (LE).
+
+These LE commands require opening a Linux terminal and having Git installed.
+
+~~~bash
+#download
+git clone https://github.com/letsencrypt/letsencrypt
+cd letsencrypt
+
+#get a certificate for your domain
+./letsencrypt-auto certonly -a manual -d YOURDOMAIN.org #CHANGE YOURDOMAIN
+~~~
+
+It will install some dependencies and ask if you are OK with your IP being logged when requesting a certificate.
+Enter Y for Yes.
+
+~~~bash
+$ ./letsencrypt-auto certonly -a manual -d jarlowrey.com
+
+Requesting root privileges to run certbot...
+  /home/james/.local/share/letsencrypt/bin/letsencrypt certonly -a manual -d jarlowrey.com
+Saving debug log to /var/log/letsencrypt/letsencrypt.log
+Obtaining a new certificate
+Performing the following challenges:
+http-01 challenge for jarlowrey.com
+
+-------------------------------------------------------------------------------
+NOTE: The IP of this machine will be publicly logged as having requested this
+certificate. If you're running certbot in manual mode on a machine that is not
+your server, please ensure you're okay with that.
+
+Are you OK with your IP being logged?
+-------------------------------------------------------------------------------
+(Y)es/(N)o: Y
+
+-------------------------------------------------------------------------------
+Create a file containing just this data:
+
+R4ea__G8oZanxQmNLam2y0P-9vp_ePfsSU-aWrx-XCo.-UX7ITS5Pu9aUD_jHc5KT2Ous_IWiVttF_JdoXBQ-WE
+
+And make it available on your web server at this URL:
+
+http://jarlowrey.com/.well-known/acme-challenge/R4ea__G8oZanxQmNLam2y0P-9vp_ePfsSU-aWrx-XCo
+
+-------------------------------------------------------------------------------
+Press Enter to Continue
+~~~
+
+Do not hit enter quite yet!
+We have to follow the given instructions to prove we own the site and get a TLS token.
+
+In middleman create a new html file and paste in the following text (substituting for your LE values).
+The permalink value allows you to name the file whatever you want and place it in any folder, and a null layout prevents extra HTML from muddying up the request.
+
+~~~erb
+---
+layout: null
+permalink: /.well-known/acme-challenge/R4ea__G8oZanxQmNLam2y0P-9vp_ePfsSU-aWrx-XCo.html
+---
+
+R4ea__G8oZanxQmNLam2y0P-9vp_ePfsSU-aWrx-XCo.-UX7ITS5Pu9aUD_jHc5KT2Ous_IWiVttF_JdoXBQ-WE
+~~~
