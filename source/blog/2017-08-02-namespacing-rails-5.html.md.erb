@@ -158,8 +158,8 @@ class Events::ParticipantsController < ApplicationController
   def add_or_rm_role
     #choose which model we want to add
     model = nil
-    event = Event.find(event_participants_params[:event_id])
-    case event_participants_params[:role]
+    event = Event.find(event_role_params[:event_id])
+    case event_role_params[:role]
       when "worker"
         model = Event::Worker
       when "participant"
@@ -167,7 +167,7 @@ class Events::ParticipantsController < ApplicationController
     end
 
     #add/remove the DB tuple
-    mod_role(model, event_participants_params[:is_add], event.id, current_user.id) #current_user must be defined via authentication application
+    mod_role(model, event_role_params[:is_add], event.id, current_user.id) #current_user must be defined via authentication application
 
     #redirect user and refresh the page
     redirect_to event, notice: 'Changes have been saved!'
@@ -175,7 +175,7 @@ class Events::ParticipantsController < ApplicationController
 
   private
     # Never trust parameters from the scary internet, only allow the white list through.
-    def event_participants_params
+    def event_role_params
       params.permit(:role, :is_add, :event_id, :user_id)
     end
 
