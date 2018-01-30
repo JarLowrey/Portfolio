@@ -1,3 +1,10 @@
+#Set to TRUE if you want the links to be checked
+check_links_after_build=false
+
+
+
+
+
 ###
 # Page options, layouts, aliases and proxies
 ###
@@ -160,9 +167,11 @@ configure :build do
 end
 
 after_build do |builder|
-  begin
-    HTMLProofer.check_directory(config[:build_dir], { :assume_extension => true, http_status_ignore: [0, 999]  }).run
-  rescue RuntimeError => e
-    puts e
+  if check_links_after_build
+    begin
+      HTMLProofer.check_directory(config[:build_dir], { :assume_extension => true, http_status_ignore: [0, 999]  }).run
+    rescue RuntimeError => e
+      puts e
+    end
   end
 end
