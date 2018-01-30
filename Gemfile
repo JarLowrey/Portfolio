@@ -19,7 +19,7 @@ gem 'middleman-emojifire'
 gem 'middleman-search_engine_sitemap'
 gem 'middleman-autoprefixer' # Improve CSS compatibility - https://github.com/middleman/middleman-autoprefixer
 
-gem 'nokogiri' #for summaries
+gem 'nokogiri', '~> 1.8.2' #for summaries
 gem 'redcarpet', '~> 3.3', '>= 3.3.3'#for markdown
 gem "builder", "~> 3.0"# For feed.xml.builder
 
