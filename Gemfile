@@ -14,7 +14,6 @@ gem 'middleman-livereload'
 gem 'middleman-compass', '>= 4.0.0'
 gem 'middleman-syntax'
 gem 'middleman-blog'
-gem 'middleman-deploy', '~> 2.0.0.pre.alpha'
 gem 'middleman-emojifire'
 gem 'middleman-search_engine_sitemap'
 gem 'middleman-autoprefixer' # Improve CSS compatibility - https://github.com/middleman/middleman-autoprefixer

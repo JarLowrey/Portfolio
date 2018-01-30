@@ -144,15 +144,6 @@ end
    blog.page_link = "#{blog.prefix}/page/{num}"
  end
 
- # Documentation - https://github.com/middleman-contrib/middleman-deploy
- activate :deploy do |deploy|
-   deploy.user = 'JarLowrey'
-   deploy.deploy_method = :git
-   deploy.remote   = 'https://gitlab.com/JarLowrey/JarLowrey.gitlab.io.git' #I recommend a URL over a 'remote' name, as those have broken on me
-   deploy.branch = 'master'
-   deploy.build_before = true
- end
-
 # Build-specific configuration
 configure :build do
   # Minify CSS and JS on build
