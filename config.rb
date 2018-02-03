@@ -1,3 +1,10 @@
+#Set to TRUE if you want the links to be checked
+check_links_after_build=false
+
+
+
+
+
 ###
 # Page options, layouts, aliases and proxies
 ###
@@ -137,15 +144,6 @@ end
    blog.page_link = "#{blog.prefix}/page/{num}"
  end
 
- # Documentation - https://github.com/middleman-contrib/middleman-deploy
- activate :deploy do |deploy|
-   deploy.user = 'JarLowrey'
-   deploy.deploy_method = :git
-   deploy.remote   = 'https://gitlab.com/JarLowrey/JarLowrey.gitlab.io.git' #I recommend a URL over a 'remote' name, as those have broken on me
-   deploy.branch = 'master'
-   deploy.build_before = true
- end
-
 # Build-specific configuration
 configure :build do
   # Minify CSS and JS on build
@@ -160,9 +158,11 @@ configure :build do
 end
 
 after_build do |builder|
-  begin
-    HTMLProofer.check_directory(config[:build_dir], { :assume_extension => true, http_status_ignore: [0, 999]  }).run
-  rescue RuntimeError => e
-    puts e
+  if check_links_after_build
+    begin
+      HTMLProofer.check_directory(config[:build_dir], { :assume_extension => true, http_status_ignore: [0, 999]  }).run
+    rescue RuntimeError => e
+      puts e
+    end
   end
 end
