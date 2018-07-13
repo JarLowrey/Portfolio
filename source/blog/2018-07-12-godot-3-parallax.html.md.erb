@@ -87,19 +87,24 @@ Then click "Reimport".
 Now all you need to do is set the `motion_mirroring` property on the ParallaxLayer to your image's size.
 Here's a line of code to do it for you if you like:
 
-```
+~~~python
 $ParallaxBackground/ParallaxLayer.motion_mirroring = $ParallaxBackground/ParallaxLayer/Sprite.texture.get_size().rotated(sprite.global_rotation)
-```
+~~~
 
 In the `_process` function, scroll the ParallaxBackground.
 You can also modify it by the player's velocity.
 Supposedly, if you have a Camera2D node it will auto-scroll the background.
 
-```
+~~~python
 var scroll = Vector2(0,3) #Some default scrolling so there's always movement.
 if player != null:
     scroll += player.velocity / 200
 $ParallaxBackground.scroll_offset += scroll
-```
+~~~
+
+Now, you can create a few more layers on top of this made up of [stars](https://opengameart.org/content/stars-parallax-backgrounds).
+Change the `motion_scale` of each layer to modify the speed that they parallax at.
 
 And that's it! 
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/HiInhM-8-2s?loop=1&playlist=HiInhM-8-2s" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
