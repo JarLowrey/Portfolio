@@ -27,7 +27,7 @@ activate :search_engine_sitemap
 activate :autoprefixer
 
 #Setup Config vars
-proxy "/.well-known/acme-challenge/C3R39R5ZjgJlob4GLfFRnujTgwZhqQZtZO06O3nOtmo.html", "/certs/tls.html", ignore: true
+# proxy "/.well-known/acme-challenge/C3R39R5ZjgJlob4GLfFRnujTgwZhqQZtZO06O3nOtmo.html", "/certs/tls.html", ignore: true
 
 # With alternative layout
 # page "/path/to/file.html", layout: :otherlayout

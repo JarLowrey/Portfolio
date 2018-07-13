@@ -1,0 +1,106 @@
+---
+title:  "Background Parallax Scrolling in Godot 3.0"
+header: { img_url: "https://godotengine.org/themes/godotengine/assets/logo.svg" }
+blurb: ""
+author: James Lowrey
+tags: godot,gamedev
+ogp_img: "https://godotengine.org/themes/godotengine/assets/logo.svg"
+published: false
+---
+
+2D parallax effects are a staple in video games. 
+Here we discuss how to create a parallax effect in Godot, a FOSS game engine.
+We also create a parallax background using GIMP, a FOSS image editer.
+
+<%= partial "partials/article_links.erb", locals: {
+    resources: "
+- [Godot 101 - Part 12: Camera and Scrolling Background](http://kidscancode.org/blog/2017/04/godot_101_12/)
+- [ParallaxLayer](https://godot.readthedocs.io/uk/latest/classes/class_parallaxlayer.html)
+- [ParallaxBackground](https://godot.readthedocs.io/uk/latest/classes/class_parallaxbackground.html)
+- [Godot QA](https://godotengine.org/qa/)
+- [Godot Discord Server](https://discordapp.com/invite/zH7NUgz)
+",
+    software_versions: "
+- [Godot 3.0.5](https://godotengine.org)
+- [Gimp 2.8.22](https://www.gimp.org/)
+"
+  } %>
+
+## Creating an image
+
+We're going to start off with a free image from [open game art](https://opengameart.org/content/spacebackgrounds-0) that looks cool, but does not work well for a parallax background.
+Download the image and open it up in GIMP.
+In the top toolbar, go to `Layer > Transform > Offset`.
+Click the 'chain' icon (if it's present) to make it a broken chain, and then set x offset to 600.
+
+
+<%= 
+partial "partials/image.erb", locals: {
+    src: "edged_image.png",
+    alt: "Image that tiles poorly",
+    caption: "Image that tiles poorly, offset in GIMP" } 
+    %>
+
+Do whatever you got to do to smooth it out.
+I'm not an artist, but I used a combination of copy+pasting nearby regions and the smudge tool to get the following image:
+
+<%= 
+partial "partials/image.erb", locals: {
+    src: "smoothed_image.png",
+    alt: "Image that tiles a little better",
+    caption: "Image that tiles a litle better" } 
+    %>
+
+Now do the same thing, except for with a y offset. 
+Thankfully this image already tiles well in a Y direction, so it's not needed.
+When you're done, run the same offsets in the opposite direction (negative values) to get your original image back.
+
+<%= 
+partial "partials/image.erb", locals: {
+    src: "milky_way_01.png",
+    alt: "Milky Way Image",
+    caption: "The original image, but tileable" } 
+    %>
+
+
+## Parallax Scrolling in Godot
+
+Create a new scene tree with a `ParallaxBackground > ParallaxLayer > Sprite` hierarchy.
+Set the texture of the Sprite to your image.
+
+### Setup texture import settings
+
+Click on the Texture and click on the "Import" tab in the top right.
+
+<%= 
+partial "partials/image.erb", locals: {
+    src: "reimport.png",
+    alt: "Import settings for the texture",
+    caption: "Import settings for the texture" } 
+    %>
+
+
+Set the "Repeat" flag to `Enabled` or `Mirrored`.
+Then click "Reimport".
+
+### Setup parallax
+
+Now all you need to do is set the `motion_mirroring` property on the ParallaxLayer to your image's size.
+Here's a line of code to do it for you if you like:
+
+```
+$ParallaxBackground/ParallaxLayer.motion_mirroring = $ParallaxBackground/ParallaxLayer/Sprite.texture.get_size().rotated(sprite.global_rotation)
+```
+
+In the `_process` function, scroll the ParallaxBackground.
+You can also modify it by the player's velocity.
+Supposedly, if you have a Camera2D node it will auto-scroll the background.
+
+```
+var scroll = Vector2(0,3) #Some default scrolling so there's always movement.
+if player != null:
+    scroll += player.velocity / 200
+$ParallaxBackground.scroll_offset += scroll
+```
+
+And that's it! 
