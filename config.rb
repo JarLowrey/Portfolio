@@ -17,7 +17,7 @@ page '/*.xml', layout: false
 page '/*.json', layout: false
 page '/*.txt', layout: false
 
-config[:host] = "http://jarlowrey.com"
+config[:host] = "https://jarlowrey.com"
 set :url_root, config[:host]
 set :markdown_engine, :kramdown
 set :markdown, parse_block_html: true
