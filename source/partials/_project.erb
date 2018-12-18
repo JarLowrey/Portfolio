@@ -1,0 +1,22 @@
+<%
+classes||=""
+%>
+
+<section class="post_summary <%= classes %>">
+
+  <article>
+    <h2><%= project["title"] %> </h2>
+    <p><%= project["year"] %></p>
+    
+    <div class="icons">
+      <% if project.url then %> <%= img_link("icons/social/open-in-browser.svg", "Website", project.url,"","") %> <% end %>
+      <% if project.tutorial_url then %> <%= img_link("icons/social/school-24px.svg", "Tutorial", project.tutorial_url,"","") %> <% end %>
+      <% if project.google_play_url then %> <%= img_link("icons/social/Google_Play_symbol.svg", "Google Play", project.google_play_url,"","") %> <% end %>
+      <% if project.github_url then %> <%= img_link("icons/social/github-icon.svg", "Github Repo", project.github_url,"","") %> <% end %>
+      <% if project.gitlab_url then %> <%= img_link("icons/social/gitlab.svg", "Gitlab Repo", project.gitlab_url,"","") %> <% end %>
+      <% if project.godot then %> <%= img_link("icons/social/godot.svg", "Godot", project.godot,"","") %> <% end %>
+    </div>
+
+    <%= project["summary"] %>
+  </article>
+</section>

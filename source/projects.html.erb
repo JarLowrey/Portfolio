@@ -1,0 +1,19 @@
+<%
+# sort by year
+projects = data.projects.clone
+projects = projects.sort_by { |obj| -obj.year }
+%>
+
+
+<div class="wrap">
+
+    <% projects.each_with_index do |project, i| %>
+        <%= partial "partials/project.erb", locals: {
+            project: project } %>
+    
+        <% if i!=(projects.length-1) then %>
+            <%=  "<hr  />" %>
+        <% end %>
+    <% end %>
+
+</div>

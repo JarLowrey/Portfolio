@@ -1,10 +1,10 @@
-#JTronLabs.github.io
+# Jarlowrey.com
 
 Middleman project running my static GitHub portfolio website
 
 Deployed at Github repo - https://github.com/JTronLabs/JTronLabs.Github.io
 
-##Contributing
+## Contributing
 
 Just because I write something doesn't make it true.
 If an article is false, backed by poor research, doesn't make sense, has misspelled words, contains broken links, or has any other issue I'd happily accept PRs from enterprising individuals.

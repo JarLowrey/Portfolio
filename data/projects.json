@@ -1,5 +1,111 @@
-{
-    "blog": {
-        "repo_url": "https://github.com/JarLowrey/Portfolio"
-    }
-}
+[
+  {
+    "year": 2018,
+    "url": "https://wfpb.fit",
+    "github_url": "https://github.com/WFPB-fit/wfpb.fit",
+    "title": "WFPB.fit",
+    "summary": "Website that aggregates data, research, and other information about the Whole Food, Plant-Based (WFPB) diet. ES6, React, Redux, Victory.js front-end with data from FDA nutrition API (processed in Python). "
+  },
+  {
+    "year": 2018,
+    "url": "https://wfpb.fit",
+    "github_url": "https://github.com/WFPB-fit/wfpb.fit-backend",
+    "title": "WFPB.fit Backend",
+    "summary": "Payment processing backend for wfpb.fit. Made with Express.js, Stripe, and published on AWS Lambda via aws-serverless-express. This server processes submitted forms from the client site when someone makes a donation."
+  },
+  {
+    "year": 2018,
+    "url": " https://brave-interview-swapi-api.herokuapp.com/",
+    "github_url": "https://github.com/JarLowrey/BraveInterview",
+    "title": "SWAPI in Rails (Brave Interview)",
+    "summary": "Take-home project completed for an interview at Brave Browser. A Rails 5.2, Webpacker, and React website that fetches data from the SWAPI API and caches it in PostgreSQL. "
+  },
+  {
+    "year": 2017,
+    "unfinished": true,
+    "title": "JASIG 2",
+    "summary": "In-progress Godot 3.0 SHMUP 2D game with high numbers of onscreen entities and proc-gen enemy generation."
+  },
+  {
+    "year": 2017,
+    "godot":"https://godotengine.org/asset-library/asset/244",
+    "github_url":"https://github.com/JarLowrey/GodotLightning",
+    "title": "Godot Lightning",
+    "summary": "Lightning effect using procedurally generated 2D lines with randomized L-system generation."
+  },
+  {
+    "year": 2017,
+    "godot":"https://godotengine.org/asset-library/asset/67",
+    "github_url":"https://github.com/JarLowrey/GodotGuns",
+    "title": "Godot Guns",
+    "summary": "Scaffolding to bootstrap guns and bullets in Godot 3. "
+  },
+  {
+    "year": 2017,
+    "godot":"https://godotengine.org/asset-library/asset/225",
+    "github_url":"https://github.com/JarLowrey/TextureProgressOfSubunits",
+    "title": "Texture Progress of Subunits",
+    "summary": "UI element for Godot 3 that allows creation of Progress Bars made out of individual subunits. "
+  },
+  {
+    "year": 2017,
+    "github_url":"https://github.com/JarLowrey/Assembler2D",
+    "unfinished":true,
+    "title": "Assembler 2D",
+    "summary": "Godot 3.0 plugin for snapping 2D shapes together"
+  },
+  {
+    "year": 2017,
+    "tutorial_url":"https://jarlowrey.com/blog/phaser-birdu-1.html",
+    "google_play_url":"https://play.google.com/store/apps/details?id=com.jtronlabs.birdu",
+    "github_url":"https://github.com/JarLowrey/Birdu",
+    "title": "Birdu",
+    "summary": "Hybrid 2D, Phaser.io (JS) game published to Google Play with Cordova.js"
+  },
+  {
+    "year": 2016,
+    "github_url":"https://github.com/JarLowrey/rePAWster",
+    "title": "rePAWster",
+    "summary": "RePAWster is a Reddit bot utilizing PRAW that reposts top rated pictures of dogs from active dog subreddits"
+  },
+  {
+    "year": 2017,
+    "google_play_url":"https://play.google.com/store/apps/details?id=com.jtronlabs.space_shooter&hl=en_US",
+    "title": "JASIG",
+    "summary": "SHMUP 2D game with custom-built game engine in Native Android Java"
+  },
+  {
+    "year": 2015,
+    "google_play_url":"https://play.google.com/store/apps/details?id=com.jtronlabs.fun_groups&hl=en",
+    "github_url":"https://github.com/JarLowrey/FunGroups",
+    "title": "Fun Groups!",
+    "summary": "This project was my first stab at Android programming. The purpose was to create a studying tool for Organic Chemistry functional groups"
+  },
+  {
+    "year": 2015,
+    "github_url":"https://github.com/JarLowrey/UACT",
+    "title": "UACT",
+    "summary": "Volunteer project creating a website for local theatre group to display upcoming plays. Utilized Rails 4"
+  },
+  {
+    "year": 2014,
+    "google_play_url":"https://play.google.com/store/apps/details?id=com.jtronlabs.crash_boom_bop&hl=en_US",
+    "github_url":"https://github.com/JarLowrey/CrashBoomBop",
+    "title": "Crash Boom Bop",
+    "summary": "Native Android game using Accelerometer to sense motions and reward points proportional to user's reaction time."
+  },
+  {
+    "year": 2016,
+    "url": "https://jarlowrey.com",
+    "github_url": "https://github.com/JarLowrey/Portfolio",
+    "title": "Blog",
+    "summary": "This website, my personal blog. Developed with Middleman."
+  },
+  {
+    "year": 2017,
+    "url": "https://bonktothefinish.com",
+    "github_url": "https://github.com/nhuston/bonktothefinish",
+    "title": "BonkToTheFinish",
+    "summary": "Homepage of Nicole Huston, ultra-runner. This blog follows Nicole's journeys in her ultra-running career. Developed by James Lowrey, it's a static website made with Middleman"
+  }
+]
