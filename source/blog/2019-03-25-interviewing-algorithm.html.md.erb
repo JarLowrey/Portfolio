@@ -1,0 +1,80 @@
+---
+published: false
+title:  "My Algorithm for Technical Interviewing"
+blurb: ""
+author: James Lowrey
+tags: interviews
+---
+
+While acting as the practice interviewer at a recent Meetup, I noticed most people had problems getting started on a CompSci programming problem or even organizing their thoughts.
+This is something I've struggled with as well, and over time have built up a series of steps to follow while completing algorithmic programming questions.
+
+*Side note:* it was a great experience to get out and try this in person, as it's easy to become discouraged when practicing alone.
+Working with others also helps hone soft skills.
+
+Anyways...I've built this script, or algorithm, from reading and re-reading CTCI, purusing /r/cscareerquestions, completing online questions, and (primarily) failing a lot of job interviews.
+And it's more than an interviewing cheatsheet, but a great way to break down and solve any small engineering problem - the ability these companies are trying to test. 
+As I continue to fail (and thus practice+learn) I'll come back and add to the list.
+So take it with a grain of salt, and good luck interviewing!
+
+## The Jar Job Algorithm
+
+1. [Write Tests](#write-tests)
+2. [Write the function signature](#write-the-function-signature)
+3. [Write Pseudo Code](#write-pseudo-code)
+4. Remove blockages
+5. Test for correctness
+6. Iterate
+
+## Write Tests
+
+This is always #1.
+
+A test is a given input and an expected output.
+
+After being given a problem the first thing to do is ask clarifying questions to truly grok (understand) the problem.
+Your understanding will determine the algorithm you try to write, so it's crucial to be correct before going off on a tangent.
+Most interviewers will let you.
+
+However, we don't want generic questions, we need questions via tests.
+Tests can ask questions like: can we process floats, what happens if theres a loop, what are the steps for iterating down this tree, how many unique cases can we expect to encounter, and etc.
+While writing the tests we are also **developing intuition** on how to solve the problem.
+
+### How to Write Tests
+
+It's more complicated than it'd first appear.
+Testing first is a part of [test-driven-development](https://en.wikipedia.org/wiki/Test-driven_development) and there's a lot to read on the web about how to write good tests.
+
+Here's a quick and dirty run-down.
+
+1. Write tests to fail (counter-examples) to limit the domain of the problem. Determine which inputs are valid and understand what the problem is NOT asking for.
+2. Write edge cases - empty or missing parameter/string/data structure or a zero value.
+3. Write a few complex examples to ensure you see see the pattern in the problem description.
+4. Write a simple case to run your algorithm on.
+5. Write weird cases that the simple case doesn't cover. Common examples are negative numbers, odd/even numbers, loops in a graph, or finding the base-case in recursion.  
+
+Literally write each one on the board and refer back to them when brainstorming. 
+Tell your interviewer why each is important and special, and discuss expected outputs.
+
+### Where I've failed
+
+At a Big-N company I tried to walk through a directed cyclic graph, but did not understand what to do with loops. 
+I failed to see that there could be a loop, and afterwards was unsure how to determine if one had been encountered. 
+Writing better tests from the beginning would have drastically changed how I approached that problem.
+
+## Write the Function Signature
+
+Pretty simple. 
+Choose a meaningful name for the function you've been asked to write, and define what it's parameters will be.
+It's ok to add extra params later, but just get the basic/expected ones down first.
+
+### Where I've failed
+
+An interview for a job-searching company.
+It was early and I was extremely unsure of how to tackle the problem.
+I became too focused on trying to figure out what the heck to do that I stood at the board for at least 5 minutes spewing train-of-thought nonsense before writing anything.
+I forced myself to write the signature and was able to use that to reassure myself and use that as a jumping off point for tackling the rest of the problem.
+
+
+## Write Pseudo Code
+
