@@ -1,6 +1,6 @@
 ---
 published: false
-title:  "My Algorithm for Technical Interviewing"
+title:  "Algorithm for Technical Interviewing"
 blurb: ""
 author: James Lowrey
 tags: interviews
@@ -47,7 +47,7 @@ Testing first is a part of [test-driven-development](https://en.wikipedia.org/wi
 
 Here's a quick and dirty run-down.
 
-1. Write tests to fail (counter-examples) to limit the domain of the problem. Determine which inputs are valid and understand what the problem is NOT asking for.
+1. Write tests to fail (counter-examples) to limit the domain of the problem. Determine which inputs are valid and understand what the problem is NOT asking for. Jot down a quick note for each thing you learn.
 2. Write edge cases - empty or missing parameter/string/data structure or a zero value.
 3. Write a few complex examples to ensure you see see the pattern in the problem description.
 4. Write a simple case to run your algorithm on.
@@ -78,3 +78,21 @@ I forced myself to write the signature and was able to use that to reassure myse
 
 ## Write Pseudo Code
 
+Unfortunately there is no standardized definition for pseudo code.
+The goal here is to get a written outline of your algorithm without getting bogged down on solving every intricacy.
+Generally my pseudo code will have the following components
+
+0. Function signature: This should already be written down.
+1. Helper function signatures: These can be filled out later, but we want the interviewer to know what we're going to use.
+2. Initialization: define  your needed variables and assign them a starting value and type. Outline why you are using a specific data structure, and the importance of each variable in the upcoming code.
+3. 
+
+## Tips
+
+### Naming
+
+It is important to write [self-documenting code](https://en.wikipedia.org/wiki/Self-documenting_code). 
+Variable and function names shold be meangingful and describe their purpose.
+Do no overly rely on comments to explain what's going on.
+
+For example, `str="" // this will be my prefix builder` vs `prefix=""`.
