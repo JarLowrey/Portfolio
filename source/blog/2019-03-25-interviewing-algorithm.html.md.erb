@@ -1,6 +1,6 @@
 ---
 published: false
-title:  "Algorithm for Technical Interviewing"
+title:  "Algorithm for Algorithms"
 blurb: ""
 author: James Lowrey
 tags: interviews
@@ -9,11 +9,8 @@ tags: interviews
 While acting as the practice interviewer at a recent Meetup, I noticed most people had problems getting started on a CompSci programming problem or even organizing their thoughts.
 This is something I've struggled with as well, and over time have built up a series of steps to follow while completing algorithmic programming questions.
 
-*Side note:* it was a great experience to get out and try this in person, as it's easy to become discouraged when practicing alone.
-Working with others also helps hone soft skills.
-
-Anyways...I've built this script, or algorithm, from reading and re-reading CTCI, purusing /r/cscareerquestions, completing online questions, and (primarily) failing a lot of job interviews.
-And it's more than an interviewing cheatsheet, but a great way to break down and solve any small engineering problem - the ability these companies are trying to test. 
+I've built this script, or algorithm, from reading and re-reading CTCI, purusing /r/cscareerquestions, completing online questions, and (primarily) failing a lot of job interviews.
+And it's more than an interviewing cheatsheet, but a great way to break down and solve any small engineering problem (the ability these companies are trying to test). 
 As I continue to fail (and thus practice+learn) I'll come back and add to the list.
 So take it with a grain of salt, and good luck interviewing!
 
@@ -33,11 +30,11 @@ This is always #1.
 A test is a given input and an expected output.
 
 After being given a problem the first thing to do is ask clarifying questions to truly grok (understand) the problem.
-Your understanding will determine the algorithm you try to write, so it's crucial to be correct before going off on a tangent.
+Your understanding will determine the algorithm you try to write, so it's crucial get it right before wasting time on an incorrect solution.
 Most interviewers will let you.
 
-However, we don't want generic questions, we need questions via tests.
-Tests can ask questions like: can we process floats, what happens if theres a loop, what are the steps for iterating down this tree, how many unique cases can we expect to encounter, and etc.
+We don't want generic questions, we need questions via tests.
+Tests can ask questions like: can we process floats, what happens if theres a graph loop, what are the steps for iterating down this tree, how many unique cases can we expect to encounter, etc.
 While writing the tests we are also **developing intuition** on how to solve the problem.
 
 ### How to Write Tests
@@ -71,15 +68,25 @@ Establish the function's contract.
 ### Where I've failed
 
 An interview for a job-searching company.
-It was early and I was extremely unsure of how to tackle the problem.
+It was early, I was nervous, and I was very stumped.
 I became too focused on trying to figure out what the heck to do that I stood at the board for at least 5 minutes spewing train-of-thought nonsense before writing anything.
-I forced myself to write the signature and was able to use that to reassure myself and use that as a jumping off point for tackling the rest of the problem.
+I forced myself to write the signature and was able to use that to reassure myself and use it as a jumping off point for tackling the rest of the problem.
 
 ## Develop Intuition
 
 We have some inputs+outputs, so how do we get from A to B?
+A solid understand of CS fundamentals and a hefty amount of practice helps here.
+Exposing yourself to lots of different problems makes you realize they typically follow a few underlying patterns, and can dramatically help solve one at the board.
+See [below](#Problems) for some links.
 
+In addition, keep an eye out for strange words in the problem statement.
+Strange words are things that seem to unnecessarily complicate a problem statement, but actually allow the programming of a more efficient solution. 
+Such as knowing that you only need to compare list items to other items further in the list.
 
+Finally, walk through the problem and solve it manually.
+Take notes as you solve it.
+Try to see sub-problems within the problem that can be handled through a helper function or recursion.
+Sketching a diagram can help too.
 
 ## Write Pseudo Code
 
@@ -91,11 +98,11 @@ Generally my pseudo code will have the following components.
 0. Function signature: This should already be written down.
 1. Helper function signatures: These can be filled out later, but we want the interviewer to know what we're going to use.
 2. Shorthand/Outline: No code yet. Write down the program's steps/goals. Do not write code, but be specific in what is happening. Explain the data structures you're using and why. It might help to substitute branching diagrams for conditions, and simple words for loops (avoiding the index vars and other 'helper' variables). 
-3. Iterate: 
+3. Iterate
 
 ## Write Code
 
-Now that we have a great outline, it needs fleshed out.
+Now that we have a great outline, it needs completed.
 Move to the right or left of your outline to start writing the actual code, don't erase your outline.
 
 1. Initialization: Define all 'helper variables'. It's possible you used vars without defining them in your outline, make sure that everything is initialized. You also may have changed a variables name partway through, make sure they all match.
@@ -104,8 +111,81 @@ Move to the right or left of your outline to start writing the actual code, don'
 
 ## Remove Road Blocks
 
-These steps are designed to give yourself something to cling to while in a stressful interview setting. 
-However, you'll still get stuck.
+1. Try different data structures
+2. Try storing the data differently
+3. Look for subproblems, write a function signature to solve and and come back for it later
+
+### Where I've failed
+
+I have completed multiple interviews where I've tried to shove a sorting peg into a min-heap shaped hole.
+While I haven't encountered many instances in real development where I've used min-heaps, learning about them has made a large class of problems much easier.
+
+Also, at one interview I stored data in different hashes for each text article, and was confused why I was hitting performance bottlenecks. 
+It was only afterwards that I realized I should have used a global hash for that data, which would have greatly improved speed and code elegance.
+
+## Problems
+
+- [CTCI](http://www.crackingthecodinginterview.com/)
+- [EPI](https://www.amazon.com/Elements-Programming-Interviews-Python-Insiders/dp/1537713949/ref=pd_bxgy_14_3/144-6703358-4647317?_encoding=UTF8&pd_rd_i=1537713949&pd_rd_r=f54f9d9c-60c5-11e9-85f5-3fcf59b21c05&pd_rd_w=FS8iD&pd_rd_wg=kZb9z&pf_rd_p=a2006322-0bc0-4db9-a08e-d168c18ce6f0&pf_rd_r=TBYWVXPHWYJN1D4BXD3D&psc=1&refRID=TBYWVXPHWYJN1D4BXD3D)
+- [Leetcode](https://leetcode.com/problemset/all/)
+- [HackerRank Interview Prep Kit](https://www.hackerrank.com/interview/interview-preparation-kit)
+- ["Bang for your Buck" Leetcode Study Guide / Question List ](https://www.reddit.com/r/cscareerquestions/comments/b4t12i/bang_for_your_buck_leetcode_study_guide_question/)
+
+## Useful CS Topics and Gotcha's
+
+I've had some common tripping points in certain classes of problems and will try to keep track of my notes below:
+
+#### big O
+
+- n! worse than exponential
+- When you have a recursive function that makes multiple calls, the runtime will
+often (but not always) look like O( branches^depth),
+
+#### Strings
+
+- ASCII or unicode?
+- comparing position? Put string or characters into a hash with Index as value
+- alphabets/character sets have fixed size (ASCII=256)
+- Case sensitive
+- when overwriting characters in string, start from end
+- palindrome - even count of all chars (since must match at beginning and end) except 1 if string is odd length (e.g. "taco cat"). is_even or is_odd can be a boolean for each char count
+- comparing 2 strings? may need 2 counters (and a while loop) to keep track of position
+- Strings are usually immutable. If concatenating a lot, an array or StringBuilder may have faster runtime than String+=""
+- substring => x+y=string i.e. a+b = ab. Thus xyxy = abab
+
+#### Stack
+
+- can be good to keep track of running tally/sum/similarities ([1,2,3,5] -> [1-3,5]), calculator functions, and parenthesis matching
+
+#### Array
+
+- doing something to entire row/column? Don't need to copy the entire matrix
+
+#### Min/Max Heap (priority queue)
+
+- Useful when always need access to largest/smallest item, such as data stream, scheduler
+- Insert/remove = O(log(n))
+
+#### Linked List (LL)
+
+- use 2 pointers, one to look 'k' ahead (or is 'k' times faster) to see what's coming
+- shifting element in arrays is expensive, but cheap in LL
+- detect a loop: 2 pointers moving thru LL at diff speeds. Meet = found loop. Could also use a hash for O(n) space
+
+#### Sort
+
+- Only need 1 min/max? Do not need to write extra loop, can keep track of during calculation
+
+#### Search
+
+- BFS uses queue, DFS uses recursion
+- BFS better for finding shortest path (think of DFS for finding related facebook friends)
+- insert at end so don't have to shift all elements at front
+
+#### Tree
+
+- keep track of visited/unvisited to prevent cycles
+- Binary Search Tree (BST): left nodes are less, right nodes are greater
 
 ## Tips
 
@@ -116,3 +196,4 @@ Variable and function names shold be meangingful and describe their purpose.
 Do no overly rely on comments to explain what's going on.
 
 For example, `str="" // this will be my prefix builder` vs `prefix=""`.
+
