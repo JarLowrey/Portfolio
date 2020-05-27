@@ -34,11 +34,6 @@
             "img_url": "icons/social/Y_Combinator.svg",
             "img_alt": "Hacker News"
         },
-        "strava": {
-            "url": "https://www.strava.com/athletes/15104631",
-            "img_url": "icons/social/strava.svg",
-            "img_alt": "Strava"
-        },
         "gPlus": {
             "url": "https://plus.google.com/u/0/117075087218781657011/",
             "img_url": "icons/social/google-plus.svg",
