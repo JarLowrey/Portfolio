@@ -13,9 +13,23 @@ classes||=""
       <% if project.tutorial_url then %> <%= img_link("icons/social/school-24px.svg", "Tutorial", project.tutorial_url,"","") %> <% end %>
       <% if project.google_play_url then %> <%= img_link("icons/social/Google_Play_symbol.svg", "Google Play", project.google_play_url,"","") %> <% end %>
       <% if project.github_url then %> <%= img_link("icons/social/github-icon.svg", "Github Repo", project.github_url,"","") %> <% end %>
+      <% if project.steam_url then %> <%= img_link("icons/steam.svg", "Steam Store page", project.steam_url,"","") %> <% end %>
       <% if project.gitlab_url then %> <%= img_link("icons/social/gitlab.svg", "Gitlab Repo", project.gitlab_url,"","") %> <% end %>
       <% if project.godot then %> <%= img_link("icons/social/godot.svg", "Godot", project.godot,"","") %> <% end %>
     </div>
+
+
+    <% if project.youtube_id then %> 
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/<%= project.youtube_id %>" title="Project Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    <% end %>
+    
+    <% if project.img_url then %> 
+      <figure>
+        <a target="_blank" href="<%=project.img_url%>" >
+          <img src="<%=project.img_url%>" alt="<%= project.title %>">
+        </a>
+      </figure> 
+    <% end %>
 
     <%= project["summary"] %>
   </article>

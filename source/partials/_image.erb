@@ -8,6 +8,7 @@ src = prefix_img(src)
 
 <!-- Use Kramdown's 'nomarkdown' tag so that this figure is not wrapped in a 'p' tag in the blog pages that use this partial -->
 {::nomarkdown}
+
 <figure class="<%= classes %>">
   <!-- Show the image and link to the full resolution on click-->
   <a target="_blank" href="<%= src %>" >
@@ -19,4 +20,5 @@ src = prefix_img(src)
   <%= caption %>
   </figcaption>
 </figure>
+
 {:/}
