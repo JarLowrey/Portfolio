@@ -19,6 +19,23 @@
             "url": "https://www.reddit.com/user/jarlowrey/",
             "img_url": "icons/social/reddit.svg",
             "img_alt": "Reddit"
+        },
+        "facebook": {
+            "img_url": "icons/social/facebook.svg",
+            "img_alt": "Facebook"
+        },
+        "hacker_news": {
+            "img_url": "icons/social/Y_Combinator.svg",
+            "img_alt": "Hacker News"
+        },
+        "gPlay": {
+            "url": "https://play.google.com/store/apps/developer?id=JTronLabs",
+            "img_url": "icons/social/Google_Play_symbol.svg",
+            "img_alt": "Google Play"
+        },
+        "twitter": {
+            "img_url": "icons/social/twitter.svg",
+            "img_alt": "Twitter"
         }
     },
     "learning": [{
