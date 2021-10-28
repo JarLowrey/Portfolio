@@ -1,21 +1,20 @@
----
-pageable: true
----
+<%
+# I copied in the code from the projects page. I want projects to be the home page but to keep any urls to /projects alive too
+# sort by year
+projects = data.projects.clone
+projects = projects.sort_by { |obj| -obj.year }
+%>
 
-<!--
-
-<div class="wrap">
-  <% page_articles.each do |article| %>
-    <%= partial "partials/card.erb", locals: {article: article } %>
-  <% end %>
-
-  <%= partial "partials/pages.erb" %>
-
-</div>
--->
 
 <div class="wrap">
 
-  <%= partial "partials/summaries.erb" %>
+    <% projects.each_with_index do |project, i| %>
+        <%= partial "partials/project.erb", locals: {
+            project: project } %>
+    
+        <% if i!=(projects.length-1) then %>
+            <%=  "<hr  />" %>
+        <% end %>
+    <% end %>
 
 </div>

@@ -11,13 +11,20 @@
     "url": "https://wfpb.fit",
     "github_url": "https://github.com/WFPB-fit/wfpb.fit",
     "title": "WFPB.fit",
+    "img_urls":[
+      {"url": "/images/projects/wfpb/research_selector.png",  "alt":"Research Selector"},
+      {"url": "/images/projects/wfpb/environment.png",        "alt":"Environmental Impacts"},
+      {"url": "/images/projects/wfpb/nutrition.png",          "alt":"Nutrition Comparer"},
+      {"url": "/images/projects/wfpb/media.png",              "alt":"Media Selector"}
+    ],
     "summary": "Website that aggregates data, research, and other information about the Whole Food, Plant-Based (WFPB) diet. ES6, React, Redux, Victory.js front-end with data from FDA nutrition API (processed in Python). "
   },
   {
     "year": 2018,
-    "url": "https://wfpb.fit",
+    "url": "https://wfpb.fit/support",
     "github_url": "https://github.com/WFPB-fit/wfpb.fit-backend",
     "title": "WFPB.fit Backend",
+    "img_urls":[ {"url": "/images/projects/wfpb/payment.png",  "alt":"Payment UI"} ],
     "summary": "Payment processing backend for wfpb.fit. Made with Express.js, Stripe, and published on AWS Lambda via aws-serverless-express. This server processes submitted forms from the client site when someone makes a donation."
   },
   {
@@ -25,7 +32,7 @@
     "url": "https://brave-interview-swapi-api.herokuapp.com/",
     "github_url": "https://github.com/JarLowrey/BraveInterview",
     "title": "SWAPI in Rails (Brave Interview)",
-    "img_url": "/images/projects/swapi-rails.png",
+    "img_urls": [{ "url": "/images/projects/swapi-rails.png", "alt":"SWAPI interface"}],
     "summary": "Take-home project completed for an interview at Brave Browser. A Rails 5.2, Webpacker, and React website that fetches data from the SWAPI API and caches it in PostgreSQL. "
   },
   {
@@ -33,7 +40,7 @@
     "godot":"https://godotengine.org/asset-library/asset/244",
     "github_url":"https://github.com/JarLowrey/GodotLightning",
     "title": "Godot Lightning",
-    "img_url":"https://camo.githubusercontent.com/ba163114ebc2c8ad443b06ae25fbbaa54d85188510b0432b38cc0053040681fb/68747470733a2f2f7468756d62732e6766796361742e636f6d2f556e6c75636b79457373656e7469616c42726f776e627574746572666c792d6d61782d316d622e676966",
+    "img_urls": [{ "url": "https://camo.githubusercontent.com/ba163114ebc2c8ad443b06ae25fbbaa54d85188510b0432b38cc0053040681fb/68747470733a2f2f7468756d62732e6766796361742e636f6d2f556e6c75636b79457373656e7469616c42726f776e627574746572666c792d6d61782d316d622e676966", "alt":"Lightning"}],
     "summary": "Lightning effect using procedurally generated 2D lines with randomized L-system generation."
   },
   {
@@ -48,8 +55,24 @@
     "year": 2017,
     "godot":"https://godotengine.org/asset-library/asset/225",
     "github_url":"https://github.com/JarLowrey/TextureProgressOfSubunits",
+    "img_urls":[ {"url": "/images/projects/texture_subunits.png",  "alt":"Subunits"} ],
     "title": "Texture Progress of Subunits",
-    "summary": "UI element for Godot 3 that allows creation of Progress Bars made out of individual subunits. "
+    "summary": "UI component for Godot 3 that allows creation of Progress Bars made out of individual subunits. "
+  },
+  {
+    "year": 2020,
+    "github_url":"https://github.com/JarLowrey/GodotActionBinding",
+    "img_urls":[ {"url": "https://raw.githubusercontent.com/JarLowrey/GodotActionBinding/master/demo.gif",  "alt":"Action Rebinding"} ],
+    "title": "Godot Action Binding",
+    "summary": "UI component for Godot 3 that makes it simple to rebind user input actions. "
+  },
+  {
+    "year": 2017,
+    "url":"https://jarlowrey.github.io/phaser-ui/test/dist/",
+    "github_url":"https://github.com/JarLowrey/phaser-ui/commits/master",
+    "img_urls":[ {"url": "/images/projects/phaserUI.gif",  "alt":"Phaser UI"} ],
+    "title": "Phaser UI",
+    "summary": "UI components for the Phaser.io Javascript game engine. "
   },
   {
     "year": 2017,
@@ -65,7 +88,7 @@
     "github_url":"https://github.com/JarLowrey/Birdu",
     "youtube_id":"FwgmTebXOqc",
     "title": "Birdu",
-    "summary": "Hybrid 2D, Phaser.io (JS) game published to Google Play with Cordova.js"
+    "summary": "2D Phaser.io (JS) game published to Google Play with Cordova.js"
   },
   {
     "year": 2016,
@@ -78,7 +101,7 @@
     "google_play_url":"https://play.google.com/store/apps/details?id=com.jtronlabs.space_shooter&hl=en_US",
     "youtube_id":"LcTia_1BdOM",
     "title": "JASIG",
-    "summary": "SHMUP 2D game with custom-built game engine in Native Android Java"
+    "summary": "SHMUP 2D game without using ANY game engine. Just good ol' Android/Java"
   },
   {
     "year": 2015,
@@ -86,7 +109,7 @@
     "github_url":"https://github.com/JarLowrey/FunGroups",
     "youtube_id":"idA6QqZ3_kQ",
     "title": "Fun Groups!",
-    "summary": "This project was my first stab at Android programming. The purpose was to create a studying tool for Organic Chemistry functional groups"
+    "summary": "A studying tool for Organic Chemistry functional groups"
   },
   {
     "year": 2015,
@@ -104,17 +127,18 @@
   },
   {
     "year": 2016,
-    "url": "https://jarlowrey.com",
+    "url": "/blog.html",
     "github_url": "https://github.com/JarLowrey/Portfolio",
     "title": "Blog",
-    "summary": "This website, my personal blog. Developed with Middleman."
+    "img_urls": [{ "url": "/images/projects/blog.png", "alt":"Blog Homepage"}],
+    "summary": "This website, my personal blog+portfolio. Developed with Middleman."
   },
   {
     "year": 2017,
     "url": "https://bonktothefinish.com",
     "github_url": "https://github.com/nhuston/bonktothefinish",
     "title": "BonkToTheFinish",
-    "img_url":"/images/projects/bonk2finish.png",
+    "img_urls": [{ "url": "/images/projects/bonk2finish.png", "alt":"BTTF Homepage"}],
     "summary": "Homepage of Nicole Huston, ultra-runner. This blog follows Nicole's journeys in her ultra-running career. Developed by James Lowrey, it's a static website made with Middleman"
   }
 ]

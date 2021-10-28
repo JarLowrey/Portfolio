@@ -10,45 +10,15 @@
             "img_url": "icons/social/github-icon.svg",
             "img_alt": "GitHub"
         },
-        "gitlab": {
-            "url": "https://gitlab.com/u/jarlowrey/",
-            "img_url": "icons/social/gitlab.svg",
-            "img_alt": "GitLab"
-        },
         "linkedIn": {
             "url": "https://www.linkedin.com/in/jameslowrey2/",
             "img_url": "icons/social/Linkedin.svg",
             "img_alt": "LinkedIn"
         },
-        "facebook": {
-            "img_url": "icons/social/facebook.svg",
-            "img_alt": "Facebook"
-        },
         "reddit": {
             "url": "https://www.reddit.com/user/jarlowrey/",
             "img_url": "icons/social/reddit.svg",
             "img_alt": "Reddit"
-        },
-        "hacker_news": {
-            "url": "https://news.ycombinator.com/user?id=jamesrlowrey",
-            "img_url": "icons/social/Y_Combinator.svg",
-            "img_alt": "Hacker News"
-        },
-        "gPlus": {
-            "url": "https://plus.google.com/u/0/117075087218781657011/",
-            "img_url": "icons/social/google-plus.svg",
-            "img_alt": "Google Plus"
-        },
-        "gPlay": {
-            "url": "https://play.google.com/store/apps/developer?id=JTronLabs",
-            "img_url": "icons/social/Google_Play_symbol.svg",
-            "img_alt": "Google Play"
-        },
-        "twitter": {
-            "url": "https://twitter.com/jarlowrey/",
-            "img_url": "icons/social/twitter.svg",
-            "img_alt": "Twitter",
-            "username": "jarlowrey"
         }
     },
     "learning": [{

@@ -1,0 +1,37 @@
+
+<% slide_id = "slideshow_id"+String(Random.rand(1000000)) %>
+
+<!-- Container for the image gallery -->
+<div class="slideshow-container" id="<%= slide_id %>">
+
+  <!-- Image text -->
+  <div class="caption-container">
+    <!-- Next and previous buttons -->
+    <a class="prev" onclick="addToSlideIndex('<%= slide_id %>',-1)">&#10094;</a>
+    <a class="next" onclick="addToSlideIndex('<%= slide_id %>', 1)">&#10095;</a>
+    <p class="caption"></p>
+  </div>
+
+  <!-- Full-width images with number text -->
+  <% images.each_with_index do |img, i| %>
+    <div class="mySlides">
+      <div class="numbertext"><%= i+1 %> / <%= images.length%></div>
+      <img src="<%= prefix_img(img[:url]) %>" alt="<%img[:alt]%>" style="width:100%">
+    </div>
+  <% end %>
+
+  <!-- Thumbnail images -->
+  <div class="row">
+    <% images.each_with_index do |img, i| %>
+      <div class="column">
+        <% active = if i==0 then "active" else "" end %>
+        <img class="demo cursor <%= active %>" src="<%=img[:url]%>" style="width:100%" onclick="setCurrentSlide('<%= slide_id %>',<%= i %>)" alt="<%= img[:alt] %>">
+      </div>
+    <% end %>
+  </div>
+</div>
+
+
+<script type="text/javascript">
+initSlide("<%= slide_id %>");
+</script>
