@@ -7,6 +7,22 @@
     "summary": "Godot 3 video game published on Steam. Bullet Hell space invaders like game"
   },
   {
+    "year": 2021,
+    "title": "Home Rebuild",
+    "img_urls":[
+      {"url": "/images/projects/house/front_before.jpg",  "alt":"Before"},
+      {"url": "/images/projects/house/front_after.jpg",  "alt":"After"},
+      {"url": "/images/projects/house/stucco removed.jpg",  "alt":"Stucco Gone"},
+      {"url": "/images/projects/house/build_garage.jpg",  "alt":"Garage"},
+      {"url": "/images/projects/house/excavation.jpg",  "alt":"Excavated Dirt Rotting House"},
+      {"url": "/images/projects/house/sheathing.jpg",  "alt":"New Sheathing"},
+      {"url": "/images/projects/house/foamed.jpg",  "alt":"Recycled Door Insulation"},
+      {"url": "/images/projects/house/mold_remediation.jpg",  "alt":"Roof Leak Mold Fix"},
+      {"url": "/images/projects/house/solar.png",  "alt":"Installing Solar (17 panels)"}
+    ],
+    "summary": "2020-present. Developed permits & worked with city, replaced siding, added sheathing+exterior insulation, built garage, installed multiple new doors and windows, excavated+walled yard, installed solar (contracted our electrical integration). All work done solo. Still have to reside 2.5 sides of house"
+  },
+  {
     "year": 2018,
     "url": "https://wfpb.fit",
     "github_url": "https://github.com/WFPB-fit/wfpb.fit",
