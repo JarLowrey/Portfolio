@@ -117,6 +117,7 @@
     "year": 2017,
     "google_play_url":"https://play.google.com/store/apps/details?id=com.jtronlabs.space_shooter&hl=en_US",
     "youtube_id":"LcTia_1BdOM",
+    "github_url": "https://github.com/JarLowrey/Space-Shooter-Android",
     "title": "JASIG",
     "summary": "SHMUP 2D game without using ANY game engine. Just good ol' Android/Java"
   },
