@@ -127,7 +127,7 @@ GEM
       rouge (~> 3.2)
     minitest (5.14.4)
     multi_json (1.15.0)
-    nokogiri (1.12.5-x86_64-linux)
+    nokogiri (1.13.5-x86_64-linux)
       racc (~> 1.4)
     nokogumbo (2.0.5)
       nokogiri (~> 1.8, >= 1.8.4)
@@ -183,7 +183,7 @@ DEPENDENCIES
   middleman-livereload
   middleman-search_engine_sitemap
   middleman-syntax
-  nokogiri (~> 1.12.5)
+  nokogiri (~> 1.13.5)
   redcarpet (~> 3.3, >= 3.3.3)
   tzinfo-data
   wdm (~> 0.1.0)
